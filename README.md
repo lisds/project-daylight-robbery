@@ -1,4 +1,4 @@
-# DSIP template repository
+# Project Daylight Robbery
 
 To set up builds for this report, run this command in the root directory of this repository (the directory containing this `README.md` file):
 
@@ -7,12 +7,6 @@ pip3 install -r build_requirements.txt
 ```
 
 This will install all the prerequisites.
-
-To fetch the data, run:
-
-```bash
-python3 fetch_data.py
-```
 
 To build the book, run:
 
