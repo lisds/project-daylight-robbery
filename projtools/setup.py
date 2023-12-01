@@ -5,7 +5,7 @@ This file sets up the initial environment.
 import hashlib
 from pathlib import Path
 
-def get_data_hash(filename = "LSOA_Crime_21-23.csv"):
+def get_data_hash(filename):
     """ Get the hash of the data file
     
     Parameters
