@@ -15,6 +15,7 @@ exclude_patterns:
   # Any files that should not get built for the book.
   - README.md
   - data/README.md
+  - CODE_OF_CONDUCT.md
 
 # Define the name of the latex output file for PDF builds
 latex:
