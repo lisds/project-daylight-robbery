@@ -13,7 +13,7 @@ identity and expression, level of experience, education, socio-economic status,
 nationality, personal appearance, race, religion, or sexual identity
 and orientation.
 
-We pledge to contribute to an open, welcoming, diverse, inclusive, and healthy community.
+We pledge to contribute to an open, welcoming, diverse, inclusive, and healthy project.
 
 ### A member of the this project is:
 
@@ -40,9 +40,9 @@ responsive and helpful, within the context of our shared goal of improving neuro
 
 #### Considerate
 
-Members of the community are considerate of their peers. We are thoughtful when addressing the
+Members of the project are considerate of their peers. We are thoughtful when addressing the
 efforts of others, keeping in mind that often-times the labor was completed simply for the good of
-the community. We are attentive in our communications, whether in person or online, and we are
+the project. We are attentive in our communications, whether in person or online, and we are
 tactful when approaching differing views.
 
 #### Careful in the words we choose
@@ -71,7 +71,7 @@ conversation. Try to stay on topic, especially in discussions that are already f
 
 #### Respectful
 
-Members of the community are respectful. We are respectful of others, their positions, their
+Members of the project are respectful. We are respectful of others, their positions, their
 skills, their commitments, and their efforts. We are respectful of the volunteer and professional
 efforts that permeate the project. We are respectful of the processes set forth in the
 project, and we work within them. When we disagree, we are courteous and kind in raising our
