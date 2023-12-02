@@ -1,128 +1,99 @@
-# Contributor Covenant Code of Conduct
+# Code of Conduct
+
+This project is made up of members with a diverse set of skills,
+personalities, background, and experiences. We welcome these differences because they are the
+source of diverse ideas, solutions and decisions about our work.
 
 ## Our Pledge
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
+We as members and contributors pledge to make participation in this project
+a harassment-free experience for everyone, regardless of age, body
 size, visible or invisible disability, ethnicity, sex characteristics, gender
 identity and expression, level of experience, education, socio-economic status,
 nationality, personal appearance, race, religion, or sexual identity
 and orientation.
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive, and healthy community.
+We pledge to contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
-## Our Standards
+### A member of the this project is:
 
-Examples of behavior that contributes to a positive environment for our
-community include:
+#### Open
 
-* Demonstrating empathy and kindness toward other people
-* Being respectful of differing opinions, viewpoints, and experiences
-* Giving and gracefully accepting constructive feedback
-* Accepting responsibility and apologizing to those affected by our mistakes,
-  and learning from the experience
-* Focusing on what is best not just for us as individuals, but for the
-  overall community
+Members of the project are open to collaboration. Be it on the reuse of data, on the
+implementation of methods, on finding technical solutions, establishing best practices, and
+otherwise. We are accepting of all who wish to take part in our activities, fostering an
+environment where anyone can participate and everyone can make a difference.
 
-Examples of unacceptable behavior include:
+#### Collaborative
 
-* The use of sexualized language or imagery, and sexual attention or
-  advances of any kind
-* Trolling, insulting or derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or email
-  address, without their explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+Our work will be used by other people, and in turn we will depend on the work of others. When we
+make something for the benefit of others, we are willing to explain to others how it works, so that
+they can build on the work to make it even better. We are willing to provide constructive criticism
+on the work of others and accept criticism of our own work, as the experiences and skill sets of
+other members contribute to the whole of our efforts.
 
-## Enforcement Responsibilities
+#### Inquisitive
 
-Community leaders are responsible for clarifying and enforcing our standards of
-acceptable behavior and will take appropriate and fair corrective action in
-response to any behavior that they deem inappropriate, threatening, offensive,
-or harmful.
+Nobody knows everything! Asking questions early avoids many problems later, so questions are
+encouraged, though they may be directed to the appropriate forum. Those who are asked should be
+responsive and helpful, within the context of our shared goal of improving neuroimaging practice.
 
-Community leaders have the right and responsibility to remove, edit, or reject
-comments, commits, code, wiki edits, issues, and other contributions that are
-not aligned to this Code of Conduct, and will communicate reasons for moderation
-decisions when appropriate.
+#### Considerate
 
-## Scope
+Members of the community are considerate of their peers. We are thoughtful when addressing the
+efforts of others, keeping in mind that often-times the labor was completed simply for the good of
+the community. We are attentive in our communications, whether in person or online, and we are
+tactful when approaching differing views.
 
-This Code of Conduct applies within all community spaces, and also applies when
-an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+#### Careful in the words we choose
 
-## Enforcement
+We value courtesy, kindness and inclusiveness in all our interactions. Therefore, we take
+responsibility for our own speech. In particular, we avoid:
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-tfox@hey.com.
-All complaints will be reviewed and investigated promptly and fairly.
+ * Personal insults.
+ * Violent threats or language directed against another person.
+ * Sexist, racist, or otherwise discriminatory jokes and language.
+ * Any form of sexual or violent material.
+ * Sharing private content, such as emails sent privately or non-publicly.
+ * Excessive or unnecessary profanity.
+ * Repeated harassment of others. In general, if someone asks you to stop, then stop.
+ * Advocating for, or encouraging, any of the above behaviour.
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+#### Concise
 
-## Enforcement Guidelines
+Keep in mind that what you write once will be read by others. Writing a short message means
+people can understand the conversation as efficiently as possible. Even short messages should always
+strive to be empathetic, welcoming, friendly and patient. When a long explanation is necessary,
+consider adding a summary.
 
-Community leaders will follow these Community Impact Guidelines in determining
-the consequences for any action they deem in violation of this Code of Conduct:
+Try to bring new ideas to a conversation, so that each message adds something unique to the
+conversation. Try to stay on topic, especially in discussions that are already fairly long and complex.
 
-### 1. Correction
+#### Respectful
 
-**Community Impact**: Use of inappropriate language or other behavior deemed
-unprofessional or unwelcome in the community.
+Members of the community are respectful. We are respectful of others, their positions, their
+skills, their commitments, and their efforts. We are respectful of the volunteer and professional
+efforts that permeate the project. We are respectful of the processes set forth in the
+project, and we work within them. When we disagree, we are courteous and kind in raising our
+issues.
 
-**Consequence**: A private, written warning from community leaders, providing
-clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+## Incident Reporting
 
-### 2. Warning
+We put great value on being respectful, friendly and helpful.
 
-**Community Impact**: A violation through a single incident or series
-of actions.
+If you see any behavior within the project that lacks respect, is unfriendly or unhelpful,
+please try the following steps:
 
-**Consequence**: A warning with consequences for continued behavior. No
-interaction with the people involved, including unsolicited interaction with
-those enforcing the Code of Conduct, for a specified period of time. This
-includes avoiding interactions in community spaces as well as external channels
-like social media. Violating these terms may lead to a temporary or
-permanent ban.
+* If you feel able, please let the person in question know that you found their behavior
+  disrespectful / unhelpful / unfriendly, and why;
 
-### 3. Temporary Ban
-
-**Community Impact**: A serious violation of community standards, including
-sustained inappropriate behavior.
-
-**Consequence**: A temporary ban from any sort of interaction or public
-communication with the community for a specified period of time. No public or
-private interaction with the people involved, including unsolicited interaction
-with those enforcing the Code of Conduct, is allowed during this period.
-Violating these terms may lead to a permanent ban.
-
-### 4. Permanent Ban
-
-**Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior,  harassment of an
-individual, or aggression toward or disparagement of classes of individuals.
-
-**Consequence**: A permanent ban from any sort of public interaction within
-the community.
+* If you don't feel able to do that, or that didn't work, please contact [Tom Fox][tom] directly
+  by email (<tfox@hey.com>), and he will do his best to resolve it.
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.0, available at
-https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
-
-Community Impact Guidelines were inspired by [Mozilla's code of conduct
-enforcement ladder](https://github.com/mozilla/diversity).
+This Code of Conduct is adapted from the [Contributor Covenant][homepage] and the [NIPY Code of Conduct][nipy].
 
 [homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see the FAQ at
-https://www.contributor-covenant.org/faq. Translations are available at
-https://www.contributor-covenant.org/translations.
+[nipy]: https://nipy.org/conduct.html
+[tom]: https://github.com/TomWFox
