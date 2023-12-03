@@ -1,5 +1,4 @@
-# pylint: disable=missing-module-docstring
-from Data import Data # pylint: disable=import-error
+from data import Data # pylint: disable=import-error disable=no-name-in-module
 
 data = Data()
 
