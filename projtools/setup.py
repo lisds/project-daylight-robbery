@@ -4,7 +4,6 @@ This file sets up the initial environment.
 """
 import hashlib
 from pathlib import Path
-import pandas as pd
 
 def get_data_hash(filename):
     """ Get the hash of the data file

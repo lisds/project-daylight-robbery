@@ -13,10 +13,10 @@ WARD_CRIME_21_23_HASH = "3db0bc2f73f95aba7c739d827145a4c85cf6d160"
 
 def test_data_hash():
     """ Test that the data hash is correct"""
-    assert setup.get_data_hash("LSOA_Crime_21-23.csv") == LSOA_CRIME_21_23_HASH
-    assert setup.get_data_hash("Borough_Crime_10-21.csv") == BOROUGH_CRIME_10_21_HASH
-    assert setup.get_data_hash("Borough_Crime_21-23.csv") == BOROUGH_CRIME_21_23_HASH
-    assert setup.get_data_hash("LSOA_Crime_10-21.csv") == LSOA_CRIME_10_21_HASH
-    assert setup.get_data_hash("Ward_Crime_01-10_OLDWARD.csv") == WARD_CRIME_01_10_OLDWARD_HASH
-    assert setup.get_data_hash("Ward_Crime_10-21.csv") == WARD_CRIME_10_21_HASH
-    assert setup.get_data_hash("Ward_Crime_21-23.csv") == WARD_CRIME_21_23_HASH
+    assert setup.get_data_hash("lsoa_crime_21_23.csv") == LSOA_CRIME_21_23_HASH
+    assert setup.get_data_hash("borough_crime_10_21.csv") == BOROUGH_CRIME_10_21_HASH
+    assert setup.get_data_hash("borough_crime_21_23.csv") == BOROUGH_CRIME_21_23_HASH
+    assert setup.get_data_hash("lsoa_crime_10_21.csv") == LSOA_CRIME_10_21_HASH
+    assert setup.get_data_hash("ward_crime_01_10_oldward.csv") == WARD_CRIME_01_10_OLDWARD_HASH
+    assert setup.get_data_hash("ward_crime_10_21.csv") == WARD_CRIME_10_21_HASH
+    assert setup.get_data_hash("ward_crime_21_23.csv") == WARD_CRIME_21_23_HASH
