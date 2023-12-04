@@ -28,7 +28,7 @@ ward_10_21 = ward_10_21.rename(columns=column_names)
 ward_21_23 = data.ward_crime_21_23
 ward_21_23 = ward_21_23.rename(columns=column_names)
 
-#checking clumn names are uniform/spelt properly
+#checking column names are uniform/spelt properly
 print(borough_10_21.Category.value_counts())
 print(borough_10_21.Offence.value_counts())
 print(borough_10_21.Borough.unique())
