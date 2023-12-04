@@ -8,7 +8,10 @@ column_names = {"MajorText": "category",
                 "MinorText": "offence",
                 "LookUp_BoroughName": "borough",
                 "Major Category": "category",
-                "Minor Category": "offence"}
+                "Minor Category": "offence",
+                "Borough": "borough",
+                "WardName": "ward_name",
+                "WardCode": "ward_code",}
 
 borough_10_21 = data.borough_10_21.rename(columns=column_names)
 borough_21_23 = data.borough_21_23.rename(columns=column_names)
