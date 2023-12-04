@@ -1,5 +1,5 @@
 # instruction manual on how to use the data class stuff
-from data import Data # pylint: disable=import-error disable=no-name-in-module
+from data import Data # pylint: disable=no-name-in-module
 
 data = Data()
 
