@@ -7,3 +7,4 @@ __pycache__/
 *.ipynb
 *.orig
 .vscode/settings.json
+.DS_Store
