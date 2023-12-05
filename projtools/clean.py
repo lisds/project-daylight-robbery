@@ -1,4 +1,5 @@
 # instruction manual on how to use the data class stuff
+import pandas as pd
 from data import Data # pylint: disable=no-name-in-module
 
 data = Data()
@@ -21,3 +22,6 @@ lsoa_21_23 = data.lsoa_21_23.rename(columns=column_names)
 
 ward_10_21 = data.ward_10_21.rename(columns=column_names)
 ward_21_23 = data.ward_21_23.rename(columns=column_names)
+
+common_columns = ["ward_name", "ward_code", "category", "offence", "borough"]
+ward = pd.merge(ward_10_21, ward_21_23, on = common_columns, how = "outer")
