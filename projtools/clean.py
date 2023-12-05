@@ -1,6 +1,6 @@
 # instruction manual on how to use the data class stuff
 import pandas as pd
-from data import Data # pylint: disable=no-name-in-module
+from projtools.data import Data # pylint: disable=no-name-in-module
 
 data = Data()
 
@@ -12,7 +12,9 @@ column_names = {"MajorText": "category",
                 "Minor Category": "offence",
                 "Borough": "borough",
                 "WardName": "ward_name",
-                "WardCode": "ward_code",}
+                "WardCode": "ward_code",
+                "LSOA Name": "lsoa_name",
+                "LSOA Code": "lsoa_code"}
 
 borough_10_21 = data.borough_10_21.rename(columns=column_names)
 borough_21_23 = data.borough_21_23.rename(columns=column_names)
