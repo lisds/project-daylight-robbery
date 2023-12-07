@@ -27,3 +27,9 @@ ward_21_23 = data.ward_21_23.rename(columns=column_names)
 
 common_columns = ["ward_name", "ward_code", "category", "offence", "borough"]
 ward = pd.merge(ward_10_21, ward_21_23, on = common_columns, how = "outer")
+
+common_columns = ["lsoa_name", "lsoa_code", "category", "offence", "borough"]
+lsoa = pd.merge(lsoa_10_21, lsoa_21_23, on = common_columns, how = "outer")
+
+common_columns = ["borough", "category", "offence"]
+borough = pd.merge(borough_10_21, borough_21_23, on = common_columns, how = "outer")
