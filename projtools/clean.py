@@ -33,3 +33,7 @@ lsoa = pd.merge(lsoa_10_21, lsoa_21_23, on = common_columns, how = "outer")
 
 common_columns = ["borough", "category", "offence"]
 borough = pd.merge(borough_10_21, borough_21_23, on = common_columns, how = "outer")
+
+ward = ward.rename(columns=data.change_date_cols(ward.columns[5:]))
+lsoa = lsoa.rename(columns=data.change_date_cols(lsoa.columns[5:]))
+borough = borough.rename(columns=data.change_date_cols(borough.columns[3:]))

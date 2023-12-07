@@ -13,8 +13,8 @@ class Data:
     ward_21_23 = None
     ward_01_10_oldward = None
 
-    base = Path(__file__).parent.parent
-    data_folder = base / "data"
+    __base = Path(__file__).parent.parent
+    __data_folder = __base / "data"
 
     def __init__(self):
         """Load the dataframes"""
@@ -29,3 +29,8 @@ class Data:
 
     def clean(self):
         """Clean the data"""
+
+    def change_date_cols(self, date_cols):
+        """Improve formating of date columns"""
+        date_cols = list(date_cols)
+        return dict((date, f"{date[:4]}-{date[4:]}") for date in date_cols)
