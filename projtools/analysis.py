@@ -1,3 +1,3 @@
-import clean as data
+import projtools.clean as data
 
 print(data.ward_10_21)
