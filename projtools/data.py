@@ -5,6 +5,8 @@ import pandas as pd
 class Data:
     """The Data class contains methods for loading the data."""
 
+    # pylint: disable=too-many-instance-attributes
+
     __base = Path(__file__).parent.parent
     __data_folder = __base / "data"
 
@@ -51,11 +53,11 @@ class Data:
         self.lsoa = pd.merge(self.lsoa_10_21, self.lsoa_21_23, on = common_columns, how = "outer")
 
         common_columns = ["borough", "category", "offence"]
-        self.borough = pd.merge(self.borough_10_21, self.borough_21_23, on = common_columns, how = "outer") # pylint: disable=line-too-long
+        self.borough = pd.merge(self.borough_10_21, self.borough_21_23, on = common_columns, how = "outer")
 
         self.ward = self.ward.rename(columns=self.__change_date_cols(self.ward.columns[5:]))
         self.lsoa = self.lsoa.rename(columns=self.__change_date_cols(self.lsoa.columns[5:]))
-        self.borough = self.borough.rename(columns=self.__change_date_cols(self.borough.columns[3:])) # pylint: disable=line-too-long
+        self.borough = self.borough.rename(columns=self.__change_date_cols(self.borough.columns[3:]))
 
     def __change_date_cols(self, date_cols):
         """Improve formatting of date columns"""
