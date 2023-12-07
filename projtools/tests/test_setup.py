@@ -1,4 +1,4 @@
-""" Setup.py tests
+"""Setup.py tests
 """
 
 from projtools import setup

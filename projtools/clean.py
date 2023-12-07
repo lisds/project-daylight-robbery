@@ -1,6 +1,6 @@
 # instruction manual on how to use the data class stuff
 import pandas as pd
-from projtools.data import Data # pylint: disable=no-name-in-module
+from projtools.data import Data
 
 data = Data()
 
