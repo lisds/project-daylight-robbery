@@ -1,5 +1,7 @@
 import pandas as pd
-from projtools import clean
+from projtools.data import Data
+
+clean = Data()
 
 def test_ward():
     """Test that the ward datasets are in the expected format,
