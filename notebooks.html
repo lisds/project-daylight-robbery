@@ -494,7 +494,7 @@ For example, here’s some sample Matplotlib code:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;contextlib.ExitStack at 0x7fd0e488d5d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;contextlib.ExitStack at 0x7fc26c7449d0&gt;
 </pre></div>
 </div>
 </div>
@@ -534,14 +534,73 @@ with your book. For more information about this, see <a class="reference externa
 <p>We have set up your project tree so that you can <code class="docutils literal notranslate"><span class="pre">import</span></code> code you’ve written in <code class="docutils literal notranslate"><span class="pre">.py</span></code> files, and use it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">projtools</span> <span class="kn">import</span> <span class="n">setup</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">projtools.data</span> <span class="kn">import</span> <span class="n">Data</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup.my_func(5, 3)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>               ward_name  ward_code                              category  \
+0      Heathrow Villages  E05013570             Arson and Criminal Damage   
+1      Heathrow Villages  E05013570  Miscellaneous Crimes Against Society   
+2      Heathrow Villages  E05013570                                 Theft   
+3      Heathrow Villages  E05013570                                 Theft   
+4      Heathrow Villages  E05013570                      Vehicle Offences   
+...                  ...        ...                                   ...   
+30116      Pimlico South  E05013803                 Possession of Weapons   
+30117      Regent&#39;s Park  E05013805                 Possession of Weapons   
+30118     Vincent Square  E05013807                 Possession of Weapons   
+30119           West End  E05013808  Miscellaneous Crimes Against Society   
+30120           West End  E05013808  Miscellaneous Crimes Against Society   
+
+                           offence                   borough  2010-04  \
+0                  Criminal Damage  Aviation Security (SO18)      0.0   
+1        Other Notifiable Offences  Aviation Security (SO18)      0.0   
+2                      Other Theft  Aviation Security (SO18)      0.0   
+3                      Shoplifting  Aviation Security (SO18)      0.0   
+4       Theft from a Motor Vehicle  Aviation Security (SO18)      0.0   
+...                            ...                       ...      ...   
+30116       Other Firearm Offences               Westminster      NaN   
+30117       Other Firearm Offences               Westminster      NaN   
+30118       Other Firearm Offences               Westminster      NaN   
+30119                       Bigamy               Westminster      NaN   
+30120  Soliciting for Prostitution               Westminster      NaN   
+
+       2010-05  2010-06  2010-07  2010-08  ...  2023-01  2023-02  2023-03  \
+0          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
+1          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
+2          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
+3          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
+4          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
+...        ...      ...      ...      ...  ...      ...      ...      ...   
+30116      NaN      NaN      NaN      NaN  ...      0.0      0.0      0.0   
+30117      NaN      NaN      NaN      NaN  ...      1.0      0.0      1.0   
+30118      NaN      NaN      NaN      NaN  ...      0.0      0.0      1.0   
+30119      NaN      NaN      NaN      NaN  ...      0.0      0.0      0.0   
+30120      NaN      NaN      NaN      NaN  ...      0.0      0.0      0.0   
+
+       2023-04  2023-05  2023-06  2023-07  2023-08  2023-09  2023-10  
+0          0.0     13.0     18.0     16.0     23.0     24.0     19.0  
+1          8.0     92.0    112.0    112.0     94.0    113.0    124.0  
+2          1.0     75.0     60.0     73.0     86.0    100.0    112.0  
+3          0.0     13.0     24.0     21.0     21.0     20.0     21.0  
+4          0.0     15.0     48.0     37.0     40.0     55.0     56.0  
+...        ...      ...      ...      ...      ...      ...      ...  
+30116      0.0      0.0      0.0      0.0      0.0      0.0      0.0  
+30117      0.0      0.0      0.0      1.0      0.0      0.0      0.0  
+30118      0.0      0.0      0.0      1.0      0.0      0.0      0.0  
+30119      1.0      0.0      0.0      0.0      0.0      0.0      0.0  
+30120      0.0      0.0      0.0      0.0      0.0      1.0      0.0  
+
+[30121 rows x 168 columns]
 </pre></div>
 </div>
 </div>
