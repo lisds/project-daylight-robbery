@@ -97,9 +97,11 @@ with your book. For more information about this, see [the Jupyter Book documenta
 We have set up your project tree so that you can `import` code you've written in `.py` files, and use it.
 
 ```{python}
-from projtools import setup
+from projtools.data import Data
 ```
 
 ```{python}
-# setup.my_func(5, 3)
+data = Data()
+
+print(data.ward)
 ```

@@ -1,3 +1,5 @@
-import clean as data
+from projtools.data import Data
 
-print(data.ward_10_21)
+data = Data()
+
+print(data.ward)
