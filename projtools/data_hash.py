@@ -1,6 +1,4 @@
-""" Setup code
-
-This file sets up the initial environment.
+""" Function for getting the hash of data files.
 """
 import hashlib
 from pathlib import Path

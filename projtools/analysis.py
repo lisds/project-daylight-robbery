@@ -2,4 +2,4 @@ from projtools.data import Data
 
 data = Data()
 
-print(data.ward_10_21)
+print(data.ward)

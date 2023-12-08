@@ -13,13 +13,13 @@ class Data:
     def __init__(self):
         """Load the dataframes"""
         base = Path(__file__).parent.parent / "data"
-        self.borough_10_21 = pd.read_csv(base / "borough_10_21.csv")
-        self.borough_21_23 = pd.read_csv(base / "borough_21_23.csv")
-        self.lsoa_10_21 = pd.read_csv(base / "lsoa_10_21.csv")
-        self.lsoa_21_23 = pd.read_csv(base / "lsoa_21_23.csv")
-        self.ward_10_21 = pd.read_csv(base / "ward_10_21.csv")
-        self.ward_21_23 = pd.read_csv(base / "ward_21_23.csv")
-        self.ward_01_10_oldward = pd.read_csv(base / "ward_01_10_oldward.csv")
+        self.__borough_10_21 = pd.read_csv(base / "borough_10_21.csv")
+        self.__borough_21_23 = pd.read_csv(base / "borough_21_23.csv")
+        self.__lsoa_10_21 = pd.read_csv(base / "lsoa_10_21.csv")
+        self.__lsoa_21_23 = pd.read_csv(base / "lsoa_21_23.csv")
+        self.__ward_10_21 = pd.read_csv(base / "ward_10_21.csv")
+        self.__ward_21_23 = pd.read_csv(base / "ward_21_23.csv")
+        self.__ward_01_10_oldward = pd.read_csv(base / "ward_01_10_oldward.csv") # pylint: disable=unused-private-member
 
         self.clean()
 
@@ -37,23 +37,23 @@ class Data:
                         "LSOA Name": "lsoa_name",
                         "LSOA Code": "lsoa_code"}
 
-        self.borough_10_21 = self.borough_10_21.rename(columns=column_names)
-        self.borough_21_23 = self.borough_21_23.rename(columns=column_names)
+        self.__borough_10_21 = self.__borough_10_21.rename(columns=column_names)
+        self.__borough_21_23 = self.__borough_21_23.rename(columns=column_names)
 
-        self.lsoa_10_21 = self.lsoa_10_21.rename(columns=column_names)
-        self.lsoa_21_23 = self.lsoa_21_23.rename(columns=column_names)
+        self.__lsoa_10_21 = self.__lsoa_10_21.rename(columns=column_names)
+        self.__lsoa_21_23 = self.__lsoa_21_23.rename(columns=column_names)
 
-        self.ward_10_21 = self.ward_10_21.rename(columns=column_names)
-        self.ward_21_23 = self.ward_21_23.rename(columns=column_names)
+        self.__ward_10_21 = self.__ward_10_21.rename(columns=column_names)
+        self.__ward_21_23 = self.__ward_21_23.rename(columns=column_names)
 
         common_columns = ["ward_name", "ward_code", "category", "offence", "borough"]
-        self.ward = pd.merge(self.ward_10_21, self.ward_21_23, on = common_columns, how = "outer")
+        self.ward = pd.merge(self.__ward_10_21, self.__ward_21_23, on = common_columns, how = "outer")
 
         common_columns = ["lsoa_name", "lsoa_code", "category", "offence", "borough"]
-        self.lsoa = pd.merge(self.lsoa_10_21, self.lsoa_21_23, on = common_columns, how = "outer")
+        self.lsoa = pd.merge(self.__lsoa_10_21, self.__lsoa_21_23, on = common_columns, how = "outer")
 
         common_columns = ["borough", "category", "offence"]
-        self.borough = pd.merge(self.borough_10_21, self.borough_21_23, on = common_columns, how = "outer")
+        self.borough = pd.merge(self.__borough_10_21, self.__borough_21_23, on = common_columns, how = "outer")
 
         self.ward = self.ward.rename(columns=self.__change_date_cols(self.ward.columns[5:]))
         self.lsoa = self.lsoa.rename(columns=self.__change_date_cols(self.lsoa.columns[5:]))
