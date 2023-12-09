@@ -1,6 +1,6 @@
 # Project Daylight Robbery
 
-This is a data science project investigating a geographical dataset of crimes recored by the Metropolitan Police in London. See the table of contents below for the differnet sections of the project.
+This is a data science project investigating a geographical dataset of crimes recorded by the Metropolitan Police in London. See the table of contents below for the different sections of the project.
 
 # Data
 
