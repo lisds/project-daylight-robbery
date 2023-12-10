@@ -33,4 +33,7 @@ def test_borough():
 def test_change_date_cols():
     """Test that the date columns are changed correctly"""
     change_date_cols = data._Data__change_date_cols
-    assert change_date_cols(pd.Index(["201001", "202108"])) == {"201001": "2010-01", "202108": "2021-08"}
+    df = pd.DataFrame({"201001": [1,2,3], "202108": [1,2,3]})
+    assert change_date_cols(df, 0).equals(pd.DataFrame({"2010-01": [1,2,3], "2021-08": [1,2,3]}))
+    assert change_date_cols(df, 1).equals(pd.DataFrame({"201001": [1,2,3], "2021-08": [1,2,3]}))
+    assert change_date_cols(df, 2).equals(pd.DataFrame({"201001": [1,2,3], "202108": [1,2,3]}))

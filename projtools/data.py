@@ -46,13 +46,13 @@ class Data:
         self.__ward_21_23 = self.__ward_21_23.rename(columns=column_names)
 
         common_columns = ["ward_name", "ward_code", "category", "offence", "borough"]
-        self.ward = pd.merge(self.__ward_10_21, self.__ward_21_23, on = common_columns, how = "outer")
+        self.__ward = pd.merge(self.__ward_10_21, self.__ward_21_23, on = common_columns, how = "outer")
 
         common_columns = ["lsoa_name", "lsoa_code", "category", "offence", "borough"]
-        self.lsoa = pd.merge(self.__lsoa_10_21, self.__lsoa_21_23, on = common_columns, how = "outer")
+        self.__lsoa = pd.merge(self.__lsoa_10_21, self.__lsoa_21_23, on = common_columns, how = "outer")
 
         common_columns = ["borough", "category", "offence"]
-        self.borough = pd.merge(self.__borough_10_21, self.__borough_21_23, on = common_columns, how = "outer")
+        self.__borough = pd.merge(self.__borough_10_21, self.__borough_21_23, on = common_columns, how = "outer")
 
         self.__ward = self.__change_date_cols(self.__ward, 5)
         self.__lsoa = self.__change_date_cols(self.__lsoa, 5)
