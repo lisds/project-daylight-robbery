@@ -16,6 +16,7 @@ exclude_patterns:
   - README.md
   - data/README.md
   - .github/CODE_OF_CONDUCT.md
+  - multi_index.Rmd
 
 # Define the name of the latex output file for PDF builds
 latex:
