@@ -19,7 +19,6 @@ class Data:
         self.__lsoa_21_23 = pd.read_csv(base / "lsoa_21_23.csv")
         self.__ward_10_21 = pd.read_csv(base / "ward_10_21.csv")
         self.__ward_21_23 = pd.read_csv(base / "ward_21_23.csv")
-        self.__ward_01_10_oldward = pd.read_csv(base / "ward_01_10_oldward.csv") # pylint: disable=unused-private-member
 
         self.clean()
 
@@ -97,7 +96,6 @@ class Data:
             df: pd.DataFrame 
                 DataFrame with multi-index
         """
-        # df = df.set_index(["ward_name", "ward_code", "category", "offence", "borough"])
         df = df.set_index(df.columns[:num_index_cols].tolist())
         df.columns = pd.MultiIndex.from_tuples([tuple(col.split("-")) for col in df.columns], names=["year", "month"])
         return df
