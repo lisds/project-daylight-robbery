@@ -54,13 +54,13 @@ class Data:
         common_columns = ["borough", "category", "offence"]
         self.borough = pd.merge(self.__borough_10_21, self.__borough_21_23, on = common_columns, how = "outer")
 
-        self.ward = self.__change_date_cols(self.ward, 5)
-        self.lsoa = self.__change_date_cols(self.lsoa, 5)
-        self.borough = self.__change_date_cols(self.borough, 3)
+        self.__ward = self.__change_date_cols(self.__ward, 5)
+        self.__lsoa = self.__change_date_cols(self.__lsoa, 5)
+        self.__borough = self.__change_date_cols(self.__borough, 3)
 
-        self.ward = self.__make_multi_index(self.ward, 5)
-        self.lsoa = self.__make_multi_index(self.lsoa, 5)
-        self.borough = self.__make_multi_index(self.borough, 3)
+        self.ward = self.__make_multi_index(self.__ward, 5)
+        self.lsoa = self.__make_multi_index(self.__lsoa, 5)
+        self.borough = self.__make_multi_index(self.__borough, 3)
 
     def __change_date_cols(self, df: pd.DataFrame, num_index_cols: int):
         """Improve formatting of date columns.
