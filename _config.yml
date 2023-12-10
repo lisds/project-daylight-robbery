@@ -4,6 +4,7 @@
 title: Project Daylight Robbery
 author: Pal Patel, Vishal Mistry, Tom Fox
 logo: logo.png
+copyright: "2023"
 
 execute:
   # 'cache' attempts to cache the results.
