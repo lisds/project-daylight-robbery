@@ -19,7 +19,11 @@ jupyter:
       version_minor: 0
 ---
 
-# Exploration
+# MultiIndex - a short guide
+
+This is a short guide of using the MultiIndex, for more detail see these resources:
+- [Nice guide](https://datascientyst.com/use-loc-and-multi-index-in-pandas/)
+- [Slightly scary but detailed pandas user guide](https://pandas.pydata.org/pandas-docs/stable/user_guide/advanced.html#advanced-indexing-with-hierarchical-index)
 
 ```{python}
 import numpy as np
@@ -27,96 +31,94 @@ import pandas as pd
 from projtools.data import Data
 ```
 
-```{python}
+```{python jupyter={'outputs_hidden': True}}
 data = Data()
 ```
 
+```{python jupyter={'outputs_hidden': True}}
+data.ward
+```
+
+We can get all of the rows for a given ward_name like this:
+
+```{python jupyter={'outputs_hidden': True}}
+data.ward.loc["Heathrow Villages"]
+```
+
+It's also easy to filter to a particular year, like this:
+
 ```{python}
-borough_sum = data.borough.groupby("borough").agg("sum").drop(['category', 'offence'], axis=1)
-borough_sum.loc["Barking and Dagenham"].plot()
+data.ward.loc["Heathrow Villages", "2010"]
+```
+
+To get the rows for a given ward_code we have to tell pandas what level we are interested in, there are a few ways of doing this:
+
+```{python jupyter={'outputs_hidden': True}}
+data.ward.loc[:, "E05013570", :]
+# NB the slightly more verbose version of this is:
+# data.ward.loc[:, "E05013570", :, :, :]
+```
+
+This works nicely but things get a little more complicated if we then want to filter by year when we're not using the first index level (ward_name):
+
+```{python jupyter={'outputs_hidden': True}}
+# Using the same loc syntax as above we can do the following...
+data.ward.loc[(slice(None), "E05013570"),"2010"]
+# NB the more verbose version of this is:
+# data.ward.loc[(slice(None), "E05013570", slice(None), slice(None), slice(None)), "2010"]
 ```
 
 ```{python}
-# data.ward.columns = pd.MultiIndex.from_tuples([(c[:4], c[5:]) for c in data.ward.columns])
-# data.ward
-pd.MultiIndex.from_tuples([(c[:4], c[5:]) for c in data.ward.columns])
+# Alternatively, we can do this:
+data.ward.loc[:, "E05013570", :]["2010"]
+```
+
+Using `slice(None)` can be quite verbose if you want to specifiy one of the later layers, for example the category of crime and also select the year:
+
+```{python jupyter={'outputs_hidden': True}}
+data.ward.loc[("Heathrow Villages", slice(None), slice(None), "Other Theft"), "2010"]
+```
+
+There is a slightly neater alternative for this situation:
+
+```{python jupyter={'outputs_hidden': True}}
+idx = pd.IndexSlice
+data.ward.loc[idx["Heathrow Villages", :, :, "Other Theft"], "2010"]
+```
+
+With both of these methods you can of course select multiple values for each level:
+
+```{python jupyter={'outputs_hidden': True}}
+data.ward.loc[idx["Heathrow Villages", :, :, ["Other Theft", "Theft from a Motor Vehicle"]], ["2010","2021"]]
+
+# Alternatively using a tuple and slice(None)...
+# data.ward.loc[("Heathrow Villages", slice(None), slice(None), ["Other Theft", "Theft from a Motor Vehicle"]), ["2010", "2021"]]
+```
+
+In the same way we can select from multiple levels in the row index we can do the same with the columns:
+
+```{python}
+data.ward.loc[idx["Heathrow Villages", :, :, ["Other Theft", "Theft from a Motor Vehicle"]], idx[["2010","2021"], ["01", "05", "10"]]]
+```
+
+Above, we have learnt how to make complex data selections using the `MultiIndex`. The power of this can then be realised further by using `groupby`, aggregation functions and more:
+
+```{python jupyter={'outputs_hidden': True}}
+# Here we are selecting all of the "Other Theft" crimes in the Heathrow Villages ward in the Hillingdon borough.
+# `.T` splits along the columns so that we can groupby year, .sum() gives us a total for each year
+theft_heathrow_hill = data.ward.loc["Heathrow Villages", :, :, "Other Theft", "Hillingdon"].T.groupby(level="year").sum()
+theft_heathrow_hill
 ```
 
 ```{python}
-def sum_by_year(df: pd.DataFrame, first_date_col_index: int):
-    df2 = df.iloc[:,first_date_col_index:]
-    # year_columns = list(df.columns[:5].append(df2.columns.str[:4]))
-    # month_columns = list(df.columns[:5].append(df2.columns.str[5:]))
-    year_columns = list(df2.columns.str[:4])
-    month_columns = list(df2.columns.str[5:])
-    return [year_columns, month_columns]
+theft_heathrow_hill.plot()
 ```
 
 ```{python}
-sum_by_year(data.ward, 5)
+theft_heathrow_all = data.ward.loc["Heathrow Villages", :, :, "Other Theft"].T.groupby(level="year").sum()
+theft_heathrow_all.plot()
 ```
 
 ```{python}
-data.ward.iloc[:,:5]
-ward_name = list(data.ward["ward_name"])
-ward_code = list(data.ward["ward_code"])
-category = list(data.ward["category"])
-offence = list(data.ward["offence"])
-borough = list(data.ward["borough"])
-arrays = [ward_name, ward_code, borough, category, offence]
-tuples = list(zip(*arrays))
-index = pd.MultiIndex.from_tuples(tuples, names=["ward_name", "ward_code", "borough", "category", "offence"])
-s = pd.Series(np.random.randn(30121), index=index)
-s
-```
-
-```{python}
-tuples = list(zip(*sum_by_year(data.ward, 5)))
-cols = pd.MultiIndex.from_tuples(tuples, names=["year", "month"])
-df_cool = pd.DataFrame(data.ward.iloc[:,5:], index=index, columns=cols)
-df_cool
-```
-
-```{python}
-# df = pd.MultiIndex.from_frame(data.ward).to_frame()
-# tuples = list(zip(*sum_by_year(data.ward, 5)))
-# df.columns = pd.MultiIndex.from_tuples(tuples)
-# df
-```
-
-```{python}
-ward = data.ward.iloc[:, 5:]
-ward.index = index
-ward.columns = cols
-ward
-```
-
-```{python}
-data.ward.loc[data.ward["ward_name"] == "Heathrow Villages"]
-```
-
-```{python}
-ward.loc[("Heathrow Villages", slice(None), slice(None), slice(None), "Other Theft"),["2010"]]
-```
-
-```{python}
-ward.loc["Heathrow Villages", :, "Hillingdon", :, "Other Theft"].T.groupby(level="year").sum()
-```
-
-```{python}
-bob = ward.loc["Heathrow Villages", :, "Hillingdon", :, "Other Theft"].T.groupby(level="year").sum()
-bob.plot()
-```
-
-```{python}
-bob = ward.loc[("Heathrow Villages", slice(None), slice(None), slice(None), "Other Theft"),:].T.groupby(level="year").sum()
-bob.plot()
-```
-
-```{python}
-ward.loc[("Heathrow Villages", slice(None), slice(None), slice(None), "Other Theft"),:].T.groupby(level="year").sum().sum(axis=1).plot()
-```
-
-```{python}
-
+data.ward.loc["Heathrow Villages", :, :, "Other Theft"].T.groupby(level="year").sum().sum(axis=1).plot()
 ```
