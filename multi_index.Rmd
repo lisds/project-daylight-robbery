@@ -1,0 +1,122 @@
+---
+jupyter:
+  jupytext:
+    notebook_metadata_filter: all,-language_info
+    split_at_heading: true
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.15.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+  widgets:
+    application/vnd.jupyter.widget-state+json:
+      state: {}
+      version_major: 2
+      version_minor: 0
+---
+
+# Exploration
+
+```{python}
+import numpy as np
+import pandas as pd
+from projtools.data import Data
+```
+
+```{python}
+data = Data()
+```
+
+```{python}
+borough_sum = data.borough.groupby("borough").agg("sum").drop(['category', 'offence'], axis=1)
+borough_sum.loc["Barking and Dagenham"].plot()
+```
+
+```{python}
+# data.ward.columns = pd.MultiIndex.from_tuples([(c[:4], c[5:]) for c in data.ward.columns])
+# data.ward
+pd.MultiIndex.from_tuples([(c[:4], c[5:]) for c in data.ward.columns])
+```
+
+```{python}
+def sum_by_year(df: pd.DataFrame, first_date_col_index: int):
+    df2 = df.iloc[:,first_date_col_index:]
+    # year_columns = list(df.columns[:5].append(df2.columns.str[:4]))
+    # month_columns = list(df.columns[:5].append(df2.columns.str[5:]))
+    year_columns = list(df2.columns.str[:4])
+    month_columns = list(df2.columns.str[5:])
+    return [year_columns, month_columns]
+```
+
+```{python}
+sum_by_year(data.ward, 5)
+```
+
+```{python}
+data.ward.iloc[:,:5]
+ward_name = list(data.ward["ward_name"])
+ward_code = list(data.ward["ward_code"])
+category = list(data.ward["category"])
+offence = list(data.ward["offence"])
+borough = list(data.ward["borough"])
+arrays = [ward_name, ward_code, borough, category, offence]
+tuples = list(zip(*arrays))
+index = pd.MultiIndex.from_tuples(tuples, names=["ward_name", "ward_code", "borough", "category", "offence"])
+s = pd.Series(np.random.randn(30121), index=index)
+s
+```
+
+```{python}
+tuples = list(zip(*sum_by_year(data.ward, 5)))
+cols = pd.MultiIndex.from_tuples(tuples, names=["year", "month"])
+df_cool = pd.DataFrame(data.ward.iloc[:,5:], index=index, columns=cols)
+df_cool
+```
+
+```{python}
+# df = pd.MultiIndex.from_frame(data.ward).to_frame()
+# tuples = list(zip(*sum_by_year(data.ward, 5)))
+# df.columns = pd.MultiIndex.from_tuples(tuples)
+# df
+```
+
+```{python}
+ward = data.ward.iloc[:, 5:]
+ward.index = index
+ward.columns = cols
+ward
+```
+
+```{python}
+data.ward.loc[data.ward["ward_name"] == "Heathrow Villages"]
+```
+
+```{python}
+ward.loc[("Heathrow Villages", slice(None), slice(None), slice(None), "Other Theft"),["2010"]]
+```
+
+```{python}
+ward.loc["Heathrow Villages", :, "Hillingdon", :, "Other Theft"].T.groupby(level="year").sum()
+```
+
+```{python}
+bob = ward.loc["Heathrow Villages", :, "Hillingdon", :, "Other Theft"].T.groupby(level="year").sum()
+bob.plot()
+```
+
+```{python}
+bob = ward.loc[("Heathrow Villages", slice(None), slice(None), slice(None), "Other Theft"),:].T.groupby(level="year").sum()
+bob.plot()
+```
+
+```{python}
+ward.loc[("Heathrow Villages", slice(None), slice(None), slice(None), "Other Theft"),:].T.groupby(level="year").sum().sum(axis=1).plot()
+```
+
+```{python}
+
+```

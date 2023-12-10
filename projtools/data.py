@@ -55,11 +55,49 @@ class Data:
         common_columns = ["borough", "category", "offence"]
         self.borough = pd.merge(self.__borough_10_21, self.__borough_21_23, on = common_columns, how = "outer")
 
-        self.ward = self.ward.rename(columns=self.__change_date_cols(self.ward.columns[5:]))
-        self.lsoa = self.lsoa.rename(columns=self.__change_date_cols(self.lsoa.columns[5:]))
-        self.borough = self.borough.rename(columns=self.__change_date_cols(self.borough.columns[3:]))
+        self.ward = self.__change_date_cols(self.ward, 5)
+        self.lsoa = self.__change_date_cols(self.lsoa, 5)
+        self.borough = self.__change_date_cols(self.borough, 3)
 
-    def __change_date_cols(self, date_cols):
-        """Improve formatting of date columns"""
-        date_cols = list(date_cols)
-        return dict((date, f"{date[:4]}-{date[4:]}") for date in date_cols)
+        self.ward = self.__make_multi_index(self.ward, 5)
+        self.lsoa = self.__make_multi_index(self.lsoa, 5)
+        self.borough = self.__make_multi_index(self.borough, 3)
+
+    def __change_date_cols(self, df: pd.DataFrame, num_index_cols: int):
+        """Improve formatting of date columns.
+
+        Parameters
+        ----------
+            df: pd.DataFrame
+                DataFrame to change
+            num_index_cols: int
+                number of columns to keep as index  (dont change)
+            
+        Returns
+        ----------
+            df: pd.DataFrame 
+                DataFrame with date columns changed
+        """
+        date_cols = list(df.columns[num_index_cols:])
+        df = df.rename(columns=dict((date, f"{date[:4]}-{date[4:]}") for date in date_cols))
+        return df
+
+    def __make_multi_index(self, df: pd.DataFrame, num_index_cols: int) -> pd.DataFrame:
+        """Make a multi-index dataframe.
+        
+        Parameters
+        ----------
+            df: pd.DataFrame
+                DataFrame to change
+            num_index_cols: int
+                number of columns to set as the index
+                
+        Returns
+        ----------
+            df: pd.DataFrame 
+                DataFrame with multi-index
+        """
+        # df = df.set_index(["ward_name", "ward_code", "category", "offence", "borough"])
+        df = df.set_index(df.columns[:num_index_cols].tolist())
+        df.columns = pd.MultiIndex.from_tuples([tuple(col.split("-")) for col in df.columns], names=["year", "month"])
+        return df
