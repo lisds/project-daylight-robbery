@@ -73,7 +73,7 @@ data.ward.loc[(slice(None), "E05013570"),"2010"]
 data.ward.loc[:, "E05013570", :]["2010"]
 ```
 
-Using `slice(None)` can be quite verbose if you want to specifiy one of the later layers, for example the category of crime and also select the year:
+Using `slice(None)` can be quite verbose if you want to specify one of the later layers, for example the category of crime and also select the year:
 
 ```{python jupyter={'outputs_hidden': True}}
 data.ward.loc[("Heathrow Villages", slice(None), slice(None), "Other Theft"), "2010"]
