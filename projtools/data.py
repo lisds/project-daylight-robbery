@@ -62,7 +62,7 @@ class Data:
         self.lsoa = self.__make_multi_index(self.__lsoa, 5)
         self.borough = self.__make_multi_index(self.__borough, 3)
 
-    def __change_date_cols(self, df: pd.DataFrame, num_index_cols: int):
+    def __change_date_cols(self, df: pd.DataFrame, num_index_cols: int): #an artefact of earlier cleaning
         """Improve formatting of date columns.
 
         Parameters
