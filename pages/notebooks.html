@@ -67,8 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/notebooks';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Notebooks with MyST Markdown" href="markdown-notebooks.html" />
-    <link rel="prev" title="Markdown Files" href="markdown.html" />
+    <link rel="prev" title="Notebooks with MyST Markdown" href="markdown-notebooks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -172,8 +171,8 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Content with notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Content with notebooks</a></li>
 </ul>
 
     </div>
@@ -494,7 +493,7 @@ For example, here’s some sample Matplotlib code:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;contextlib.ExitStack at 0x7f6ffefa63d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;contextlib.ExitStack at 0x7f267ff06b50&gt;
 </pre></div>
 </div>
 </div>
@@ -548,59 +547,322 @@ with your book. For more information about this, see <a class="reference externa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>               ward_name  ward_code                              category  \
-0      Heathrow Villages  E05013570             Arson and Criminal Damage   
-1      Heathrow Villages  E05013570  Miscellaneous Crimes Against Society   
-2      Heathrow Villages  E05013570                                 Theft   
-3      Heathrow Villages  E05013570                                 Theft   
-4      Heathrow Villages  E05013570                      Vehicle Offences   
-...                  ...        ...                                   ...   
-30116      Pimlico South  E05013803                 Possession of Weapons   
-30117      Regent&#39;s Park  E05013805                 Possession of Weapons   
-30118     Vincent Square  E05013807                 Possession of Weapons   
-30119           West End  E05013808  Miscellaneous Crimes Against Society   
-30120           West End  E05013808  Miscellaneous Crimes Against Society   
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>year                                                                                                                  2010  \
+month                                                                                                                   04   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
 
-                           offence                   borough  2010-04  \
-0                  Criminal Damage  Aviation Security (SO18)      0.0   
-1        Other Notifiable Offences  Aviation Security (SO18)      0.0   
-2                      Other Theft  Aviation Security (SO18)      0.0   
-3                      Shoplifting  Aviation Security (SO18)      0.0   
-4       Theft from a Motor Vehicle  Aviation Security (SO18)      0.0   
-...                            ...                       ...      ...   
-30116       Other Firearm Offences               Westminster      NaN   
-30117       Other Firearm Offences               Westminster      NaN   
-30118       Other Firearm Offences               Westminster      NaN   
-30119                       Bigamy               Westminster      NaN   
-30120  Soliciting for Prostitution               Westminster      NaN   
+year                                                                                                                        \
+month                                                                                                                   05   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
 
-       2010-05  2010-06  2010-07  2010-08  ...  2023-01  2023-02  2023-03  \
-0          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
-1          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
-2          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
-3          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
-4          0.0      0.0      0.0      0.0  ...      0.0      0.0      0.0   
-...        ...      ...      ...      ...  ...      ...      ...      ...   
-30116      NaN      NaN      NaN      NaN  ...      0.0      0.0      0.0   
-30117      NaN      NaN      NaN      NaN  ...      1.0      0.0      1.0   
-30118      NaN      NaN      NaN      NaN  ...      0.0      0.0      1.0   
-30119      NaN      NaN      NaN      NaN  ...      0.0      0.0      0.0   
-30120      NaN      NaN      NaN      NaN  ...      0.0      0.0      0.0   
+year                                                                                                                        \
+month                                                                                                                   06   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
 
-       2023-04  2023-05  2023-06  2023-07  2023-08  2023-09  2023-10  
-0          0.0     13.0     18.0     16.0     23.0     24.0     19.0  
-1          8.0     92.0    112.0    112.0     94.0    113.0    124.0  
-2          1.0     75.0     60.0     73.0     86.0    100.0    112.0  
-3          0.0     13.0     24.0     21.0     21.0     20.0     21.0  
-4          0.0     15.0     48.0     37.0     40.0     55.0     56.0  
-...        ...      ...      ...      ...      ...      ...      ...  
-30116      0.0      0.0      0.0      0.0      0.0      0.0      0.0  
-30117      0.0      0.0      0.0      1.0      0.0      0.0      0.0  
-30118      0.0      0.0      0.0      1.0      0.0      0.0      0.0  
-30119      1.0      0.0      0.0      0.0      0.0      0.0      0.0  
-30120      0.0      0.0      0.0      0.0      0.0      1.0      0.0  
+year                                                                                                                        \
+month                                                                                                                   07   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
 
-[30121 rows x 168 columns]
+year                                                                                                                        \
+month                                                                                                                   08   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
+
+year                                                                                                                        \
+month                                                                                                                   09   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
+
+year                                                                                                                        \
+month                                                                                                                   10   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
+
+year                                                                                                                        \
+month                                                                                                                   11   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
+
+year                                                                                                                        \
+month                                                                                                                   12   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
+
+year                                                                                                                  2011  \
+month                                                                                                                   01   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               NaN   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               NaN   
+                                                                 Soliciting for Prostitution Westminster               NaN   
+
+year                                                                                                                   ...  \
+month                                                                                                                  ...   
+ward_name         ward_code category                             offence                     borough                   ...   
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  ...   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  ...   
+                            Theft                                Other Theft                 Aviation Security (SO18)  ...   
+                                                                 Shoplifting                 Aviation Security (SO18)  ...   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  ...   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               ...   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               ...   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               ...   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               ...   
+                                                                 Soliciting for Prostitution Westminster               ...   
+
+year                                                                                                                  2023  \
+month                                                                                                                   01   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               1.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               0.0   
+                                                                 Soliciting for Prostitution Westminster               0.0   
+
+year                                                                                                                        \
+month                                                                                                                   02   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               0.0   
+                                                                 Soliciting for Prostitution Westminster               0.0   
+
+year                                                                                                                        \
+month                                                                                                                   03   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  0.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  0.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               1.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               1.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               0.0   
+                                                                 Soliciting for Prostitution Westminster               0.0   
+
+year                                                                                                                        \
+month                                                                                                                   04   
+ward_name         ward_code category                             offence                     borough                         
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  0.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  8.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  1.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  0.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  0.0   
+...                                                                                                                    ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster               0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster               1.0   
+                                                                 Soliciting for Prostitution Westminster               0.0   
+
+year                                                                                                                         \
+month                                                                                                                    05   
+ward_name         ward_code category                             offence                     borough                          
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  13.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  92.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  75.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  13.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  15.0   
+...                                                                                                                     ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster                0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster                0.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster                0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster                0.0   
+                                                                 Soliciting for Prostitution Westminster                0.0   
+
+year                                                                                                                          \
+month                                                                                                                     06   
+ward_name         ward_code category                             offence                     borough                           
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)   18.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  112.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)   60.0   
+                                                                 Shoplifting                 Aviation Security (SO18)   24.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)   48.0   
+...                                                                                                                      ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster                 0.0   
+                                                                 Soliciting for Prostitution Westminster                 0.0   
+
+year                                                                                                                          \
+month                                                                                                                     07   
+ward_name         ward_code category                             offence                     borough                           
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)   16.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  112.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)   73.0   
+                                                                 Shoplifting                 Aviation Security (SO18)   21.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)   37.0   
+...                                                                                                                      ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster                 1.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster                 1.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster                 0.0   
+                                                                 Soliciting for Prostitution Westminster                 0.0   
+
+year                                                                                                                         \
+month                                                                                                                    08   
+ward_name         ward_code category                             offence                     borough                          
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)  23.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  94.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  86.0   
+                                                                 Shoplifting                 Aviation Security (SO18)  21.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)  40.0   
+...                                                                                                                     ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster                0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster                0.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster                0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster                0.0   
+                                                                 Soliciting for Prostitution Westminster                0.0   
+
+year                                                                                                                          \
+month                                                                                                                     09   
+ward_name         ward_code category                             offence                     borough                           
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)   24.0   
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  113.0   
+                            Theft                                Other Theft                 Aviation Security (SO18)  100.0   
+                                                                 Shoplifting                 Aviation Security (SO18)   20.0   
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)   55.0   
+...                                                                                                                      ...   
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster                 0.0   
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster                 0.0   
+                                                                 Soliciting for Prostitution Westminster                 1.0   
+
+year                                                                                                                          
+month                                                                                                                     10  
+ward_name         ward_code category                             offence                     borough                          
+Heathrow Villages E05013570 Arson and Criminal Damage            Criminal Damage             Aviation Security (SO18)   19.0  
+                            Miscellaneous Crimes Against Society Other Notifiable Offences   Aviation Security (SO18)  124.0  
+                            Theft                                Other Theft                 Aviation Security (SO18)  112.0  
+                                                                 Shoplifting                 Aviation Security (SO18)   21.0  
+                            Vehicle Offences                     Theft from a Motor Vehicle  Aviation Security (SO18)   56.0  
+...                                                                                                                      ...  
+Pimlico South     E05013803 Possession of Weapons                Other Firearm Offences      Westminster                 0.0  
+Regent&#39;s Park     E05013805 Possession of Weapons                Other Firearm Offences      Westminster                 0.0  
+Vincent Square    E05013807 Possession of Weapons                Other Firearm Offences      Westminster                 0.0  
+West End          E05013808 Miscellaneous Crimes Against Society Bigamy                      Westminster                 0.0  
+                                                                 Soliciting for Prostitution Westminster                 0.0  
+
+[30121 rows x 163 columns]
 </pre></div>
 </div>
 </div>
@@ -639,22 +901,13 @@ with your book. For more information about this, see <a class="reference externa
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="markdown.html"
+       href="markdown-notebooks.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Markdown Files</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="markdown-notebooks.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Notebooks with MyST Markdown</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
