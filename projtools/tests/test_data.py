@@ -41,11 +41,11 @@ def test_change_date_cols():
 def test_make_multi_index():
     """Test that the multi-index is made correctly"""
     make_multi_index = data._Data__make_multi_index
-    df = pd.DataFrame({"2010-01": [1,2,3], "2021-08": [1,2,3], "2021-09": [1,2,3], "2021-10": [1,2,3], "2021-11": [1,2,3], "2021-12": [1,2,3]})
+    df = pd.DataFrame({"2010-01": [1,2,3], "2021-08": [4,5,6], "2021-09": [7,8,9], "2021-10": [10,11,12], "2021-11": [13,14,15], "2021-12": [16, 17, 18]})
     assert list(make_multi_index(df, 1).columns) == [('2021', '08'),('2021', '09'),('2021', '10'),('2021', '11'),('2021', '12')]
     assert list(make_multi_index(df, 1).index) == [1,2,3]
     assert list(make_multi_index(df, 3).columns) == [('2021', '10'),('2021', '11'),('2021', '12')]
-    assert list(make_multi_index(df, 3).index) == [(1, 1, 1), (2, 2, 2), (3, 3, 3)]
+    assert list(make_multi_index(df, 3).index) == [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
 
 def test_ward_multi():
     """Test that the ward MultiIndex is correct"""
