@@ -5,5 +5,5 @@ format: jb-book
 root: pages/intro
 chapters:
 - file: pages/markdown
-- file: pages/notebooks
 - file: pages/markdown-notebooks
+- file: pages/notebooks
