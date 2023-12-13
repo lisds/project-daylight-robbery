@@ -31,17 +31,17 @@ import pandas as pd
 from projtools.data import Data
 ```
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 data = Data()
 ```
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 data.ward
 ```
 
 We can get all of the rows for a given ward_name like this:
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 data.ward.loc["Heathrow Villages"]
 ```
 
@@ -53,7 +53,7 @@ data.ward.loc["Heathrow Villages", "2010"]
 
 To get the rows for a given ward_code we have to tell pandas what level we are interested in, there are a few ways of doing this:
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 data.ward.loc[:, "E05013570", :]
 # NB the slightly more verbose version of this is:
 # data.ward.loc[:, "E05013570", :, :, :]
@@ -61,7 +61,7 @@ data.ward.loc[:, "E05013570", :]
 
 This works nicely but things get a little more complicated if we then want to filter by year when we're not using the first index level (ward_name):
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 # Using the same loc syntax as above we can do the following...
 data.ward.loc[(slice(None), "E05013570"),"2010"]
 # NB the more verbose version of this is:
@@ -75,20 +75,20 @@ data.ward.loc[:, "E05013570", :]["2010"]
 
 Using `slice(None)` can be quite verbose if you want to specify one of the later layers, for example the category of crime and also select the year:
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 data.ward.loc[("Heathrow Villages", slice(None), slice(None), "Other Theft"), "2010"]
 ```
 
 There is a slightly neater alternative for this situation:
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 idx = pd.IndexSlice
 data.ward.loc[idx["Heathrow Villages", :, :, "Other Theft"], "2010"]
 ```
 
 With both of these methods you can of course select multiple values for each level:
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 data.ward.loc[idx["Heathrow Villages", :, :, ["Other Theft", "Theft from a Motor Vehicle"]], ["2010","2021"]]
 
 # Alternatively using a tuple and slice(None)...
@@ -103,7 +103,7 @@ data.ward.loc[idx["Heathrow Villages", :, :, ["Other Theft", "Theft from a Motor
 
 Above, we have learnt how to make complex data selections using the `MultiIndex`. The power of this can then be realised further by using `groupby`, aggregation functions and more:
 
-```{python jupyter={'outputs_hidden': True}}
+```{python}
 # Here we are selecting all of the "Other Theft" crimes in the Heathrow Villages ward in the Hillingdon borough.
 # `.T` splits along the columns so that we can groupby year, .sum() gives us a total for each year
 theft_heathrow_hill = data.ward.loc["Heathrow Villages", :, :, "Other Theft", "Hillingdon"].T.groupby(level="year").sum()
