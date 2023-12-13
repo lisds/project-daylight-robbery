@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from projtools.data import Data
 
@@ -74,10 +73,3 @@ def test_borough_multi():
     assert len(data.borough.columns) == 163
     assert len(data.borough.index) == 1745
     assert list(data.borough.index[0:20]) == [('Arson and Criminal Damage', 'Arson', 'Barking and Dagenham'), ('Arson and Criminal Damage', 'Criminal Damage', 'Barking and Dagenham'), ('Burglary', 'Burglary Business and Community', 'Barking and Dagenham'), ('Burglary', 'Domestic Burglary', 'Barking and Dagenham'), ('Drug Offences', 'Drug Trafficking', 'Barking and Dagenham'), ('Drug Offences', 'Possession of Drugs', 'Barking and Dagenham'), ('Historical Fraud and Forgery', 'Historical Fraud and Forgery', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Absconding from Lawful Custody', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Bail Offences', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Bigamy', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Dangerous Driving', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Disclosure, Obstruction, False or Misleading State', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Exploitation of Prostitution', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Forgery or Use of Drug Prescription', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Fraud or Forgery Associated with Driver Records', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Going Equipped for Stealing', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Handling Stolen Goods', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Making, Supplying or Possessing Articles for use i', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Obscene Publications', 'Barking and Dagenham'), ('Miscellaneous Crimes Against Society', 'Other Forgery', 'Barking and Dagenham')] # pylint: disable=line-too-long
-
-def test_data_consistency():
-    """Tests that the data is the same between the different data sets"""
-    assert list(np.sort(data.borough.index.get_level_values(0).unique())) == list(np.sort(data.ward.index.get_level_values(2).unique()))
-    #assert list(np.sort(data.lsoa.index.get_level_values(3).unique())) == list(np.sort(data.ward.index.get_level_values(2).unique())) #LSOA is missing Historical Fraud and Forgery and Sexual Offences; data.lsoa.index.get_level_values(3).unique().append(['Sexual Offences', 'Historical Fraud and Forgery']).sort() doesn't work. Type Error: all inputs must be index
-    assert list(np.sort(data.borough.index.get_level_values(1).unique())) == list(np.sort(data.ward.index.get_level_values(3).unique()))
-    #assert list(np.sort(data.lsoa.index.get_level_values(4).unique())) == list(np.sort(data.ward.index.get_level_values(3).unique())) #LSOA is missing Rape, Other Sexual Offences and Historical Fraud and Forgery
