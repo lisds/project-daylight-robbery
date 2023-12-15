@@ -7,3 +7,4 @@ chapters:
 - file: pages/markdown
 - file: pages/markdown-notebooks
 - file: pages/notebooks
+- file: pages/exploration
