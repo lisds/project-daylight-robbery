@@ -18,7 +18,7 @@ data.ward.loc[:, :, :, :, "Aviation Security (SO18)"] \
          .unique()
 ```
 
-There is only one ward associated with the Aviation Security (SO18) borough. Searching the rest of the data for the `ward_code` reveals that this ward is present in both Avaition Security (SO18) and Hillingdon (which is actaully a London Borough)...
+There is only one ward associated with the Aviation Security (SO18) borough. Searching the rest of the data for the `ward_code` reveals that this ward is present in both Avaition Security (SO18) and Hillingdon (which is actually a London Borough)...
 
 ```{python}
 data.ward.loc[:, "E05013570", :] \
