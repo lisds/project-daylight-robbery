@@ -1,0 +1,103 @@
+```{python}
+import matplotlib.pyplot as plt
+from projtools.data import Data
+
+data = Data()
+
+#do summary statistics
+```
+
+```{python}
+def trend_by_offence_wards(category, borough):
+    ward_trends = data.ward.loc[:, :, category, :, borough].T.groupby(level="month").sum()
+    return ward_trends
+```
+
+```{python}
+trend_by_offence_wards('Theft', 'Barking and Dagenham').plot()
+```
+
+```{python}
+# def year_subset_func(ward_name = ":", ward_code = ":", category=":", offence=":", borough =":"):  
+#     ward_trends = data.ward.loc[ward_name, ward_code, category, offence, borough].T.groupby(level="year").sum()
+#     return ward_trends
+```
+
+```{python}
+ data.ward.loc['Thames View', :, :, 'Bicycle Theft', :].T.groupby(level="month").sum().plot()
+```
+
+```{python}
+# year_subset_func(ward_name = 'Thames View', offence = 'Bicycle Theft')
+```
+
+```{python}
+data.borough.loc['Arson and Criminal Damage', 'Arson', 'Barking and Dagenham'].T.groupby(level="month").sum().plot()
+```
+
+```{python}
+data.borough.loc['Arson and Criminal Damage', 'Arson', 'Barking and Dagenham'].T.groupby(level="year").sum().plot()
+```
+
+```{python}
+fig, ax = plt.subplots(25, 3)
+for index, value in enumerate(data.borough.head(75).iterrows()):
+    test = value[1].groupby(level="year").sum()
+    y = index % 3
+    x = index // 3
+    ax[x, y].plot(test)
+    #print(index, test)
+```
+
+```{python}
+# des_stats = data.borough.loc[:, :, :].T.groupby(level='year') #.sum() #.describe()
+# des_stats.sum().plot()
+```
+
+```{python}
+des_stats.describe().T.groupby(level='borough').plot()
+```
+
+```{python}
+list(data.borough.index.get_level_values(0).unique())
+list(data.ward.index.get_level_values(2).unique())
+list(data.lsoa.index.get_level_values(3).unique())
+```
+
+```{python}
+# list(data.borough.index.get_level_values(1).unique())
+# list(data.ward.index.get_level_values(3).unique())
+# list(data.lsoa.index.get_level_values(4).unique())
+```
+
+```{python}
+(data.borough.loc[:, 'Arson', :].T.groupby(level='year').sum().sum())
+```
+
+```{python}
+(data.borough.loc[:, 'Arson', :].T.groupby(level='year').sum().sum()) - (data.ward.loc[:, :, :, 'Arson', :].groupby(level=[3]).sum().T.sum())
+```
+
+```{python}
+(data.ward.loc[:, :, :, 'Arson', :].groupby(level=[3]).sum().T.sum())
+```
+
+```{python}
+(data.borough.sum() - data.ward.sum()).sort_values(ascending = False)
+```
+
+```{python}
+(data.borough.sum() - data.lsoa.sum()).sort_values(ascending = False)
+```
+
+```{python}
+data.borough.sum()
+```
+
+```{python}
+data.borough
+```
+
+```{python}
+data.ward
+```
