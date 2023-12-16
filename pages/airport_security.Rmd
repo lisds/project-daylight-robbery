@@ -1,0 +1,63 @@
+# Aviation Security (SO18) Borough
+
+The most standout borough in the Met crime stats dataset is the one named "Aviation Security (SO18)". Perhaps unsurprisingly, you won't find this borough in [lists of London Boroughs](https://en.wikipedia.org/wiki/List_of_London_boroughs).
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+from projtools.data import Data
+
+plt.style.use('../projtools/styles/rose-pine-dawn.mplstyle')
+
+data = Data()
+```
+
+```{python}
+data.ward.loc[:, :, :, :, "Aviation Security (SO18)"] \
+         .index.get_level_values("ward_code") \
+         .unique()
+```
+
+There is only one ward associated with the Aviation Security (SO18) borough. Searching the rest of the data for the `ward_code` reveals that this ward is present in both Avaition Security (SO18) and Hillingdon (which is actaully a London Borough)...
+
+```{python}
+data.ward.loc[:, "E05013570", :] \
+         .index.get_level_values("borough") \
+         .unique()
+```
+
+A quick DuckDuckGo search will inform you that this borough represents a [specialist operations unit](https://en.wikipedia.org/wiki/Aviation_Security_Operational_Command_Unit) within the Met. The unit is responsible for the policing of Heathrow Airport and London City Airport which raised the question; why is there no ward associated with SO18 in the area of London City Airport?
+
+London City Airport is located in the borough of Newham...
+
+```{python}
+data.ward.loc[:, :, :, :, "Newham"] \
+         .index.get_level_values("ward_name") \
+         .unique()
+```
+
+Looking on Newham's website we can see the the airport sits in the Royal Albert ward:
+
+![New_Ward_Map_2022](../assets/New_Ward_Map_2022.pdf)
+
+Presumably the SO18 borough in the Heathrow Villages ward has been made to separate the data for reporting purposes. For whatever reason the same principle has not been applied in the case of London City Airport.
+
+Digging into the crime stats for the Heathrow Villages ward can give us an idea of when this change seems to have been made...
+
+```{python}
+theft_heathrow_hill = data.ward.loc["Heathrow Villages", :, :, "Other Theft", "Hillingdon"].T.groupby(level="year").sum()
+theft_heathrow_hill.plot()
+```
+
+There is a sharp decline in 2020 before a rise in 2022. A sharp decline in theft in 2020 can probably be explained by COVID-19 lockdowns, with the return to 'normal' activity causing a rise to near pre-pandemic levels. At first glance the sharp decline in 2023 is puzzling, the dataset runs until the end of October so the number of crimes shouldn't be this low. By plotting the SO18 numbers we get an idea of what might have happened...
+
+```{python}
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12,4), sharey=True, sharex=True)
+
+theft_heathrow_all = data.ward.loc["Heathrow Villages", :, :, "Other Theft"].T.groupby(level="year").sum()
+theft_heathrow_all.plot(ax=axes[0])
+
+data.ward.loc["Heathrow Villages", :, :, "Other Theft"].T.groupby(level="year").sum().sum(axis=1).plot(ax=axes[1])
+```
+
+As you can see, the first other theft recorded in SO18 was in 2020, followed by a sharp rise in 2023. Adding the two sets of crimes together removes a large amount of the 2023 fall. It seems safe to assume that in 2023 the way the Met recorded data about crimes in this ward was changed leading to a shift in crimes from the Hillingdon row to the SO18 row.
