@@ -61,3 +61,12 @@ data.ward.loc["Heathrow Villages", :, :, "Other Theft"].T.groupby(level="year").
 ```
 
 As you can see, the first other theft recorded in SO18 was in 2020, followed by a sharp rise in 2023. Adding the two sets of crimes together removes a large amount of the 2023 fall. It seems safe to assume that in 2023 the way the Met recorded data about crimes in this ward was changed leading to a shift in crimes from the Hillingdon row to the SO18 row.
+
+
+## Other Crimes
+
+```{python}
+
+```
+
+## Compare SO18 with Royal Albert?
