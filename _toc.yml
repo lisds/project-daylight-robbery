@@ -4,7 +4,7 @@
 format: jb-book
 root: pages/intro
 parts:
-  - caption: Explortation
+  - caption: Exploration
     chapters:
     - file: pages/aviation-security
   - caption: Analysis
