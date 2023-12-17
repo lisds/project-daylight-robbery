@@ -25,3 +25,32 @@ summer = (data.borough
 winter = (data.borough
               .loc[:, idx[:, winter_months]])
 ```
+
+```{python}
+winter
+```
+
+```{python}
+summer_rape = (summer.loc[idx[:,"Rape"], :]
+                     .sum()
+                     .T
+                     .groupby(level="month")
+                     .sum()
+                     .sort_values(ascending=False))
+summer_rape
+```
+
+```{python}
+winter_rape = (winter.loc[idx[:,"Rape"], :]
+                     .sum()
+                     .T
+                     .groupby(level="month")
+                     .sum()
+                     .sort_values(ascending=False))
+winter_rape
+```
+
+```{python}
+print("Summer month average: " + str(summer_rape.sum() / len(summer_months)))
+print("Winter month average: " + str(winter_rape.sum() / len(winter_months)))
+```
