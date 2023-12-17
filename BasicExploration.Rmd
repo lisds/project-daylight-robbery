@@ -1,0 +1,115 @@
+```{python}
+import matplotlib.pyplot as plt
+import pandas as pd
+from projtools.data import Data
+
+data = Data()
+
+df = pd.read_excel(r"LAD_DEC_2021_UK_NC.xlsx")
+#this is the data
+```
+
+# Exploring the Recorded Crime Datasets
+This page will explore the three data sets of recorded crime in London, broken down by borough, ward and lower layer super output area (LSOA).
+
+
+![image.png](attachment:0d2d75bf-6765-40e0-a0de-1ab8350f4b02.png)
+
+These are the 32 boroughs in London.
+
+```{python}
+# lsoa_ls = list(data.lsoa.index.get_level_values(2).unique().sort_values())
+# lsoa_ls.insert(32, 'N/A')
+bor_names = {'borough_ls': list(data.borough.index.get_level_values(2).unique().sort_values()),
+             'ward_ls': list(data.ward.index.get_level_values(4).unique().sort_values())} #, 'LSOA_ls': lsoa_ls
+bors = pd.DataFrame(data=bor_names)
+bors
+```
+
+As you can see here, there are 33 boroughs in each of the data frames, instead of 32.
+In the borough data set there is an additional 'London Heathrow and London City Airports' value, while in the ward data set there is an 'Aviation Security (SO18)' value. The implications of this are discussed further on in the notebook.
+
+
+## Categories and Offences
+There are 12 categories, and 56 offences across those categories.
+
+```{python}
+list(data.borough.index.get_level_values(0).unique().sort_values())
+```
+
+It is important to note that there are two categories missing from the LSOA data set ('Historical Fraud and Forgery' and 'Sexual Offences'). This will be discussed later in the notebook.
+
+```{python}
+data.borough.loc[:, 'Homicide', :].T.groupby(level='year').sum().sum().sort_values()
+```
+
+```{python}
+data.borough.loc[:, 'Possession of Article with Blade or Point', :].T.groupby(level='year').sum().sum().sort_values()
+```
+
+```{python}
+trend_by_offence_boroughs('Theft', 'Barking and Dagenham').T.groupby(level='offence').sum().sum()
+#.sum()#.plot()
+```
+
+```{python}
+def trend_by_offence_boroughs(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum()
+    return borough_trends
+```
+
+```{python}
+def year_subset_func(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="year").sum()
+    return borough_trends
+```
+
+```{python}
+ #data.ward.loc[, :, 'Bicycle Theft', :].T.groupby(level="month").sum().plot()
+```
+
+```{python}
+year_subset_func('Theft','Barking and Dagenham').plot()
+```
+
+```{python}
+cat_list = list(data.borough.index.get_level_values(0).unique())
+bor_list = list(data.borough.index.get_level_values(2).unique())
+```
+
+```{python}
+for i in cat_list:
+    for x in bor_list:
+        trend = year_subset_func(i, x).plot()
+        plt.xlabel(x)
+```
+
+```{python}
+data._Data__borough_10_21.offence.unique()
+```
+
+```{python}
+#data.borough.loc[:, 'Fraud or Forgery Associated with Driver Records', :]
+```
+
+```{python}
+# des_stats = data.borough.loc[:, :, :].T.groupby(level='year') #.sum() #.describe()
+# des_stats.sum().plot()
+```
+
+```{python}
+#des_stats.describe().T.groupby(level='borough').plot()
+```
+
+```{python}
+for i in cat_list:
+    for x in bor_list:
+        trend = year_subset_func(i, x).T.groupby(level='offence').sum().describe()
+        trend#.plot()
+        # plt.xlabel(x)
+        # plt.ylabel(i)
+```
+
+```{python}
+
+```
