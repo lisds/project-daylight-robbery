@@ -78,6 +78,8 @@ def test_borough_multi():
 def test_data_consistency():
     """Tests that the data is the same between the different data sets"""
     assert list(np.sort(data.borough.index.get_level_values(0).unique())) == list(np.sort(data.ward.index.get_level_values(2).unique()))
-    #assert list(np.sort(data.lsoa.index.get_level_values(3).unique())) == list(np.sort(data.ward.index.get_level_values(2).unique())) #LSOA is missing Historical Fraud and Forgery and Sexual Offences; data.lsoa.index.get_level_values(3).unique().append(['Sexual Offences', 'Historical Fraud and Forgery']).sort() doesn't work. Type Error: all inputs must be index
+    # LSOA is missing Historical Fraud and Forgery and Sexual Offences
+    assert list(np.sort(np.append(data.lsoa.index.get_level_values(3).unique().to_numpy(), ['Sexual Offences', 'Historical Fraud and Forgery']))) == list(np.sort(data.ward.index.get_level_values(2).unique()))
     assert list(np.sort(data.borough.index.get_level_values(1).unique())) == list(np.sort(data.ward.index.get_level_values(3).unique()))
-    #assert list(np.sort(data.lsoa.index.get_level_values(4).unique())) == list(np.sort(data.ward.index.get_level_values(3).unique())) #LSOA is missing Rape, Other Sexual Offences and Historical Fraud and Forgery
+    # LSOA is missing Rape, Other Sexual Offences and Historical Fraud and Forgery
+    assert list(np.sort(np.append(data.lsoa.index.get_level_values(4).unique().to_numpy(), ['Rape', 'Other Sexual Offences', 'Historical Fraud and Forgery']))) == list(np.sort(data.ward.index.get_level_values(3).unique()))
