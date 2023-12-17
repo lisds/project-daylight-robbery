@@ -77,9 +77,11 @@ def test_borough_multi():
 
 def test_data_consistency():
     """Tests that the data is the same between the different data sets"""
-    assert list(np.sort(data.borough.index.get_level_values(0).unique())) == list(np.sort(data.ward.index.get_level_values(2).unique())) #This test checks that the borough and ward data sets have the same categories for offences
-    # LSOA is missing Historical Fraud and Forgery and Sexual Offences
-    assert list(np.sort(np.append(data.lsoa.index.get_level_values(3).unique().to_numpy(), ['Sexual Offences', 'Historical Fraud and Forgery']))) == list(np.sort(data.ward.index.get_level_values(2).unique())) #This test checks that the LSOA and ward datasets have the same categories for offences. Two of the missing categories are added to the LSOA list
-    assert list(np.sort(data.borough.index.get_level_values(1).unique())) == list(np.sort(data.ward.index.get_level_values(3).unique())) #This test checks that the borough and ward data sets have the same list of offences
-    # LSOA is missing Rape, Other Sexual Offences and Historical Fraud and Forgery
-    assert list(np.sort(np.append(data.lsoa.index.get_level_values(4).unique().to_numpy(), ['Rape', 'Other Sexual Offences', 'Historical Fraud and Forgery']))) == list(np.sort(data.ward.index.get_level_values(3).unique())) #This test checks that the LSOA and ward datasets have the same list of offences. Three of the missing offences are added to the LSOA list.
+    # This test checks that the borough and ward data sets have the same categories for offences
+    assert list(np.sort(data.borough.index.get_level_values(0).unique())) == list(np.sort(data.ward.index.get_level_values(2).unique()))
+    # This test checks that the LSOA and ward datasets have the same categories for offences. Two of the missing categories (Historical Fraud and Forgery and Sexual Offences) are added to the LSOA list
+    assert list(np.sort(np.append(data.lsoa.index.get_level_values(3).unique().to_numpy(), ['Sexual Offences', 'Historical Fraud and Forgery']))) == list(np.sort(data.ward.index.get_level_values(2).unique()))
+    #This test checks that the borough and ward data sets have the same list of offences
+    assert list(np.sort(data.borough.index.get_level_values(1).unique())) == list(np.sort(data.ward.index.get_level_values(3).unique()))
+    #This test checks that the LSOA and ward datasets have the same list of offences. Three of the missing offences (Rape, Other Sexual Offences and Historical Fraud and Forgery) are added to the LSOA list.
+    assert list(np.sort(np.append(data.lsoa.index.get_level_values(4).unique().to_numpy(), ['Rape', 'Other Sexual Offences', 'Historical Fraud and Forgery']))) == list(np.sort(data.ward.index.get_level_values(3).unique()))
