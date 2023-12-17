@@ -48,6 +48,8 @@ Looking on Newham's website we can see the the airport sits in the Royal Albert 
 
 ![New_Ward_Map_2022](../assets/New_Ward_Map_2022.pdf)
 
+Source: [Newham Borough](https://www.newham.gov.uk/council/review-polling-districts-polling-places-new-ward-arrangements/2)
+
 Presumably the SO18 borough in the Heathrow Villages ward has been made to separate the data for reporting purposes. For whatever reason the same principle has not been applied in the case of London City Airport.
 
 Digging into the crime stats for the Heathrow Villages ward can give us an idea of when this change seems to have been made...
@@ -58,35 +60,39 @@ Digging into the crime stats for the Heathrow Villages ward can give us an idea 
      .T
      .groupby(level="year")
      .sum()
-     .plot()
+     .plot(ylabel="number of crimes", title="other theft in Hillingdon"))
 ```
 
 There is a sharp decline in 2020 before a rise in 2022. A sharp decline in theft in 2020 can probably be explained by COVID-19 lockdowns, with the return to 'normal' activity causing a rise to near pre-pandemic levels. At first glance the sharp decline in 2023 is puzzling, the dataset runs until the end of October so the number of crimes shouldn't be this low. By plotting the SO18 numbers we get an idea of what might have happened...
 
 ```{python}
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12,4), sharey=True, sharex=True)
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12,4), sharey=True)
+fig.tight_layout()
 
 (data.ward
      .loc["Heathrow Villages", :, :, "Other Theft"]
      .T
      .groupby(level="year")
      .sum()
-     .plot(ax=axes[0]))
+     .plot(ax=axes[0], ylabel="number of crimes", title="other theft offences"))
 
+plot = (data.ward
+            .loc["Heathrow Villages", :, :, "Other Theft"]
+            .T
+            .groupby(level="year")
+            .sum()
+            .sum(axis=1)
+            .plot(ax=axes[1], title="other theft offences"))
 
-(data.ward
-     .loc["Heathrow Villages", :, :, "Other Theft"]
-     .T
-     .groupby(level="year")
-     .sum()
-     .sum(axis=1)
-     .plot(ax=axes[1]))
+plot.legend(["E05013570 - Hillingdon & SO18"])
 ```
 
 As you can see, the first other theft recorded in SO18 was in 2020, followed by a sharp rise in 2023. Adding the two sets of crimes together removes a large amount of the 2023 fall. It seems safe to assume that in 2023 the way the Met recorded data about crimes in this ward was changed leading to a shift in crimes from the Hillingdon row to the SO18 row.
 
 
 ## Other Crimes
+
+Plotting all the crimes in which there is data recorded for both Hillingdon and SO18 we can see that the same 'shift' of recorded crimes from Hillingdon to SO18 in 2023 can be seen clearly across most offences.
 
 ```{python}
 offences_both = (data.ward
