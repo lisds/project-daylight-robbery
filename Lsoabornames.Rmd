@@ -45,3 +45,7 @@ new_index_layer
 ```{python}
 data.lsoa.index = data.lsoa.index.set_levels(data.lsoa.index.levels[2].map(map_dict), level=2)
 ```
+
+```{python}
+data.lsoa
+```
