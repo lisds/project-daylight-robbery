@@ -5,11 +5,14 @@ Coming into this project one of the questions we had was what affect daylight, a
 We do not have data on the time at which crimes took place which limits our ability to investigate the affect of daylight vs darkness on the number of crimes. However, British Summer Time (BST) creates a change in daylight hours which we will use to look at a seasonal differences in the number of crimes.
 
 ```{python}
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from projtools.data import Data
 
 data = Data()
 idx = pd.IndexSlice
+rng = np.random.default_rng()
 ```
 
 [BST starts on the last Sunday of March and ends on the last Sunday of October](https://en.wikipedia.org/wiki/British_Summer_Time). For our purposes we will consider April - October summer and November - March winter.
@@ -53,4 +56,31 @@ winter_rape
 ```{python}
 print("Summer month average: " + str(summer_rape.sum() / len(summer_months)))
 print("Winter month average: " + str(winter_rape.sum() / len(winter_months)))
+```
+
+Next steps, run a permutation test - shuffle the number of crimes between months and see how surprising the average month diff is...
+
+```{python}
+summer_mean = summer_rape.sum() / len(summer_months)
+winter_mean = winter_rape.sum() / len(winter_months)
+observed_diff = summer_mean - winter_mean
+observed_diff
+```
+
+```{python}
+iterations = 10_000
+results = np.zeros(iterations)
+pooled = np.concatenate([summer_rape, winter_rape])
+
+for index in np.arange(iterations):
+    shuffled = rng.permutation(pooled)
+    
+    fake_summer_mean = np.mean(shuffled[:len(summer_months)])
+    fake_winter_mean = np.mean(shuffled[len(summer_months):])
+    
+    fake_diff = fake_summer_mean - fake_winter_mean
+    
+    results[index] = fake_diff
+    
+plt.hist(results)
 ```
