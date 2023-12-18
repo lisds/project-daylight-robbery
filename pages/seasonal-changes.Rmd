@@ -87,7 +87,7 @@ plt.hist(fake_differences)
 
 ```{python}
 number_geater_actual = np.count_nonzero(fake_differences >= observed_difference)
-nnumber_geater_actual
+number_geater_actual
 ```
 
 ```{python}
