@@ -91,6 +91,6 @@ number_geater_actual
 ```
 
 ```{python}
-proportion_geater_actual = n_ge_actual / 10000
+proportion_geater_actual = number_geater_actual / 10000
 proportion_geater_actual
 ```
