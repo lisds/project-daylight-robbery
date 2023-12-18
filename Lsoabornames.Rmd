@@ -16,18 +16,32 @@ jupyter:
 import pandas as pd
 ```
 
+```{python}
+from projtools.data import Data
+
+data = Data()
+```
+
 fix lsoa borough names
 
 ```{python}
 df = pd.read_excel(r"LAD_DEC_2021_UK_NC.xlsx")
+df
 ```
 
 ```{python}
-# stuff = list(data.lsoa.index.get_level_values(2).unique().sort_values())
-# df1 = data.lsoa
+map_dict = df.set_index("Code").to_dict()["borough"]
+```
 
-# df.columns = pd.MultiIndex.from_product([['a'], df.columns])
+```{python}
+data.lsoa.index.get_level_values(2)
+```
 
-# merged = pd.merge(data.lsoa, df, on='borough')
-data.lsoa.merge(df, left_index=True, right_on=['borough'])
+```{python}
+new_index_layer = data.lsoa.index.get_level_values(2).map(map_dict)
+new_index_layer
+```
+
+```{python}
+data.lsoa.index = data.lsoa.index.set_levels(data.lsoa.index.levels[2].map(map_dict), level=2)
 ```
