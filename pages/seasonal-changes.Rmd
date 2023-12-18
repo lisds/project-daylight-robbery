@@ -1,6 +1,6 @@
 # Seasonal Changes
 
-Coming into this project one of the questions we had was what affect daylight, and seasonality has on crime in London. We are particularly interested in certain crimes where individuals may percieve higher risk during hours of darkness such as rape and other violent offences.
+Coming into this project one of the questions we had was what affect daylight, and seasonality has on crime in London. We are particularly interested in certain crimes where individuals may perceive higher risk during hours of darkness such as rape and other violent offences.
 
 We do not have data on the time at which crimes took place which limits our ability to investigate the affect of daylight vs darkness on the number of crimes. However, British Summer Time (BST) creates a change in daylight hours which we will use to look at a seasonal differences in the number of crimes.
 

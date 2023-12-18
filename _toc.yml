@@ -4,6 +4,7 @@
 format: jb-book
 root: pages/intro
 chapters:
+- file: pages/seasonal-changes
 - file: pages/markdown
 - file: pages/markdown-notebooks
 - file: pages/notebooks
