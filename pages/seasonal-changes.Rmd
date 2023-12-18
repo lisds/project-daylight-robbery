@@ -63,13 +63,13 @@ Next steps, run a permutation test - shuffle the number of crimes between months
 ```{python}
 summer_mean = summer_rape.sum() / len(summer_months)
 winter_mean = winter_rape.sum() / len(winter_months)
-observed_diff = summer_mean - winter_mean
-observed_diff
+observed_difference = summer_mean - winter_mean
+observed_difference
 ```
 
 ```{python}
 iterations = 10_000
-results = np.zeros(iterations)
+fake_differences = np.zeros(iterations)
 pooled = np.concatenate([summer_rape, winter_rape])
 
 for index in np.arange(iterations):
@@ -80,7 +80,17 @@ for index in np.arange(iterations):
     
     fake_diff = fake_summer_mean - fake_winter_mean
     
-    results[index] = fake_diff
+    fake_differences[index] = fake_diff
     
-plt.hist(results)
+plt.hist(fake_differences)
+```
+
+```{python}
+number_geater_actual = np.count_nonzero(fake_differences >= observed_difference)
+nnumber_geater_actual
+```
+
+```{python}
+proportion_geater_actual = n_ge_actual / 10000
+proportion_geater_actual
 ```
