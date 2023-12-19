@@ -1,3 +1,5 @@
+# Categories and Offences
+First, we need to check if the categories and offences are consistent across the different data sets, so that we know the data is recorded consistently and we can analyse it as such.
 ```{python}
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -9,21 +11,6 @@ data = Data()
 #check that the data is consistent across the different geographical breakdowns
 ```
 
-<<<<<<< Updated upstream
-# Categories and Offences
-First, we need to check if the categories and offences are consistent across the different data sets, so that we know the data is recorded consistently and we can compare it as such
-=======
-```{python}
-bor_names = {'borough_ls': list(data.borough.index.get_level_values(2).unique().sort_values()),
-             'ward_ls': list(data.ward.index.get_level_values(4).unique().sort_values())}
-bors = pd.DataFrame(data=bor_names)
-bors
-```
-
-# Categories and Offences
-First, we need to check if the categories and offences are consistent across the different data sets, so that we know the data is recorded consistently and we can compare it as such.
->>>>>>> Stashed changes
-
 ```{python}
 trial = list(data.lsoa.index.get_level_values(3).unique().sort_values())
 trial.insert(3, 'N/A')
@@ -33,7 +20,7 @@ cats = pd.DataFrame(data=cat_names)
 cats
 ```
 
-As can be seen in the data frame above, while the categories are consistent across the ward and borough data sets, there are two categories missing from the LSOA data set. These are the Sexual Offences and the Historical Fraud and Forgery categories. The Sexual Offences category is removed for discretion, but there is no explanation for why Historical Fraud and Forgery is missing. One possible explanation is that this crime has not been recorded at local police stations since 2013, and so has been removed from the LSOA data set. This does not explain the category's presence in the other data sets, however.
+As can be seen in the data frame above, while the categories are consistent across the ward and borough data sets, there are two categories missing from the LSOA data set. These are the Sexual Offences and the Historical Fraud and Forgery categories. The Sexual Offences category is removed for privacy purposes, but there is no explanation for why Historical Fraud and Forgery is missing. One possible explanation is that this crime has not been recorded at local police stations since 2013, and so has been removed from the LSOA data set. This does not explain the category's presence in the other data sets, however.
 
 ```{python}
 lsoa_off = list(data.lsoa.index.get_level_values(4).unique().sort_values())
@@ -53,6 +40,62 @@ The borough and ward data sets are consistent in the offence classifications. Ho
 
 In the following code, I will look for differences in reported crimes between the borough-, ward- and LSOA-level.
 
+```{python}
+bor_ward_diff = (data.borough.loc[:,:,:].groupby('offence').sum() - data.ward.loc[:,:,:,:,:].groupby('offence').sum()).T.sum().sort_values(ascending = False)
+bor_ward_df = bor_ward_diff.to_frame('difference')
+
+bor_ward_df.head(15)
+```
+
+The above dataframe shows the difference in recorded crimes between the `borough` and `ward` datasets, separated by the offence. It seems that there is quite a large difference between the recorded crimes in the two datasets.
+
+One would assume that the offences with the largest differences would be those that are less geographically contained, such as `Obscene Publications` or `Fraud or Forgery Associated with Driver Records`. Instead, the top ten values are offences that tend to be committed in very specific locations, such as `Rape` or `Theft`. Perhaps these crimes are only recorded at a borough level for the privacy of the victims.
+
+```{python}
+bor_ward_diff.sum()
+```
+
+The total difference in recorded crimes between the `ward` and `borough` datasets is `226224.0`
+
+```{python}
+bor_lsoa_diff = (data.borough.loc[:,:,:].groupby('offence').sum() - data.lsoa.loc[:,:,:,:,:].groupby('offence').sum()).T.sum().sort_values(ascending = False)
+bor_lsoa_df = bor_lsoa_diff.to_frame('difference')
+
+bor_lsoa_df.head(15)
+```
+
+The above dataframe shows the difference in recorded crimes between the `borough` and `lsoa` datasets, separated by the offence. It seems that there is also quite a large difference these two datasets.
+
+The ten highest differences are the same as with the `ward` dataset, allowing for the fact that `Rape` and `Other Sexual Offences` are not present in the `lsoa` dataset.
+
+Here, the explanation of protecting the privacy of the victims is more feasible as a LSOA is roughly 1,000 people.
+
+```{python}
+bor_lsoa_diff.sum()
+```
+
+The total difference in recorded crimes between the `lsoa` and `borough` datasets is `205592.0`
+
+```{python}
+ward_lsoa_diff = (data.ward.loc[:,:,:,:,:].groupby('offence').sum() - data.lsoa.loc[:,:,:,:,:].groupby('offence').sum()).T.sum().sort_values(ascending = False)
+ward_lsoa_df = ward_lsoa_diff.to_frame('difference')
+
+ward_lsoa_df.head(15)
+```
+
+This dataframe shows the differences in the `lsoa` and `ward` datasets. Similar to the two previous dataframes, the seven highest differences are pretty much the same. The only difference is that the differences are a lot lower.
+
+This seems to suggest that if a crime is recorded at the ward level, it is very likely to be recorded at the LSOA level too.
+
+```{python}
+ward_lsoa_diff.sum()
+```
+
+The total difference in recorded crimes between the `lsoa` and `ward` datasets is `3896.0`
+
+
+Overall, there is very little consistency in the recorded crimes across the dataset. As such, the `borough` dataset should be used for analysis of the data when looking at seasonal changes, as it is more accurate.
+
 
 ### Comparing the same offence by borough
 
@@ -60,50 +103,47 @@ In the following code, I will look for differences in reported crimes between th
 pd.DataFrame(data.borough.loc[:, 'Arson', :].T.groupby(level='year').sum().sum())
 ```
 
-The above dataframe shows the total number of Arson offences across the entirety of the borough dataset.
+The above dataframe shows the total number of Arson offences across the entirety of the `borough` dataset.
 
 ```{python}
 pd.DataFrame(((data.borough.loc[:, 'Arson', :].T.groupby(level='year').sum().sum()) - (data.ward.loc[:, :, :, 'Arson', :].groupby(level=[3]).sum().T.sum())).sort_values(ascending=False))
 ```
 
-```{python}
-data.borough.loc[:, 'Arson', 'Hillingdon'].T.groupby(level='year').sum()
-```
+The above data frame shows the difference in reported Arson offences between the `borough` and `ward` datasets.
+
+It seems that there is more reports made in the `borough` dataset consistently, other than in Hillingdon. One possible explanation for this is that the `borough` dataset contains a `London Heathrow and London City Airports` borough, which the `ward` dataset does not.
+
+Heathrow Airport is in the Hillingdon borough and London City Airport is in Newham. This means that the Arson offences are being split between these two boroughs, leading to less reports in the `borough` dataset compared to the ward dataset for the Hillingdon and Newham boroughs.
+
+The `ward` dataset does include a `Aviation Security (SO18)` borough, however. This is in reference to the Heathrow Airport.
 
 ```{python}
-data.borough.loc[:, 'Arson', 'London Heathrow and London City Airports'].T.groupby(level='year').sum()
+borhil = (data.borough.loc[:, 'Arson', ['Newham', 'Hillingdon']].T.groupby(level='year').sum().T.sum()).to_frame('Arson')
+halca = (data.borough.loc[:, 'Arson', 'London Heathrow and London City Airports'].T.groupby(level='year').sum())
+wardhil = (data.ward.loc[:, :, :, 'Arson', ['Newham','Hillingdon','Aviation Security (SO18)']].sum().T.groupby(level='year').sum()).to_frame('Arson Offences')
+((borhil['Arson'] + halca['Arson and Criminal Damage']) - wardhil['Arson Offences']).sum()
 ```
 
-```{python}
-# np.(data.borough.loc[:, 'Arson', 'Hillingdon'].T.groupby(level='year').sum()) - np.
-(data.ward.loc[:, :, :, 'Arson', 'Hillingdon'].sum().T.groupby(level='year').sum())
-```
+The above data frame is of all the Arson offences in the `borough` dataset in the `Hillingdon` and `Newham` boroughs.
+
+
+The above data frame is of all the Arson offences in the `borough` dataset in the `London Heathrow and London City Airports` borough.
+
+
+The above dataframe is of all the Arson offences in the `ward` dataset in the `Hillingdon` and `Newham` boroughs.
+
+
+The above code adds together the records of arson in `Hillingdon`, `Newham` and `London Heathrow and London City Airports` (`borough` dataset) and takes away the records from the `ward` dataset for `Hillingdon`, `Newham` and `Aviation Security (SO18)` borough.
+
+This leaves a difference of `12.0`.
+
+This means that there is more reports in the `borough` dataset than the `ward` dataset.
 
 ```{python}
-(data.ward.loc[:, :, :, 'Arson', :].groupby(level=[3]).sum().T.sum())
+borhil1 = (data.borough.loc[:, 'Arson', 'Hillingdon'].T.groupby(level='year').sum().T.sum()).to_frame('Arson')
+halca1 = (data.borough.loc[:, 'Arson', 'London Heathrow and London City Airports'].T.groupby(level='year').sum())
+wardhil1 = (data.ward.loc[:, :, :, 'Arson', ['Hillingdon','Aviation Security (SO18)']].sum().T.groupby(level='year').sum()).to_frame('Arson Offences')
+((borhil1['Arson'] + halca1['Arson and Criminal Damage']) - wardhil1['Arson Offences']).sum()
 ```
 
-```{python}
-(data.borough.sum() - data.ward.sum()).sort_values(ascending = False)
-```
-
-```{python}
-(data.borough.sum() - data.lsoa.sum()).sort_values(ascending = False)
-```
-
-```{python}
-data.borough.sum()
-```
-
-```{python}
-data.borough
-data.ward
-```
-
-```{python}
-# data.ward.loc[:, :, 'Historical Fraud and Forgery', :, :].T.groupby(level='year').plot()
-```
-
-```{python}
-data.lsoa
-```
+When the same calculations are made, having removed `Newham`, a difference of `4.0` remains. 8 is exactly the value of the difference between the `ward` and `borough` datasets for `Newham`. This must mean that 4 of the recorded offences in `London Heathrow and London City Airports` belong in `Hillingdon`, so the net difference is actually `+2`.
