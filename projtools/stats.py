@@ -4,7 +4,7 @@ rng = np.random.default_rng()
 def permutation_test(group1,
                      group2,
                      alternative='greater',
-                     n_iters=10_000):
+                     n_iters=10_000) -> (float, np.array, float):
     """Perform a permutation test.
 
     Parameters
