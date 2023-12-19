@@ -22,7 +22,7 @@ data.ward.head()
 data.lsoa.head()
 ```
 
-![image.png](attachment:0d2d75bf-6765-40e0-a0de-1ab8350f4b02.png)
+<img src="../assets/london-borough-map.pjpeg" width=550 height=550>
 
 These are the 32 boroughs in London.
 
