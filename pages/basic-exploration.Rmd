@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from projtools.data import Data
 
+plt.style.use('../styles/rose-pine-dawn.mplstyle')
+
 data = Data()
 ```
 
