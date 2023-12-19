@@ -112,4 +112,4 @@ print("Winter month average: " + str(winter_bike_theft.sum() / len(winter_months
 stats.permutation_test(summer_bike_theft, winter_bike_theft, alternative="less")
 ```
 
-The permutation test shows that the observed difference would be an extremely surprising result in the null world. So we can be very confident that there is a meaningful difference between the summer and the winter months. However, as explained before, this does not tell us whether the time zone change is a reason for this.
+The permutation test shows that the observed difference would be an extremely surprising result (~1 in 400) in the null world. So we can be very confident that there is a meaningful difference between the summer and the winter months. However, as explained before, this does not tell us whether the time zone change is a reason for this.
