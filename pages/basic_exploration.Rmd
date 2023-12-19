@@ -47,14 +47,14 @@ In the `borough` data set there is an additional 'London Heathrow and London Cit
 
 
 ## Categories and Offences
-There are 12 categories, and 56 offences across those categories.
+There are 12 categories, and 56 offences across those categories. Below you can see each category and the associated offences (ignore the numbers in the column).
 
 ```{python}
-list(data.borough.index.get_level_values(0).unique().sort_values())
-```
-
-```{python}
-list(data.borough.index.get_level_values(1).unique())
+(data.borough
+     .groupby(level=["category", "offence"])
+     .first()
+     .iloc[:,0]
+     .to_frame())
 ```
 
 It is important to note that there are two categories missing from the LSOA data set ('Historical Fraud and Forgery' and 'Sexual Offences'). This will be discussed later in the notebook.
