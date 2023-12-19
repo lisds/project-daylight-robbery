@@ -9,6 +9,7 @@ parts:
     - file: pages/aviation-security
   - caption: Analysis
     chapters:
+    - file: pages/seasonal-changes
     - file: pages/markdown
     - file: pages/markdown-notebooks
     - file: pages/notebooks
