@@ -1,0 +1,85 @@
+# Exploring the Recorded Crime Datasets
+This page will explore the three data sets of recorded crime in London, broken down by borough, ward and lower layer super output area (LSOA). These crimes are recorded using the [Home Office crime classifications](https://www.met.police.uk/sd/stats-and-data/met/crime-type-definitions/).
+
+```{python}
+import matplotlib.pyplot as plt
+import pandas as pd
+from projtools.data import Data
+
+data = Data()
+
+```
+
+#### Borough Dataset
+
+```{python}
+data.borough.head()
+```
+
+#### Ward Dataset
+
+```{python}
+data.ward.head()
+```
+
+#### LSOA Dataset
+
+```{python}
+data.lsoa.head()
+```
+
+<img src="../assets/london-borough-map.pjpeg" width=550 height=550>
+
+These are the 32 boroughs in London. Note that the City of London is not present as this borough has its own police force.
+
+```{python}
+bor_names = {'boroughs_borough': list(data.borough.index.get_level_values(2).unique().sort_values()),
+             'boroughs_ward': list(data.ward.index.get_level_values(4).unique().sort_values())}
+bors = pd.DataFrame(data=bor_names)
+bors
+```
+
+The dataframe above shows the values in the borough columns for the `borough` and `ward` datasets. As you can see here, there are 33 boroughs in each of the data frames, instead of 32.
+In the `borough` data set there is an additional 'London Heathrow and London City Airports' value, while in the `ward` data set there is an 'Aviation Security (SO18)' value. The implications of this are discussed further on in the notebook.
+
+
+## Categories and Offences
+There are 12 categories, and 56 offences across those categories.
+
+```{python}
+list(data.borough.index.get_level_values(0).unique().sort_values())
+```
+
+It is important to note that there are two categories missing from the LSOA data set ('Historical Fraud and Forgery' and 'Sexual Offences'). This will be discussed later in the notebook.
+
+
+## Basic Exploration
+The following are graphs that have been generated using this data set that show the general trends of offences across time.
+
+```{python}
+data.borough.loc['Theft', :, 'Barking and Dagenham'].T.groupby(level="month").sum().plot()
+```
+
+The graph above shows the offences classified within theft for the borough of Barking and Dagenham. This graph uses the full data set and groups the offences by the month in which they were committed. Here it seems that most theft offences fluctuate a small amount throughout the year, other than 'Other Theft', which shows a clear peak in July.
+
+```{python}
+data.borough.loc['Theft', 'Bicycle Theft', 'Barking and Dagenham'].T.groupby(level="month").sum().plot()
+plt.ylabel('Bicycle Thefts')
+```
+
+Upon closer inspection of the same 'Bicycle Theft' data, we can see that it also peaks in July.
+
+```{python}
+data.ward.loc['Royal Albert', :, 'Theft', :, :].T.groupby(level="year").sum().plot()
+```
+
+The graph above shows the recorded thefts in the Royal Albert ward, which is in the Newham borough. This graph uses the whole data set and has grouped the offences by the year in which they were committed, showing us a general trend across time.
+
+It seems that the general trend for 'Other Theft' is a decrease over time, similar to 'Shoplifting' and 'Bicycle Theft'. There is a sharp increase in 'Theft from Person' from 2021 onwards.
+
+```{python}
+data.ward.loc['Royal Albert', :, 'Theft', 'Theft from Person', :].T.groupby(level="year").sum().plot()
+plt.ylabel('Thefts from Person')
+```
+
+This increase have been a direct response to the COVID-19 Pandemic, which has worsened many people's financial situations, perhaps to the point of crime.
