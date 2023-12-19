@@ -10,6 +10,7 @@ parts:
     - file: pages/exploration
   - caption: Analysis
     chapters:
+    - file: pages/seasonal-changes
     - file: pages/markdown
     - file: pages/markdown-notebooks
     - file: pages/notebooks
