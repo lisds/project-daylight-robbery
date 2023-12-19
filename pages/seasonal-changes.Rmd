@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from projtools.data import Data
+from projtools import stats
+
 
 data = Data()
 idx = pd.IndexSlice
@@ -61,36 +63,5 @@ print("Winter month average: " + str(winter_rape.sum() / len(winter_months)))
 Next steps, run a permutation test - shuffle the number of crimes between months and see how surprising the average month diff is...
 
 ```{python}
-summer_mean = summer_rape.sum() / len(summer_months)
-winter_mean = winter_rape.sum() / len(winter_months)
-observed_difference = summer_mean - winter_mean
-observed_difference
-```
-
-```{python}
-iterations = 10_000
-fake_differences = np.zeros(iterations)
-pooled = np.concatenate([summer_rape, winter_rape])
-
-for index in np.arange(iterations):
-    shuffled = rng.permutation(pooled)
-    
-    fake_summer_mean = np.mean(shuffled[:len(summer_months)])
-    fake_winter_mean = np.mean(shuffled[len(summer_months):])
-    
-    fake_diff = fake_summer_mean - fake_winter_mean
-    
-    fake_differences[index] = fake_diff
-    
-plt.hist(fake_differences)
-```
-
-```{python}
-number_geater_actual = np.count_nonzero(fake_differences >= observed_difference)
-number_geater_actual
-```
-
-```{python}
-proportion_geater_actual = number_geater_actual / 10000
-proportion_geater_actual
+stats.permutation_test(summer_rape, winter_rape, alternative='less')
 ```
