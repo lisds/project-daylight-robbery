@@ -6,6 +6,7 @@ root: pages/intro
 parts:
   - caption: Exploration
     chapters:
+    - file: pages/basic-exploration
     - file: pages/aviation-security
   - caption: Analysis
     chapters:
