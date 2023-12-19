@@ -1,0 +1,80 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.15.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{python}
+#potential regression
+from projtools.data import Data
+
+data = Data()
+data.borough.loc[:, 'Homicide', :].T.groupby(level='year').sum().sum().sort_values()
+data.borough.loc[:, 'Possession of Article with Blade or Point', :].T.groupby(level='year').sum().sum().sort_values()
+```
+
+```{python}
+
+```
+
+```{python}
+#permutation loop
+trend_by_offence_boroughs('Theft', 'Barking and Dagenham').T.sum().iloc[3:10].plot()
+
+# for i in cat_list:
+#     for x in bor_list:
+#         trend = year_subset_func(i, x).plot()
+#         plt.xlabel(x)
+# for i in cat_list:
+#     for x in bor_list:
+#         trend = year_subset_func(i, x).T.groupby(level='offence').sum().describe()
+#         trend#.plot()
+#         # plt.xlabel(x)
+#         # plt.ylabel(i)
+```
+
+```{python}
+#des_stats.describe().T.groupby(level='borough').plot()
+# des_stats = data.borough.loc[:, :, :].T.groupby(level='year') #.sum() #.describe()
+# des_stats.sum().plot()
+#data.borough.loc[:, 'Fraud or Forgery Associated with Driver Records', :]
+```
+
+```{python}
+ #data.ward.loc[, :, 'Bicycle Theft', :].T.groupby(level="month").sum().plot()
+```
+
+```{python}
+def trend_by_summer(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().iloc[3:10].plot()
+    return borough_trends
+
+def trend_by_winter(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().loc['01', '02', '03', '11', '12'].plot()
+    return borough_trends
+
+cat_list = list(data.borough.index.get_level_values(0).unique())
+bor_list = list(data.borough.index.get_level_values(2).unique())
+for i in cat_list:
+    for x in bor_list:
+        trend = trend_by_summer(i, x).plot()
+        # plt.xlabel(x)
+```
+
+```{python}
+data.borough.loc['Theft', :, 'Barking and Dagenham'].T.groupby(level="month").sum().T.sum()#.loc['01', '02', '03', '11', '12'].plot()
+```
+
+```{python}
+def year_subset_func(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="year").sum()
+    return borough_trends
+```
