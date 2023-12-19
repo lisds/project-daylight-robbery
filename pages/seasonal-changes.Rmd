@@ -1,8 +1,8 @@
 # Seasonal Changes
 
-Coming into this project one of the questions we had was what affect daylight, and seasonality has on crime in London. We are particularly interested in certain crimes where individuals may perceive higher risk during hours of darkness such as rape and other violent offences.
+Coming into this project one of the questions we had was what affect daylight and seasonality has on crime in London. We are particularly interested in certain crimes where individuals may perceive higher risk during hours of darkness, such as rape and other violent offences, and whether this perception holds true.
 
-We do not have data on the time at which crimes took place which limits our ability to investigate the affect of daylight vs darkness on the number of crimes. However, British Summer Time (BST) creates a change in daylight hours which we will use to look at a seasonal differences in the number of crimes.
+We do not have data on the time at which crimes took place, which limits our ability to investigate the effect of daylight versus darkness on the number of crimes. However, British Summer Time (BST) creates a change in daylight hours which we will use to look at a seasonal differences in the number of crimes.
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ idx = pd.IndexSlice
 rng = np.random.default_rng()
 ```
 
-[BST starts on the last Sunday of March and ends on the last Sunday of October](https://en.wikipedia.org/wiki/British_Summer_Time). For our purposes we will consider April - October summer and November - March winter. This does give us an uneven number of months in each group but, we can avoid issues resulting from this by using per month summary stats and permutation tests to check for significance of differences.
+[BST starts on the last Sunday of March and ends on the last Sunday of October](https://en.wikipedia.org/wiki/British_Summer_Time). For our purposes we will consider April - October summer and November - March winter. This does give us an uneven number of months in each group, but we can avoid issues resulting from this by using per month summary stats and permutation tests to check for significance of differences.
 
 ```{python}
 summer_months = ["04","05","06","07","08","09","10"]
@@ -37,7 +37,7 @@ winter
 ```
 
 ## Rape
-Now, we select a particular offence, in this case rape, sume all of the rows, group and sum the months together. This gives us the total number of recorded rapes in each month from 2011 to 2022.
+Now, we select a particular offence (in this case rape), sum all of the rows, then group and sum the months together. This gives us the total number of recorded rapes in each month from 2011 to 2022.
 
 ```{python}
 summer_rape = (summer.loc[idx[:,"Rape"], :]
@@ -79,7 +79,7 @@ The result of 0.1168 shows us that the observed difference we see would be fairl
 
 ## Bicycle Theft
 
-In our initail exploration we noticed that Bicycle Theft was an offence that appeared to have considerable seasonal variation. This would be unsurprising, given that in the winter the weather is less appealing, less people cycle which presumably means less bikes locked up in public places where opportunistic theft is likely to occur.
+In our initial exploration we noticed that Bicycle Theft was an offence that appeared to have considerable seasonal variation. This would be unsurprising, given that in the winter the weather is less appealing, less people cycle which presumably means less bikes locked up in public places where opportunistic theft is likely to occur.
 
 ```{python}
 summer_bike_theft = (summer.loc[idx[:,"Bicycle Theft"], :]
