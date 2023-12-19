@@ -6,9 +6,11 @@ root: pages/intro
 parts:
   - caption: Exploration
     chapters:
+    - file: pages/basic-exploration
     - file: pages/aviation-security
   - caption: Analysis
     chapters:
-    - file: pages/markdown
-    - file: pages/markdown-notebooks
-    - file: pages/notebooks
+    - file: pages/seasonal-changes
+  - caption: Usage
+    chapters:
+    - file: pages/multi_index.Rmd
