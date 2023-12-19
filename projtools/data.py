@@ -63,7 +63,7 @@ class Data:
         self.borough = self.__make_multi_index(self.__borough, 3)
 
         # This changes the borough codes in the lsoa dataframe to borough names as in the borough and ward dataframes
-        df = pd.read_excel(r"LAD_DEC_2021_UK_NC.xlsx")
+        df = pd.read_excel(self.__data_folder / "LAD_DEC_2021_UK_NC.xlsx")
         map_dict = df.set_index("Code").to_dict()["borough"]
         self.lsoa.index = self.lsoa.index.set_levels(self.lsoa.index.levels[2].map(map_dict), level=2)
 
