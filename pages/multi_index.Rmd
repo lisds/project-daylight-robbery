@@ -30,7 +30,7 @@ import numpy as np
 import pandas as pd
 from projtools.data import Data
 import matplotlib.pyplot as plt
-plt.style.use('projtools/styles/rose-pine.mplstyle')
+plt.style.use('../styles/rose-pine.mplstyle')
 ```
 
 ```{python jupyter={'outputs_hidden': True}}
