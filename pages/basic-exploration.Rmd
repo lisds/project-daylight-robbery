@@ -1,3 +1,6 @@
+# Exploring the Recorded Crime Datasets
+This page will explore the three data sets of recorded crime in London, broken down by borough, ward and lower layer super output area (LSOA). These crimes are recorded using the [Home Office crime classifications](https://www.met.police.uk/sd/stats-and-data/met/crime-type-definitions/).
+
 ```{python}
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,9 +9,6 @@ from projtools.data import Data
 data = Data()
 
 ```
-
-# Exploring the Recorded Crime Datasets
-This page will explore the three data sets of recorded crime in London, broken down by borough, ward and lower layer super output area (LSOA). These crimes are recorded using the [Home Office crime classifications](https://www.met.police.uk/sd/stats-and-data/met/crime-type-definitions/).
 
 ```{python}
 data.borough.head()
