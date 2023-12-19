@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from projtools.data import Data
 
-plt.style.use('../projtools/styles/rose-pine-dawn.mplstyle')
+plt.style.use('../styles/rose-pine-dawn.mplstyle')
 
 data = Data()
 ```
