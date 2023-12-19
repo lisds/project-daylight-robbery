@@ -9,8 +9,20 @@ data = Data()
 #check that the data is consistent across the different geographical breakdowns
 ```
 
+<<<<<<< Updated upstream
 # Categories and Offences
 First, we need to check if the categories and offences are consistent across the different data sets, so that we know the data is recorded consistently and we can compare it as such
+=======
+```{python}
+bor_names = {'borough_ls': list(data.borough.index.get_level_values(2).unique().sort_values()),
+             'ward_ls': list(data.ward.index.get_level_values(4).unique().sort_values())}
+bors = pd.DataFrame(data=bor_names)
+bors
+```
+
+# Categories and Offences
+First, we need to check if the categories and offences are consistent across the different data sets, so that we know the data is recorded consistently and we can compare it as such.
+>>>>>>> Stashed changes
 
 ```{python}
 trial = list(data.lsoa.index.get_level_values(3).unique().sort_values())
