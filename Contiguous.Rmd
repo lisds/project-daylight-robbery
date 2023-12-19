@@ -56,6 +56,10 @@ theft = data.borough.loc[:, 'Bicycle Theft', :].T.groupby(level='month').sum().T
 theft_df = theft.to_frame('Bicycle Theft')
 theft_df.plot()
 plt.ylabel('Recorded Bicycle Thefts')
+<<<<<<< Updated upstream
+=======
+theft_df
+>>>>>>> Stashed changes
 ```
 
 As you can see from the graph above, bicycle thefts peak in July and remain high until October. This does not fit with the hypothesis so far. Now we will do a linear regression to see if there is a correlation between the rainfall and bike thefts or not.
