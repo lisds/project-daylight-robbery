@@ -24,7 +24,7 @@ data.lsoa.head()
 
 <img src="../assets/london-borough-map.pjpeg" width=550 height=550>
 
-These are the 32 boroughs in London.
+These are the 32 boroughs in London. Note that the City of London is not present as this borough has its own police force.
 
 ```{python}
 bor_names = {'borough_ls': list(data.borough.index.get_level_values(2).unique().sort_values()),
