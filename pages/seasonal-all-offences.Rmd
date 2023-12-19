@@ -1,0 +1,65 @@
+# All offences
+
+```{python}
+import matplotlib.pyplot as plt
+import pandas as pd
+from projtools.data import Data
+
+data = Data()
+idx = pd.IndexSlice
+```
+
+```{python}
+summer_months = ["04","05","06","07","08","09","10"]
+winter_months = ["01","02","03","11","12"]
+```
+
+```{python}
+summer = (data.borough
+              .loc[:, idx["2011":"2022", summer_months]])
+winter = (data.borough
+              .loc[:, idx["2011":"2022", winter_months]])
+```
+
+```{python}
+offences = (data.borough
+                .index
+                .get_level_values("offence")
+                .unique())
+
+diff_dict = pd.Series()
+
+for index, offence in enumerate(offences):
+    summer_month_offences = (summer.loc[idx[:,offence], :]
+                                   .sum()
+                                   .T
+                                   .groupby(level="month")
+                                   .sum()
+                                   .sort_values(ascending=False))
+    
+    winter_month_offences = (winter.loc[idx[:,offence], :]
+                                   .sum()
+                                   .T
+                                   .groupby(level="month")
+                                   .sum()
+                                   .sort_values(ascending=False))
+    
+    summer_mean = summer_month_offences.sum() / len(summer_months)
+    winter_mean = winter_month_offences.sum() / len(winter_months)
+    
+    diff_dict[offence] = summer_mean - winter_mean
+
+```
+
+- Burglary - enter property (not a property you should be in) and take something
+- Robbery - take something by force (use of weapon or threat of harm)
+- Theft - taking something e.g. from a shop, pickpocketing
+
+----
+
+- negative value = higher in winter
+- positive value = higher in summer
+
+```{python}
+diff_dict.sort_values()
+```
