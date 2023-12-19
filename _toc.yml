@@ -3,8 +3,13 @@
 
 format: jb-book
 root: pages/intro
-chapters:
-- file: pages/markdown
-- file: pages/markdown-notebooks
-- file: pages/notebooks
-- file: pages/exploration
+parts:
+  - caption: Exploration
+    chapters:
+    - file: pages/aviation-security
+    - file: pages/exploration
+  - caption: Analysis
+    chapters:
+    - file: pages/markdown
+    - file: pages/markdown-notebooks
+    - file: pages/notebooks
