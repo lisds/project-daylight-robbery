@@ -39,7 +39,10 @@ bors = pd.DataFrame(data=bor_names)
 bors
 ```
 
-The dataframe above shows the values in the borough columns for the `borough` and `ward` datasets. As you can see here, there are 33 boroughs in each of the data frames, instead of 32.
+All the datasets contain a borough column, which for the `ward` and `lsoa` datasets refer to the borough in which the ward or LSOA sit.
+
+The dataframe above shows the values in the borough columns for the `borough` and `ward` datasets. As you can see here, there are *33* boroughs in each of the data frames, instead of _32_.
+
 In the `borough` data set there is an additional 'London Heathrow and London City Airports' value, while in the `ward` data set there is an 'Aviation Security (SO18)' value. The implications of this are discussed further on in the notebook.
 
 
@@ -48,6 +51,10 @@ There are 12 categories, and 56 offences across those categories.
 
 ```{python}
 list(data.borough.index.get_level_values(0).unique().sort_values())
+```
+
+```{python}
+list(data.borough.index.get_level_values(1).unique())
 ```
 
 It is important to note that there are two categories missing from the LSOA data set ('Historical Fraud and Forgery' and 'Sexual Offences'). This will be discussed later in the notebook.
