@@ -1,0 +1,3012 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>MultiIndex - a short guide &#8212; Project Daylight Robbery</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/multi_index';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Seasonal Changes" href="seasonal-changes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Project Daylight Robbery - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Project Daylight Robbery - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploration</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="aviation-security.html">Aviation Security (SO18) Borough</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="seasonal-changes.html">Seasonal Changes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Usage</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">MultiIndex - a short guide</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/lisds/project-daylight-robbery/main?urlpath=lab/tree/pages/multi_index.Rmd" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://ds.lis.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/lisds/project-daylight-robbery&urlpath=lab/tree/project-daylight-robbery/pages/multi_index.Rmd&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lisds/project-daylight-robbery" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lisds/project-daylight-robbery/issues/new?title=Issue%20on%20page%20%2Fpages/multi_index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/pages/multi_index.Rmd" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.Rmd</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>MultiIndex - a short guide</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multiindex-a-short-guide">
+<h1>MultiIndex - a short guide<a class="headerlink" href="#multiindex-a-short-guide" title="Permalink to this heading">#</a></h1>
+<p>This is a short guide of using the MultiIndex, for more detail see these resources:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datascientyst.com/use-loc-and-multi-index-in-pandas/">Nice guide</a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/advanced.html#advanced-indexing-with-hierarchical-index">Slightly scary but detailed pandas user guide</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">projtools.data</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;../styles/rose-pine.mplstyle&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>year</th>
+      <th colspan="9" halign="left">2010</th>
+      <th>2011</th>
+      <th>...</th>
+      <th colspan="10" halign="left">2023</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>01</th>
+      <th>...</th>
+      <th>01</th>
+      <th>02</th>
+      <th>03</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">Heathrow Villages</th>
+      <th rowspan="5" valign="top">E05013570</th>
+      <th>Arson and Criminal Damage</th>
+      <th>Criminal Damage</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>18.0</td>
+      <td>16.0</td>
+      <td>23.0</td>
+      <td>24.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>Miscellaneous Crimes Against Society</th>
+      <th>Other Notifiable Offences</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>92.0</td>
+      <td>112.0</td>
+      <td>112.0</td>
+      <td>94.0</td>
+      <td>113.0</td>
+      <td>124.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>75.0</td>
+      <td>60.0</td>
+      <td>73.0</td>
+      <td>86.0</td>
+      <td>100.0</td>
+      <td>112.0</td>
+    </tr>
+    <tr>
+      <th>Shoplifting</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>21.0</td>
+      <td>21.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle Offences</th>
+      <th>Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>15.0</td>
+      <td>48.0</td>
+      <td>37.0</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>56.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Pimlico South</th>
+      <th>E05013803</th>
+      <th>Possession of Weapons</th>
+      <th>Other Firearm Offences</th>
+      <th>Westminster</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Regent's Park</th>
+      <th>E05013805</th>
+      <th>Possession of Weapons</th>
+      <th>Other Firearm Offences</th>
+      <th>Westminster</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Vincent Square</th>
+      <th>E05013807</th>
+      <th>Possession of Weapons</th>
+      <th>Other Firearm Offences</th>
+      <th>Westminster</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">West End</th>
+      <th rowspan="2" valign="top">E05013808</th>
+      <th rowspan="2" valign="top">Miscellaneous Crimes Against Society</th>
+      <th>Bigamy</th>
+      <th>Westminster</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Soliciting for Prostitution</th>
+      <th>Westminster</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>30121 rows × 163 columns</p>
+</div></div></div>
+</div>
+<p>We can get all of the rows for a given ward_name like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>year</th>
+      <th colspan="9" halign="left">2010</th>
+      <th>2011</th>
+      <th>...</th>
+      <th colspan="10" halign="left">2023</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>01</th>
+      <th>...</th>
+      <th>01</th>
+      <th>02</th>
+      <th>03</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+    </tr>
+    <tr>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">E05013570</th>
+      <th>Arson and Criminal Damage</th>
+      <th>Criminal Damage</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>18.0</td>
+      <td>16.0</td>
+      <td>23.0</td>
+      <td>24.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>Miscellaneous Crimes Against Society</th>
+      <th>Other Notifiable Offences</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>92.0</td>
+      <td>112.0</td>
+      <td>112.0</td>
+      <td>94.0</td>
+      <td>113.0</td>
+      <td>124.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>75.0</td>
+      <td>60.0</td>
+      <td>73.0</td>
+      <td>86.0</td>
+      <td>100.0</td>
+      <td>112.0</td>
+    </tr>
+    <tr>
+      <th>Shoplifting</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>21.0</td>
+      <td>21.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle Offences</th>
+      <th>Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>15.0</td>
+      <td>48.0</td>
+      <td>37.0</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>56.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Bicycle Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>Theft from Person</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>7.0</td>
+      <td>6.0</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Vehicle Offences</th>
+      <th>Aggravated Vehicle Taking</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Interfering with a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>17.0</td>
+      <td>12.0</td>
+      <td>8.0</td>
+      <td>11.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>Theft or Taking of a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>9.0</td>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>9.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>86 rows × 163 columns</p>
+</div></div></div>
+</div>
+<p>It’s also easy to filter to a particular year, like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="s2">&quot;2010&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_3464/3978209333.py:1: PerformanceWarning: indexing past lexsort depth may impact performance.
+  data.ward.loc[&quot;Heathrow Villages&quot;, &quot;2010&quot;]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">E05013570</th>
+      <th>Arson and Criminal Damage</th>
+      <th>Criminal Damage</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Miscellaneous Crimes Against Society</th>
+      <th>Other Notifiable Offences</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Shoplifting</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle Offences</th>
+      <th>Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Bicycle Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Theft from Person</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Vehicle Offences</th>
+      <th>Aggravated Vehicle Taking</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Interfering with a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Theft or Taking of a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>86 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>To get the rows for a given ward_code we have to tell pandas what level we are interested in, there are a few ways of doing this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;E05013570&quot;</span><span class="p">,</span> <span class="p">:]</span>
+<span class="c1"># NB the slightly more verbose version of this is:</span>
+<span class="c1"># data.ward.loc[:, &quot;E05013570&quot;, :, :, :]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>year</th>
+      <th colspan="9" halign="left">2010</th>
+      <th>2011</th>
+      <th>...</th>
+      <th colspan="10" halign="left">2023</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>01</th>
+      <th>...</th>
+      <th>01</th>
+      <th>02</th>
+      <th>03</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">Heathrow Villages</th>
+      <th>Arson and Criminal Damage</th>
+      <th>Criminal Damage</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>18.0</td>
+      <td>16.0</td>
+      <td>23.0</td>
+      <td>24.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>Miscellaneous Crimes Against Society</th>
+      <th>Other Notifiable Offences</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>92.0</td>
+      <td>112.0</td>
+      <td>112.0</td>
+      <td>94.0</td>
+      <td>113.0</td>
+      <td>124.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>75.0</td>
+      <td>60.0</td>
+      <td>73.0</td>
+      <td>86.0</td>
+      <td>100.0</td>
+      <td>112.0</td>
+    </tr>
+    <tr>
+      <th>Shoplifting</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>21.0</td>
+      <td>21.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle Offences</th>
+      <th>Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>15.0</td>
+      <td>48.0</td>
+      <td>37.0</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>56.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Bicycle Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>Theft from Person</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>7.0</td>
+      <td>6.0</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Vehicle Offences</th>
+      <th>Aggravated Vehicle Taking</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Interfering with a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>17.0</td>
+      <td>12.0</td>
+      <td>8.0</td>
+      <td>11.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>Theft or Taking of a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>9.0</td>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>9.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>86 rows × 163 columns</p>
+</div></div></div>
+</div>
+<p>This works nicely but things get a little more complicated if we then want to filter by year when we’re not using the first index level (ward_name):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the same loc syntax as above we can do the following...</span>
+<span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;E05013570&quot;</span><span class="p">),</span><span class="s2">&quot;2010&quot;</span><span class="p">]</span>
+<span class="c1"># NB the more verbose version of this is:</span>
+<span class="c1"># data.ward.loc[(slice(None), &quot;E05013570&quot;, slice(None), slice(None), slice(None)), &quot;2010&quot;]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">Heathrow Villages</th>
+      <th rowspan="11" valign="top">E05013570</th>
+      <th>Arson and Criminal Damage</th>
+      <th>Criminal Damage</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Miscellaneous Crimes Against Society</th>
+      <th>Other Notifiable Offences</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Shoplifting</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle Offences</th>
+      <th>Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Bicycle Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Theft from Person</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Vehicle Offences</th>
+      <th>Aggravated Vehicle Taking</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Interfering with a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Theft or Taking of a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>86 rows × 9 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Alternatively, we can do this:</span>
+<span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;E05013570&quot;</span><span class="p">,</span> <span class="p">:][</span><span class="s2">&quot;2010&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">Heathrow Villages</th>
+      <th>Arson and Criminal Damage</th>
+      <th>Criminal Damage</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Miscellaneous Crimes Against Society</th>
+      <th>Other Notifiable Offences</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Shoplifting</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle Offences</th>
+      <th>Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Theft</th>
+      <th>Bicycle Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Theft from Person</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Vehicle Offences</th>
+      <th>Aggravated Vehicle Taking</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Interfering with a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Theft or Taking of a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>86 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">slice(None)</span></code> can be quite verbose if you want to specify one of the later layers, for example the category of crime and also select the year:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;Other Theft&quot;</span><span class="p">),</span> <span class="s2">&quot;2010&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Heathrow Villages</th>
+      <th rowspan="2" valign="top">E05013570</th>
+      <th rowspan="2" valign="top">Theft</th>
+      <th rowspan="2" valign="top">Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>94.0</td>
+      <td>108.0</td>
+      <td>113.0</td>
+      <td>138.0</td>
+      <td>100.0</td>
+      <td>132.0</td>
+      <td>159.0</td>
+      <td>121.0</td>
+      <td>119.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>There is a slightly neater alternative for this situation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">IndexSlice</span>
+<span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="s2">&quot;Other Theft&quot;</span><span class="p">],</span> <span class="s2">&quot;2010&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Heathrow Villages</th>
+      <th rowspan="2" valign="top">E05013570</th>
+      <th rowspan="2" valign="top">Theft</th>
+      <th rowspan="2" valign="top">Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>94.0</td>
+      <td>108.0</td>
+      <td>113.0</td>
+      <td>138.0</td>
+      <td>100.0</td>
+      <td>132.0</td>
+      <td>159.0</td>
+      <td>121.0</td>
+      <td>119.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With both of these methods you can of course select multiple values for each level:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">[</span><span class="s2">&quot;Other Theft&quot;</span><span class="p">,</span> <span class="s2">&quot;Theft from a Motor Vehicle&quot;</span><span class="p">]],</span> <span class="p">[</span><span class="s2">&quot;2010&quot;</span><span class="p">,</span><span class="s2">&quot;2021&quot;</span><span class="p">]]</span>
+
+<span class="c1"># Alternatively using a tuple and slice(None)...</span>
+<span class="c1"># data.ward.loc[(&quot;Heathrow Villages&quot;, slice(None), slice(None), [&quot;Other Theft&quot;, &quot;Theft from a Motor Vehicle&quot;]), [&quot;2010&quot;, &quot;2021&quot;]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>year</th>
+      <th colspan="9" halign="left">2010</th>
+      <th colspan="12" halign="left">2021</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>01</th>
+      <th>...</th>
+      <th>03</th>
+      <th>04</th>
+      <th>05</th>
+      <th>06</th>
+      <th>07</th>
+      <th>08</th>
+      <th>09</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Heathrow Villages</th>
+      <th rowspan="4" valign="top">E05013570</th>
+      <th rowspan="2" valign="top">Theft</th>
+      <th rowspan="2" valign="top">Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>94.0</td>
+      <td>108.0</td>
+      <td>113.0</td>
+      <td>138.0</td>
+      <td>100.0</td>
+      <td>132.0</td>
+      <td>159.0</td>
+      <td>121.0</td>
+      <td>119.0</td>
+      <td>37.0</td>
+      <td>...</td>
+      <td>35.0</td>
+      <td>34.0</td>
+      <td>27.0</td>
+      <td>38.0</td>
+      <td>47.0</td>
+      <td>58.0</td>
+      <td>79.0</td>
+      <td>78.0</td>
+      <td>77.0</td>
+      <td>83.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Vehicle Offences</th>
+      <th rowspan="2" valign="top">Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>16.0</td>
+      <td>16.0</td>
+      <td>22.0</td>
+      <td>24.0</td>
+      <td>21.0</td>
+      <td>16.0</td>
+      <td>26.0</td>
+      <td>23.0</td>
+      <td>30.0</td>
+      <td>10.0</td>
+      <td>...</td>
+      <td>11.0</td>
+      <td>9.0</td>
+      <td>12.0</td>
+      <td>12.0</td>
+      <td>17.0</td>
+      <td>16.0</td>
+      <td>13.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>38.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>4 rows × 21 columns</p>
+</div></div></div>
+</div>
+<p>In the same way we can select from multiple levels in the row index we can do the same with the columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">[</span><span class="s2">&quot;Other Theft&quot;</span><span class="p">,</span> <span class="s2">&quot;Theft from a Motor Vehicle&quot;</span><span class="p">]],</span> <span class="n">idx</span><span class="p">[[</span><span class="s2">&quot;2010&quot;</span><span class="p">,</span><span class="s2">&quot;2021&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;05&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">]]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>year</th>
+      <th colspan="2" halign="left">2010</th>
+      <th colspan="3" halign="left">2021</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>month</th>
+      <th>05</th>
+      <th>10</th>
+      <th>01</th>
+      <th>05</th>
+      <th>10</th>
+    </tr>
+    <tr>
+      <th>ward_name</th>
+      <th>ward_code</th>
+      <th>category</th>
+      <th>offence</th>
+      <th>borough</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Heathrow Villages</th>
+      <th rowspan="4" valign="top">E05013570</th>
+      <th rowspan="2" valign="top">Theft</th>
+      <th rowspan="2" valign="top">Other Theft</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>108.0</td>
+      <td>159.0</td>
+      <td>37.0</td>
+      <td>27.0</td>
+      <td>78.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Vehicle Offences</th>
+      <th rowspan="2" valign="top">Theft from a Motor Vehicle</th>
+      <th>Aviation Security (SO18)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>16.0</td>
+      <td>26.0</td>
+      <td>10.0</td>
+      <td>12.0</td>
+      <td>28.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Above, we have learnt how to make complex data selections using the <code class="docutils literal notranslate"><span class="pre">MultiIndex</span></code>. The power of this can then be realised further by using <code class="docutils literal notranslate"><span class="pre">groupby</span></code>, aggregation functions and more:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here we are selecting all of the &quot;Other Theft&quot; crimes in the Heathrow Villages ward in the Hillingdon borough.</span>
+<span class="c1"># `.T` splits along the columns so that we can groupby year, .sum() gives us a total for each year</span>
+<span class="n">theft_heathrow_hill</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="s2">&quot;Other Theft&quot;</span><span class="p">,</span> <span class="s2">&quot;Hillingdon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">theft_heathrow_hill</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th>ward_code</th>
+      <th>E05013570</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th>Theft</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2010</th>
+      <td>1084.0</td>
+    </tr>
+    <tr>
+      <th>2011</th>
+      <td>1364.0</td>
+    </tr>
+    <tr>
+      <th>2012</th>
+      <td>1119.0</td>
+    </tr>
+    <tr>
+      <th>2013</th>
+      <td>1150.0</td>
+    </tr>
+    <tr>
+      <th>2014</th>
+      <td>1142.0</td>
+    </tr>
+    <tr>
+      <th>2015</th>
+      <td>1101.0</td>
+    </tr>
+    <tr>
+      <th>2016</th>
+      <td>1057.0</td>
+    </tr>
+    <tr>
+      <th>2017</th>
+      <td>1202.0</td>
+    </tr>
+    <tr>
+      <th>2018</th>
+      <td>1097.0</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <td>1266.0</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>634.0</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>619.0</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>1055.0</td>
+    </tr>
+    <tr>
+      <th>2023</th>
+      <td>314.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theft_heathrow_hill</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;year&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/bf4efccf32b4ac9d1c7c55212ef2426f73ad4da7b503de585664d489099caefa.png" src="../_images/bf4efccf32b4ac9d1c7c55212ef2426f73ad4da7b503de585664d489099caefa.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theft_heathrow_all</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="s2">&quot;Other Theft&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">theft_heathrow_all</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;year&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/b46db8ccb90f8ab8067111998ceb7473bdc070fe89acd089af31d78d5d0c86f0.png" src="../_images/b46db8ccb90f8ab8067111998ceb7473bdc070fe89acd089af31d78d5d0c86f0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">ward</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Heathrow Villages&quot;</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="s2">&quot;Other Theft&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;year&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/bef03753127eeeea3c83eedb0d90528407e08a3ceb30dd4d68fe03f290c2e2e5.png" src="../_images/bef03753127eeeea3c83eedb0d90528407e08a3ceb30dd4d68fe03f290c2e2e5.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "lisds/project-daylight-robbery",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pages"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="seasonal-changes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Seasonal Changes</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pal Patel, Vishal Mistry, Tom Fox
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
