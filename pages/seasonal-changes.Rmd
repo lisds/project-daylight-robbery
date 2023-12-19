@@ -36,6 +36,7 @@ winter = (data.borough
 winter
 ```
 
+## Rape
 Now, we select a particular offence, in this case rape, sume all of the rows, group and sum the months together. This gives us the total number of recorded rapes in each month from 2011 to 2022.
 
 ```{python}
@@ -74,3 +75,41 @@ stats.permutation_test(summer_rape, winter_rape, alternative='less')
 ```
 
 The result of 0.1168 shows us that the observed difference we see would be fairly surprising in the null world - about a 1 in 10 chance. This means that we can be fairly confident that there is a meaningful difference in the recorded crimes between the summer and winter groups but it does not give us any indication as to whether this is down to shifting daylight hours resulting from the change from GMT to BST and vice versa.
+
+
+## Bicycle Theft
+
+In our initail exploration we noticed that Bicycle Theft was an offence that appeared to have considerable seasonal variation. This would be unsurprising, given that in the winter the weather is less appealing, less people cycle which presumably means less bikes locked up in public places where opportunistic theft is likely to occur.
+
+```{python}
+summer_bike_theft = (summer.loc[idx[:,"Bicycle Theft"], :]
+                     .sum()
+                     .T
+                     .groupby(level="month")
+                     .sum()
+                     .sort_values(ascending=False))
+summer_bike_theft
+```
+
+```{python}
+winter_bike_theft = (winter.loc[idx[:,"Bicycle Theft"], :]
+                     .sum()
+                     .T
+                     .groupby(level="month")
+                     .sum()
+                     .sort_values(ascending=False))
+winter_bike_theft
+```
+
+We can see that from November through to February there is a considerable slump in recorded bike thefts from the peak in July. This is reflected in the differences in the means.
+
+```{python}
+print("Summer month average: " + str(summer_bike_theft.sum() / len(summer_months)))
+print("Winter month average: " + str(winter_bike_theft.sum() / len(winter_months)))
+```
+
+```{python}
+stats.permutation_test(summer_bike_theft, winter_bike_theft, alternative="less")
+```
+
+The permutation test shows that the observed difference would be an extremely surprising result in the null world. So we can be very confident that there is a meaningful difference between the summer and the winter months. However, as explained before this does not tell us whether the time zone change is a reason for this.
