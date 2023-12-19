@@ -17,23 +17,27 @@ idx = pd.IndexSlice
 rng = np.random.default_rng()
 ```
 
-[BST starts on the last Sunday of March and ends on the last Sunday of October](https://en.wikipedia.org/wiki/British_Summer_Time). For our purposes we will consider April - October summer and November - March winter.
+[BST starts on the last Sunday of March and ends on the last Sunday of October](https://en.wikipedia.org/wiki/British_Summer_Time). For our purposes we will consider April - October summer and November - March winter. This does give us an uneven number of months in each group but, we can avoid issues resulting from this by using per month summary stats and permutation tests to check for significance of differences.
 
 ```{python}
 summer_months = ["04","05","06","07","08","09","10"]
 winter_months = ["01","02","03","11","12"]
 ```
 
+Here, we exclude years 2010 and 2023 as both years do not contain all of the winter months.
+
 ```{python}
 summer = (data.borough
-              .loc[:, idx[:, summer_months]])
+              .loc[:, idx["2011":"2022", summer_months]])
 winter = (data.borough
-              .loc[:, idx[:, winter_months]])
+              .loc[:, idx["2011":"2022", winter_months]])
 ```
 
 ```{python}
 winter
 ```
+
+Now, we select a particular offence, in this case rape, sume all of the rows, group and sum the months together. This gives us the total number of recorded rapes in each month from 2011 to 2022.
 
 ```{python}
 summer_rape = (summer.loc[idx[:,"Rape"], :]
@@ -45,6 +49,8 @@ summer_rape = (summer.loc[idx[:,"Rape"], :]
 summer_rape
 ```
 
+Doing the same for winter, we can see that it seems most of the months with the greatest number of crimes fall in the summer group.
+
 ```{python}
 winter_rape = (winter.loc[idx[:,"Rape"], :]
                      .sum()
@@ -55,13 +61,17 @@ winter_rape = (winter.loc[idx[:,"Rape"], :]
 winter_rape
 ```
 
+Working out the average summer month and average winter month shows that there is a greater number of rape crimes recorded in the average summer month.
+
 ```{python}
 print("Summer month average: " + str(summer_rape.sum() / len(summer_months)))
 print("Winter month average: " + str(winter_rape.sum() / len(winter_months)))
 ```
 
-Next steps, run a permutation test - shuffle the number of crimes between months and see how surprising the average month diff is...
+Now we run a permutation test which shuffles the months and calculates the difference in means over 10,000 iterations. It returns a p-value which gives us the probability that the fake difference in means is greater than the observed difference.
 
 ```{python}
 stats.permutation_test(summer_rape, winter_rape, alternative='less')
 ```
+
+The result of 0.1168 shows us that the observed difference we see would be fairly surprising in the null world - about a 1 in 10 chance. This means that we can be fairly confident that there is a meaningful difference in the recorded crimes between the summer and winter groups but it does not give us any indication as to whether this is down to shifting daylight hours resulting from the change from GMT to BST and vice versa.
