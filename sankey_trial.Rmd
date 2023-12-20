@@ -1,3 +1,8 @@
+# Sankey Diagrams
+I initially wanted to make a collection of sankey diagrams to show offences broken down by the boroughs in which they were recorded.
+
+This would provide a visual and easy way of seeing if there are any interesting trends in the way the crimes are created across London.
+
 ```{python}
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -13,24 +18,9 @@ data = Data()
 ```
 
 ```{python}
-data.borough
-```
-
-```{python}
 sankey_v = data.borough.T.groupby(level='year').sum().sum()
 sankey_df = pd.DataFrame(sankey_v, columns=['count'])
-```
-
-```{python}
-#sankey_df.groupby('category')[['borough']].sum()
-```
-
-```{python}
-sankey_df = sankey_df.reset_index()
-```
-
-```{python}
-sankey_df = sankey_df.set_index('offence')
+sankey_df = sankey_df.groupby(['category','borough']).sum()
 ```
 
 ```{python}
@@ -38,64 +28,70 @@ sankey_df
 ```
 
 ```{python}
-#df.loc['Arson and Criminal Damage',:].sum()
+
 ```
 
+The dataframe above groups all offences by the borough in which they were committed and the category they belong to.
+
+This makes it easy to split the data by category and plot all the boroughs within it.
+
+
+#### Arson and Criminal Damage Example
+
 ```{python}
-df = sankey_df.groupby(['category', 'borough'])[['count']].sum()
-pos_values = list(df.loc['Arson and Criminal Damage', :]['count'].values)
-keys = list(df.loc['Arson and Criminal Damage', :]['count'].keys())
-#list(df['count'].values)
-# val = list(dic_acd.values())
-#dic_acd
-# key
+pos_values = list(sankey_df.loc['Arson and Criminal Damage', :]['count'].values)
+keys = list(sankey_df.loc['Arson and Criminal Damage', :]['count'].keys())
 neg_values = [-x for x in pos_values]
-# neg_values
 ```
 
+##### This iteration did not go so well
+
 ```{python}
-# fig = plt.figure(figsize=(10, 15))
-# ax = fig.add_subplot()
+fig = plt.figure(figsize=(10, 15))
+ax = fig.add_subplot()
 
-# sankey = Sankey.Sankey(ax=ax, scale=0.0015, offset=0.3)
-# sankey.add(flows=[(10928170)],
-#            labels=['Total ACD Offences'],
-#           pathlengths=10).add(flows=neg_values,
-#            labels=keys,
-#            orientations=-1,
-#            pathlengths=100).finish()
-# #sankey
-# #plt.sankey.Sankey(flows=[0.25, 0.15, 0.60], labels=['', '', ''], orientations=[-1, 1, 0]).finish()
-# plt.title('Sankey Diagram')
-# plt.show()
+sankey = Sankey.Sankey(ax=ax, scale=0.0015, offset=0.3)
+sankey.add(flows=[(10928170)],
+           labels=['Total ACD Offences'],
+          pathlengths=10).add(flows=neg_values,
+           labels=keys,
+           orientations=-1,
+           pathlengths=100).finish()
 
-# neg_values = np.array(neg_values)
-# neg_values = (neg_values/814844)*100
-# neg_values
+
+plt.title('Sankey Diagram')
+plt.show()
 ```
 
-```{python}
-# fig = plt.figure(figsize=(10, 10))
-# ax = fig.add_subplot()
+##### This iteration was slightly better, but still not completely legible
 
-# sankey = Sankey.Sankey(ax=ax)
-# sankey.add(flows=[(100)],
-#            labels=['Total ACD Offences']).add(flows=neg_values, orientations=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
-#            labels=keys).finish()
-# # plt.xticks(keys, rotation='vertical')
-# # for d in diagrams:
-# #     for t in d.texts:
-# #         t.set_verticalalignment('center')
+```{python}
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot()
+
+sankey1 = Sankey.Sankey(ax=ax)
+sankey1.add(flows=[(100)],
+           labels=['Total ACD Offences']).add(flows=neg_values, orientations=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+           labels=keys).finish()
+# plt.xticks(keys, rotation='vertical')
+# for d in diagrams:
+#     for t in d.texts:
+#         t.set_verticalalignment('center')
 # ax.text(0, 0, keys, rotation=90)
-# sankey
-# #plt.sankey.Sankey(flows=[0.25, 0.15, 0.60], labels=['', '', ''], orientations=[-1, 1, 0]).finish()
-# # plt.title('Sankey Diagram')
-# #plt.show()
-# #-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
-# orientations=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-# diagrams
+sankey1
+```
+
+### Change in tact
+
+```{python}
+def percentages(category):
+    values = list(sankey_df.loc[category, :]['count'].values)
+    keys = list(sankey_df.loc[category, :]['count'].keys())
+    for i in values:
+        percents = np.array((i / sum(values)) * 100)
+    return pd.DataFrame(percents, keys)
 ```
 
 ```{python}
-#change
+percentages('Arson and Criminal Damage')
 ```
