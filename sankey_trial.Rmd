@@ -82,7 +82,7 @@ sankey1
 ```
 
 ## Change in tact
-Calculating the percentage of a category or offence that a borough makes up would acheive the same results as a Sankey diagram, albeit less graphically.
+Calculating the percentage of a category or offence that a borough makes up would achieve the same results as a Sankey diagram, albeit less graphically.
 
 ```{python}
 def percentages(category):
