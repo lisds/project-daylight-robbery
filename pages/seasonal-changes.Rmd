@@ -113,3 +113,137 @@ stats.permutation_test(summer_bike_theft, winter_bike_theft, alternative="less")
 ```
 
 The permutation test shows that the observed difference would be an extremely surprising result (~1 in 400) in the null world. So we can be very confident that there is a meaningful difference between the summer and the winter months. However, as explained before, this does not tell us whether the time zone change is a reason for this.
+
+
+## All Offences
+Based on the principles set out above, we have now worked out the difference in average winter and summer months for all offences. This helps us pick out offences that are worth further investigation.
+
+```{python}
+offences = (data.borough
+                .index
+                .get_level_values("offence")
+                .unique())
+
+diff_dict = pd.Series()
+
+for index, offence in enumerate(offences):
+    summer_month_offences = (summer.loc[idx[:,offence], :]
+                                   .sum()
+                                   .T
+                                   .groupby(level="month")
+                                   .sum()
+                                   .sort_values(ascending=False))
+    
+    winter_month_offences = (winter.loc[idx[:,offence], :]
+                                   .sum()
+                                   .T
+                                   .groupby(level="month")
+                                   .sum()
+                                   .sort_values(ascending=False))
+    
+    summer_mean = summer_month_offences.sum() / len(summer_months)
+    winter_mean = winter_month_offences.sum() / len(winter_months)
+    
+    diff_dict[offence] = summer_mean - winter_mean
+```
+
+<!-- #region -->
+Now we can get a sense of which offences have the biggest seasonal changes.
+ - Negative values = more recorded crimes in __winter__ months
+ - Positive values = more recorded crimes in __summer__ months
+ 
+
+We can see that there are a number of crimes with very strong biases in each group of months. Although there are more offences with a strong bias towards summer months. There are some offences which we might expect to have a bias towards either winter or summer but there are also some unexpected offences such as __Theft from Person__ and __Theft from a Motor Vehicle__ which have a stronger bias towards winter than one might expect.
+<!-- #endregion -->
+
+```{python}
+diff_dict.sort_values()
+```
+
+As we've done with Rape and Bicycle Theft above, we can run permutation tests on the offences which are showing significant differences to see how surprising these would be in the null world.
+
+We've chosen to only select offences which have an absolute difference greater than 200.
+
+```{python}
+decent_diff = abs(diff_dict).sort_values(ascending=False) > 200
+defcent_diffs = diff_dict.loc[decent_diff]
+```
+
+```{python}
+results = {"offence": [], "actual_diff": [], "p_value": [], "crimes": []}
+
+for index, value in enumerate(defcent_diffs):
+    
+    offence = defcent_diffs.keys()[index]
+    
+    summer_crime = (summer.loc[idx[:,offence], :]
+                          .sum()
+                          .T
+                          .groupby(level="month")
+                          .sum())
+    
+    winter_crime = (winter.loc[idx[:,offence], :]
+                          .sum()
+                          .T
+                          .groupby(level="month")
+                          .sum())
+    
+    results["offence"].append(offence)
+    results["crimes"].append(summer_crime.sum() + winter_crime.sum())
+
+    if value > 0:
+        actual_diff, fake_diffs, p_value = stats.permutation_test(summer_crime, winter_crime, alternative="less")
+
+        results["actual_diff"].append(actual_diff)
+        results["p_value"].append(p_value)
+        
+    elif value < 0:
+        actual_diff, fake_diffs, p_value = stats.permutation_test(summer_crime, winter_crime, alternative="greater")
+    
+        results["actual_diff"].append(actual_diff)
+        results["p_value"].append(p_value)
+```
+
+Having sorted the p-values in ascending order, we can see some of the offences with the largest differences towards the top as we would expect. Offences such as Bicycle Theft, Public Fear Alarm or Distress, Domestic Burglary and Violence with Injury all have large actual differences and have very small p-values which suggests that these differences are surprising.
+
+However, we can also see some offences with seemingly small differences that also have very small p-values. Having noticed this, we compared the number of crimes (observations) in "Threat or Possession With Intent to Commit Crinina" (small diff, small p-value) and Rape (small diff, larger p-value). It turns out that there are much more recorded Rape offences.
+
+Based on that observation, I have added a column displaying the number of crimes:
+
+```{python}
+results_df = pd.DataFrame(results).sort_values(by="p_value")
+results_df
+```
+
+If we remove offences with less than 80,000 observations we can see that we lose all of the offences with small differences and very small p-values. Even then we can still see the effect. "Racially or Religiously Aggravated Public Fear" has half the `actual_diff` of "Public Fear Alarm or Distress" and yet their p-values are very close. The reason being that "Racially or Religiously Aggravated Public Fear" has 1/3 the observations of "Public Fear Alarm or Distress". 
+
+```{python}
+results_df.loc[results_df["crimes"] > 80000]
+```
+
+## Attempting a 'better' permutation test
+The permutation test used above only shuffled the months themselves meaning the totals were all the same. To get closer to a true null world, here we use a new permutation test which randomly assigns each observation (instance of a recorded offence) to a month.
+
+```{python}
+summer_wildlife_crime = (summer.loc[idx[:,"Wildlife Crime"], :]
+                          .sum()
+                          .T
+                          .groupby(level="month")
+                          .sum())
+
+winter_wildlife_crime = (winter.loc[idx[:,"Wildlife Crime"], :]
+                          .sum()
+                          .T
+                          .groupby(level="month")
+                          .sum())
+```
+
+The problem with this test is that as it produces such a random fake distribution that most of the offences have a huge number of observations which means that a small bias towards winter or summer is still significant compared to a truly random distribution. Unless we pick an offence with very few observations and a small difference the p-value will be far too small to ascertain any useful information.
+
+```{python}
+stats.better_permutation_test(summer_rape, winter_rape, alternative="less")
+```
+
+```{python}
+stats.better_permutation_test(summer_wildlife_crime, winter_wildlife_crime, alternative="less")
+```
