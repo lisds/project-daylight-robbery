@@ -14,3 +14,6 @@ parts:
   - caption: Usage
     chapters:
     - file: pages/multi_index.Rmd
+  - caption: Incomplete analysis
+    chapters:
+    - file: pages/sankey_trial
