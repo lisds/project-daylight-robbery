@@ -12,6 +12,7 @@ parts:
   - caption: Analysis
     chapters:
     - file: pages/seasonal-changes
+    - file: pages/linear-regression
   - caption: Usage
     chapters:
     - file: pages/multi_index.Rmd
