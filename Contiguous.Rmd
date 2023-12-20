@@ -28,7 +28,7 @@ data = Data()
 # Seasonal Changes Regression Analysis
 
 
-As can be seen in the previous page, there are some statistically unlikey changes in some crimes based on the time of year. In this section of the notebook we will look into the factors that change with the transition from Greenwich Mean Time (GMT) to British Summer Time (BST).
+As can be seen in the previous page, there are some statistically unlikely changes in some crimes based on the time of year. In this section of the notebook we will look into the factors that change with the transition from Greenwich Mean Time (GMT) to British Summer Time (BST).
 
 
 ## Weather - Linear Regression
@@ -249,7 +249,7 @@ theft_df.plot()
 plt.ylabel('Bike Thefts')
 ```
 
-Like with the sunshine hours, there seems to be a high degree of similarity between the two plots of bike thefts per month and average temparature per month. This could be suggestive of a strong predictive relationship between the two variables.
+Like with the sunshine hours, there seems to be a high degree of similarity between the two plots of bike thefts per month and average temperature per month. This could be suggestive of a strong predictive relationship between the two variables.
 
 ```{python}
 temperature = np.array(temp_df['Avg Temperature (°C)'])
