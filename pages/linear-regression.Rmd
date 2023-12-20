@@ -12,6 +12,11 @@ jupyter:
     name: python3
 ---
 
+# Seasonal Changes Regression Analysis
+
+
+As can be seen in the previous page, there are some statistically unlikely changes in some crimes based on the time of year. In this section of the notebook we will look into the factors that change with the transition from Greenwich Mean Time (GMT) to British Summer Time (BST).
+
 ```{python}
 import numpy as np
 import pandas as pd
@@ -25,18 +30,13 @@ from projtools.data import Data
 data = Data()
 ```
 
-# Seasonal Changes Regression Analysis
-
-
-As can be seen in the previous page, there are some statistically unlikely changes in some crimes based on the time of year. In this section of the notebook we will look into the factors that change with the transition from Greenwich Mean Time (GMT) to British Summer Time (BST).
-
-
 ## Weather - Linear Regression
 One of the things that changes alongside the time zone, is the weather. It could be that the switch from GMT to BST and vice versa leads to changes in the crimes committed due to correlation with the changes in weather. One of the offences most affected by the change in time zone was __Bicycle Theft__, with many more recorded offences. So, we will use that as a case study.
 
-
+<!-- #region jp-MarkdownHeadingCollapsed=true -->
 ### Rainfall
 It is not unreasonable to assume that the weather influences the prevalence of some crimes, such as theft. It stands to reason that if it is wetter, people will not want to cycle as much. This means there they may be less bikes around for people to steal.
+<!-- #endregion -->
 
 ```{python}
 rain_dict = {'Months':['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 'Avg Rainfall (mm)':[58.83, 44.96, 38.78, 42.31, 45.91, 47.25, 45.80, 52.78, 49.61, 65.07, 66.63, 57.05]}
@@ -55,7 +55,14 @@ plt.xlabel('Month')
 This data is more easily visualised with the graph above. It seems that rainfall peaks around September and October, with the lowest value in February. According to our hypothesis, this means that some crimes will follow an inverse of this trend.
 
 ```{python}
-theft = data.borough.loc[:, 'Bicycle Theft', :].T.groupby(level='month').sum().T.sum()
+theft = (data.borough
+             .loc[:, 'Bicycle Theft', :]
+             .T
+             .groupby(level='month')
+             .sum()
+             .T
+             .sum())
+
 theft_df = theft.to_frame('Bicycle Theft')
 theft_df.plot()
 plt.ylabel('Recorded Bicycle Thefts')
@@ -77,8 +84,6 @@ In this analysis, __Bicycle Theft__ will be the outcome variable, while rainfall
 To show an strong predictive relationship, we would like the slope (b) to be relatively high and the error (e) vector to be low.
 
 ```{python}
-rainfall
-bike_thefts
 res = sps.linregress(rainfall, bike_thefts)
 b = res.slope
 c = res.intercept
@@ -186,7 +191,7 @@ In this analysis, __Bicycle Theft__ will be the outcome variable, while sunshine
 
 `bike_thefts` $ = b $ `sunshine` $+$ $  \text{c} + \vec{\varepsilon} $
 
-As before, to show an strong predictive relationship, we would like the slope (b) to be relatively high and the error (e) vector to be low.
+As before, to show a strong predictive relationship, we would like the slope (b) to be relatively high and the error (e) vector to be low.
 
 ```{python}
 res_sun = sps.linregress(sunshine, bike_thefts)
