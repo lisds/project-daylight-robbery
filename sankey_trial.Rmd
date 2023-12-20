@@ -81,17 +81,28 @@ sankey1.add(flows=[(100)],
 sankey1
 ```
 
-### Change in tact
+## Change in tact
+Calculating the percentage of a category or offence that a borough makes up would acheive the same results as a Sankey diagram, albeit less graphically.
 
 ```{python}
 def percentages(category):
     values = list(sankey_df.loc[category, :]['count'])
     keys = list(sankey_df.loc[category, :]['count'].keys())
-    for i in values:
-        percents = np.array((i / sum(values)) * 100)
-    return values#pd.DataFrame(percents, keys)
+    percents = np.zeros(len(values))
+    for index, value in enumerate(values):
+        percents[index] = np.array((value / sum(values)) * 100)
+    return pd.DataFrame(percents, keys)
 ```
 
 ```{python}
 percentages('Arson and Criminal Damage')
+```
+
+```{python}
+cat_list = list(data.borough.index.get_level_values(0).unique())
+bor_list = list(data.borough.index.get_level_values(2).unique())
+
+for i in cat_list:
+    percents = (percentages(i))
+    print(percents)
 ```
