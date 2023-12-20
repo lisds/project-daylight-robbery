@@ -1,0 +1,1291 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Sankey Diagrams &#8212; Project Daylight Robbery</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/sankey_trial';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="MultiIndex - a short guide" href="multi_index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Project Daylight Robbery - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Project Daylight Robbery - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploration</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="basic-exploration.html">Exploring the Recorded Crime Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison.html">Consistency across Borough, Ward and LSOA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aviation-security.html">Aviation Security (SO18) Borough</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="seasonal-changes.html">Seasonal Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear-regression.html">Seasonal Changes Regression Analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Usage</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="multi_index.html">MultiIndex - a short guide</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Incomplete analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Sankey Diagrams</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lisds/project-daylight-robbery" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lisds/project-daylight-robbery/issues/new?title=Issue%20on%20page%20%2Fpages/sankey_trial.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/pages/sankey_trial.Rmd" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.Rmd</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sankey Diagrams</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-in-tact">Change in tact</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sankey-diagrams">
+<h1>Sankey Diagrams<a class="headerlink" href="#sankey-diagrams" title="Permalink to this heading">#</a></h1>
+<p>I initially wanted to make a collection of sankey diagrams to show offences broken down by the boroughs in which they were recorded.</p>
+<p>This would provide a visual and easy way of seeing if there are any interesting trends in the way the crimes are created across London.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1">#import plotly.express as px</span>
+<span class="kn">import</span> <span class="nn">matplotlib.sankey</span> <span class="k">as</span> <span class="nn">Sankey</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">projtools.data</span> <span class="kn">import</span> <span class="n">Data</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">()</span>
+
+<span class="c1">#sankey diagrams of an offence broken down by borough</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sankey_v</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">borough</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">sankey_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sankey_v</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">])</span>
+<span class="n">sankey_df</span> <span class="o">=</span> <span class="n">sankey_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;category&#39;</span><span class="p">,</span><span class="s1">&#39;borough&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sankey_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th>borough</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">Arson and Criminal Damage</th>
+      <th>Barking and Dagenham</th>
+      <td>22707.0</td>
+    </tr>
+    <tr>
+      <th>Barnet</th>
+      <td>28220.0</td>
+    </tr>
+    <tr>
+      <th>Bexley</th>
+      <td>21388.0</td>
+    </tr>
+    <tr>
+      <th>Brent</th>
+      <td>29180.0</td>
+    </tr>
+    <tr>
+      <th>Bromley</th>
+      <td>29070.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">Violence Against the Person</th>
+      <th>Sutton</th>
+      <td>45256.0</td>
+    </tr>
+    <tr>
+      <th>Tower Hamlets</th>
+      <td>104598.0</td>
+    </tr>
+    <tr>
+      <th>Waltham Forest</th>
+      <td>78941.0</td>
+    </tr>
+    <tr>
+      <th>Wandsworth</th>
+      <td>77600.0</td>
+    </tr>
+    <tr>
+      <th>Westminster</th>
+      <td>120665.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>396 rows × 1 columns</p>
+</div></div></div>
+</div>
+<p>The dataframe above groups all offences by the borough in which they were committed and the category they belong to.</p>
+<p>This makes it easy to split the data by category and plot all the boroughs within it.</p>
+<p><strong>Arson and Criminal Damage Example</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pos_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sankey_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Arson and Criminal Damage&#39;</span><span class="p">,</span> <span class="p">:][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sankey_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Arson and Criminal Damage&#39;</span><span class="p">,</span> <span class="p">:][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">neg_values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_values</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>This iteration did not go so well</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+
+<span class="n">sankey</span> <span class="o">=</span> <span class="n">Sankey</span><span class="o">.</span><span class="n">Sankey</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.0015</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">sankey</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">flows</span><span class="o">=</span><span class="p">[(</span><span class="mi">10928170</span><span class="p">)],</span>
+           <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Total ACD Offences&#39;</span><span class="p">],</span>
+          <span class="n">pathlengths</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">flows</span><span class="o">=</span><span class="n">neg_values</span><span class="p">,</span>
+           <span class="n">labels</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>
+           <span class="n">orientations</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+           <span class="n">pathlengths</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sankey Diagram&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/00e7569102dbf617a4507cc6b96136ba5128b7c1fa33e03b17b774251a65b888.png" src="../_images/00e7569102dbf617a4507cc6b96136ba5128b7c1fa33e03b17b774251a65b888.png" />
+</div>
+</div>
+<p><strong>This iteration was slightly better, but still not completely legible</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+
+<span class="n">sankey1</span> <span class="o">=</span> <span class="n">Sankey</span><span class="o">.</span><span class="n">Sankey</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">sankey1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">flows</span><span class="o">=</span><span class="p">[(</span><span class="mi">100</span><span class="p">)],</span>
+           <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Total ACD Offences&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">flows</span><span class="o">=</span><span class="n">neg_values</span><span class="p">,</span> <span class="n">orientations</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+           <span class="n">labels</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="c1"># plt.xticks(keys, rotation=&#39;vertical&#39;)</span>
+<span class="c1"># for d in diagrams:</span>
+<span class="c1">#     for t in d.texts:</span>
+<span class="c1">#         t.set_verticalalignment(&#39;center&#39;)</span>
+<span class="c1"># ax.text(0, 0, keys, rotation=90)</span>
+<span class="n">sankey1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.sankey.Sankey at 0x7f0594c8a650&gt;
+</pre></div>
+</div>
+<img alt="../_images/79c701fe5cad2cd9253b8d71ea68bf8263c7ab650af09c78d10134b411f7ee15.png" src="../_images/79c701fe5cad2cd9253b8d71ea68bf8263c7ab650af09c78d10134b411f7ee15.png" />
+</div>
+</div>
+<section id="change-in-tact">
+<h2>Change in tact<a class="headerlink" href="#change-in-tact" title="Permalink to this heading">#</a></h2>
+<p>Calculating the percentage of a category or offence that a borough makes up would achieve the same results as a Sankey diagram, albeit less graphically.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">percentages</span><span class="p">(</span><span class="n">category</span><span class="p">):</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sankey_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">category</span><span class="p">,</span> <span class="p">:][</span><span class="s1">&#39;count&#39;</span><span class="p">])</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sankey_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">category</span><span class="p">,</span> <span class="p">:][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">percents</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+        <span class="n">percents</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">value</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">percents</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">percentages</span><span class="p">(</span><span class="s1">&#39;Arson and Criminal Damage&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Barking and Dagenham</th>
+      <td>2.770755</td>
+    </tr>
+    <tr>
+      <th>Barnet</th>
+      <td>3.443462</td>
+    </tr>
+    <tr>
+      <th>Bexley</th>
+      <td>2.609808</td>
+    </tr>
+    <tr>
+      <th>Brent</th>
+      <td>3.560603</td>
+    </tr>
+    <tr>
+      <th>Bromley</th>
+      <td>3.547181</td>
+    </tr>
+    <tr>
+      <th>Camden</th>
+      <td>2.962085</td>
+    </tr>
+    <tr>
+      <th>Croydon</th>
+      <td>4.817309</td>
+    </tr>
+    <tr>
+      <th>Ealing</th>
+      <td>3.984508</td>
+    </tr>
+    <tr>
+      <th>Enfield</th>
+      <td>3.567681</td>
+    </tr>
+    <tr>
+      <th>Greenwich</th>
+      <td>3.756815</td>
+    </tr>
+    <tr>
+      <th>Hackney</th>
+      <td>3.108512</td>
+    </tr>
+    <tr>
+      <th>Hammersmith and Fulham</th>
+      <td>2.310610</td>
+    </tr>
+    <tr>
+      <th>Haringey</th>
+      <td>3.400144</td>
+    </tr>
+    <tr>
+      <th>Harrow</th>
+      <td>1.908547</td>
+    </tr>
+    <tr>
+      <th>Havering</th>
+      <td>2.597605</td>
+    </tr>
+    <tr>
+      <th>Hillingdon</th>
+      <td>3.696414</td>
+    </tr>
+    <tr>
+      <th>Hounslow</th>
+      <td>3.410760</td>
+    </tr>
+    <tr>
+      <th>Islington</th>
+      <td>2.911324</td>
+    </tr>
+    <tr>
+      <th>Kensington and Chelsea</th>
+      <td>1.737228</td>
+    </tr>
+    <tr>
+      <th>Kingston upon Thames</th>
+      <td>1.624846</td>
+    </tr>
+    <tr>
+      <th>Lambeth</th>
+      <td>4.078465</td>
+    </tr>
+    <tr>
+      <th>Lewisham</th>
+      <td>3.876030</td>
+    </tr>
+    <tr>
+      <th>London Heathrow and London City Airports</th>
+      <td>0.106891</td>
+    </tr>
+    <tr>
+      <th>Merton</th>
+      <td>2.087797</td>
+    </tr>
+    <tr>
+      <th>Newham</th>
+      <td>3.846013</td>
+    </tr>
+    <tr>
+      <th>Redbridge</th>
+      <td>2.795525</td>
+    </tr>
+    <tr>
+      <th>Richmond upon Thames</th>
+      <td>1.819227</td>
+    </tr>
+    <tr>
+      <th>Southwark</th>
+      <td>3.966571</td>
+    </tr>
+    <tr>
+      <th>Sutton</th>
+      <td>2.075717</td>
+    </tr>
+    <tr>
+      <th>Tower Hamlets</th>
+      <td>3.738756</td>
+    </tr>
+    <tr>
+      <th>Waltham Forest</th>
+      <td>3.048599</td>
+    </tr>
+    <tr>
+      <th>Wandsworth</th>
+      <td>3.070685</td>
+    </tr>
+    <tr>
+      <th>Westminster</th>
+      <td>3.763526</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">borough</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">bor_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">borough</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cat_list</span><span class="p">:</span>
+    <span class="n">percents</span> <span class="o">=</span> <span class="p">(</span><span class="n">percentages</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">percents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                 0
+Barking and Dagenham                      2.770755
+Barnet                                    3.443462
+Bexley                                    2.609808
+Brent                                     3.560603
+Bromley                                   3.547181
+Camden                                    2.962085
+Croydon                                   4.817309
+Ealing                                    3.984508
+Enfield                                   3.567681
+Greenwich                                 3.756815
+Hackney                                   3.108512
+Hammersmith and Fulham                    2.310610
+Haringey                                  3.400144
+Harrow                                    1.908547
+Havering                                  2.597605
+Hillingdon                                3.696414
+Hounslow                                  3.410760
+Islington                                 2.911324
+Kensington and Chelsea                    1.737228
+Kingston upon Thames                      1.624846
+Lambeth                                   4.078465
+Lewisham                                  3.876030
+London Heathrow and London City Airports  0.106891
+Merton                                    2.087797
+Newham                                    3.846013
+Redbridge                                 2.795525
+Richmond upon Thames                      1.819227
+Southwark                                 3.966571
+Sutton                                    2.075717
+Tower Hamlets                             3.738756
+Waltham Forest                            3.048599
+Wandsworth                                3.070685
+Westminster                               3.763526
+                                                 0
+Barking and Dagenham                      2.248651
+Barnet                                    4.827131
+Bexley                                    1.799097
+Brent                                     3.741765
+Bromley                                   3.285342
+Camden                                    3.767477
+Croydon                                   4.029005
+Ealing                                    3.737153
+Enfield                                   3.851381
+Greenwich                                 2.836083
+Hackney                                   3.574054
+Hammersmith and Fulham                    2.304195
+Haringey                                  3.573465
+Harrow                                    2.466313
+Havering                                  2.573279
+Hillingdon                                3.185442
+Hounslow                                  2.823326
+Islington                                 3.115275
+Kensington and Chelsea                    2.254245
+Kingston upon Thames                      1.355628
+Lambeth                                   4.010948
+Lewisham                                  3.419198
+London Heathrow and London City Airports  0.018057
+Merton                                    2.024708
+Newham                                    3.240495
+Redbridge                                 3.279749
+Richmond upon Thames                      2.137465
+Southwark                                 4.023607
+Sutton                                    1.676429
+Tower Hamlets                             3.658253
+Waltham Forest                            2.995159
+Wandsworth                                3.536763
+Westminster                               4.630863
+                                                 0
+Barking and Dagenham                      2.557464
+Barnet                                    2.099990
+Bexley                                    1.633462
+Brent                                     5.316733
+Bromley                                   2.107817
+Camden                                    3.790081
+Croydon                                   4.356667
+Ealing                                    3.672528
+Enfield                                   2.778912
+Greenwich                                 2.782595
+Hackney                                   3.563109
+Hammersmith and Fulham                    2.873445
+Haringey                                  3.190500
+Harrow                                    1.595097
+Havering                                  1.896038
+Hillingdon                                2.438530
+Hounslow                                  2.999745
+Islington                                 3.103486
+Kensington and Chelsea                    2.793030
+Kingston upon Thames                      1.591720
+Lambeth                                   5.048632
+Lewisham                                  3.378953
+London Heathrow and London City Airports  0.147171
+Merton                                    1.424445
+Newham                                    4.629985
+Redbridge                                 3.029978
+Richmond upon Thames                      0.951165
+Southwark                                 5.227417
+Sutton                                    1.107544
+Tower Hamlets                             5.287268
+Waltham Forest                            3.017854
+Wandsworth                                2.133599
+Westminster                               7.475039
+                                                 0
+Barking and Dagenham                      2.654831
+Barnet                                    4.164681
+Bexley                                    1.481260
+Brent                                     4.408381
+Bromley                                   2.183769
+Camden                                    3.816150
+Croydon                                   3.748077
+Ealing                                    4.189187
+Enfield                                   3.428136
+Greenwich                                 2.767832
+Hackney                                   2.676614
+Hammersmith and Fulham                    2.492818
+Haringey                                  2.656193
+Harrow                                    2.603096
+Havering                                  1.519380
+Hillingdon                                2.535023
+Hounslow                                  2.838627
+Islington                                 2.627602
+Kensington and Chelsea                    2.902615
+Kingston upon Thames                      1.346476
+Lambeth                                   4.012199
+Lewisham                                  3.602402
+London Heathrow and London City Airports  0.684810
+Merton                                    1.549332
+Newham                                    5.549278
+Redbridge                                 2.996556
+Richmond upon Thames                      1.498958
+Southwark                                 3.407714
+Sutton                                    0.797811
+Tower Hamlets                             3.660944
+Waltham Forest                            4.343031
+Wandsworth                                2.913507
+Westminster                               7.942710
+                                                 0
+Barking and Dagenham                      2.559196
+Barnet                                    3.208283
+Bexley                                    2.161052
+Brent                                     3.258050
+Bromley                                   2.751258
+Camden                                    2.697284
+Croydon                                   4.068357
+Ealing                                    3.550350
+Enfield                                   3.347773
+Greenwich                                 3.735403
+Hackney                                   2.783502
+Hammersmith and Fulham                    2.770885
+Haringey                                  2.761773
+Harrow                                    1.919923
+Havering                                  2.303346
+Hillingdon                                2.915983
+Hounslow                                  3.183048
+Islington                                 2.983275
+Kensington and Chelsea                    1.952868
+Kingston upon Thames                      1.302379
+Lambeth                                   4.016487
+Lewisham                                  3.130476
+London Heathrow and London City Airports  8.158444
+Merton                                    1.743982
+Newham                                    3.971625
+Redbridge                                 2.675555
+Richmond upon Thames                      1.331118
+Southwark                                 3.435393
+Sutton                                    1.462898
+Tower Hamlets                             3.498479
+Waltham Forest                            2.662237
+Wandsworth                                2.838878
+Westminster                               4.860439
+                                                 0
+Barking and Dagenham                      2.423492
+Barnet                                    2.370214
+Bexley                                    1.584686
+Brent                                     4.014372
+Bromley                                   2.451989
+Camden                                    2.781564
+Croydon                                   5.068765
+Ealing                                    3.161938
+Enfield                                   3.739314
+Greenwich                                 3.183001
+Hackney                                   4.345186
+Hammersmith and Fulham                    2.459423
+Haringey                                  3.793830
+Harrow                                    1.416181
+Havering                                  2.232685
+Hillingdon                                2.262421
+Hounslow                                  2.499071
+Islington                                 3.293272
+Kensington and Chelsea                    2.189320
+Kingston upon Thames                      1.186966
+Lambeth                                   6.107050
+Lewisham                                  4.332796
+London Heathrow and London City Airports  1.338124
+Merton                                    1.598315
+Newham                                    4.792467
+Redbridge                                 2.424731
+Richmond upon Thames                      0.783050
+Southwark                                 5.135671
+Sutton                                    1.367860
+Tower Hamlets                             4.013133
+Waltham Forest                            3.315574
+Wandsworth                                2.453228
+Westminster                               5.880312
+                                                 0
+Barking and Dagenham                      2.230207
+Barnet                                    3.276153
+Bexley                                    1.995180
+Brent                                     3.812028
+Bromley                                   3.069211
+Camden                                    3.824841
+Croydon                                   3.966138
+Ealing                                    4.156055
+Enfield                                   2.953541
+Greenwich                                 3.508547
+Hackney                                   3.795880
+Hammersmith and Fulham                    3.012341
+Haringey                                  3.255442
+Harrow                                    1.713815
+Havering                                  2.179305
+Hillingdon                                3.259830
+Hounslow                                  3.255617
+Islington                                 3.874339
+Kensington and Chelsea                    2.281986
+Kingston upon Thames                      1.438769
+Lambeth                                   4.435138
+Lewisham                                  3.686002
+London Heathrow and London City Airports  0.215719
+Merton                                    1.688891
+Newham                                    3.542950
+Redbridge                                 2.409592
+Richmond upon Thames                      1.478613
+Southwark                                 3.988429
+Sutton                                    1.591300
+Tower Hamlets                             4.380374
+Waltham Forest                            2.576340
+Wandsworth                                3.065174
+Westminster                               6.082254
+                                                 0
+Barking and Dagenham                      2.475619
+Barnet                                    2.737563
+Bexley                                    0.911227
+Brent                                     4.129022
+Bromley                                   1.715737
+Camden                                    4.369866
+Croydon                                   4.219490
+Ealing                                    3.157645
+Enfield                                   3.547166
+Greenwich                                 2.163468
+Hackney                                   4.474158
+Hammersmith and Fulham                    1.993447
+Haringey                                  4.811048
+Harrow                                    1.505211
+Havering                                  1.448456
+Hillingdon                                1.945908
+Hounslow                                  1.822940
+Islington                                 3.960941
+Kensington and Chelsea                    2.011880
+Kingston upon Thames                      0.666018
+Lambeth                                   5.818807
+Lewisham                                  3.509814
+London Heathrow and London City Airports  0.010187
+Merton                                    1.386123
+Newham                                    5.932559
+Redbridge                                 2.812508
+Richmond upon Thames                      0.744844
+Southwark                                 6.145753
+Sutton                                    0.881637
+Tower Hamlets                             4.225069
+Waltham Forest                            3.105983
+Wandsworth                                2.798926
+Westminster                               8.560979
+                                                 0
+Barking and Dagenham                      2.798377
+Barnet                                    2.990435
+Bexley                                    1.947654
+Brent                                     3.284868
+Bromley                                   2.619010
+Camden                                    3.468888
+Croydon                                   4.860250
+Ealing                                    3.580992
+Enfield                                   3.242987
+Greenwich                                 3.646563
+Hackney                                   3.751475
+Hammersmith and Fulham                    2.418069
+Haringey                                  3.536997
+Harrow                                    1.959499
+Havering                                  2.354613
+Hillingdon                                2.692618
+Hounslow                                  2.903713
+Islington                                 2.951516
+Kensington and Chelsea                    1.957383
+Kingston upon Thames                      1.803822
+Lambeth                                   5.036656
+Lewisham                                  3.729054
+London Heathrow and London City Airports  0.181482
+Merton                                    1.758134
+Newham                                    4.498132
+Redbridge                                 2.746344
+Richmond upon Thames                      1.446780
+Southwark                                 4.209199
+Sutton                                    1.747135
+Tower Hamlets                             4.032371
+Waltham Forest                            2.715885
+Wandsworth                                3.427430
+Westminster                               5.701667
+                                                  0
+Barking and Dagenham                       1.613148
+Barnet                                     2.714467
+Bexley                                     1.196133
+Brent                                      2.586897
+Bromley                                    2.283888
+Camden                                     6.229615
+Croydon                                    2.866334
+Ealing                                     2.875420
+Enfield                                    2.192268
+Greenwich                                  2.405006
+Hackney                                    4.199979
+Hammersmith and Fulham                     2.964110
+Haringey                                   2.950349
+Harrow                                     1.296642
+Havering                                   1.750891
+Hillingdon                                 2.190951
+Hounslow                                   2.433779
+Islington                                  4.423647
+Kensington and Chelsea                     3.644233
+Kingston upon Thames                       1.491076
+Lambeth                                    4.410906
+Lewisham                                   2.418537
+London Heathrow and London City Airports   0.617046
+Merton                                     1.397282
+Newham                                     3.893481
+Redbridge                                  2.134129
+Richmond upon Thames                       1.337201
+Southwark                                  4.683528
+Sutton                                     1.128677
+Tower Hamlets                              3.755672
+Waltham Forest                             2.331196
+Wandsworth                                 2.936423
+Westminster                               14.647088
+                                                 0
+Barking and Dagenham                      2.510778
+Barnet                                    4.474787
+Bexley                                    2.049987
+Brent                                     3.509531
+Bromley                                   3.119342
+Camden                                    3.055093
+Croydon                                   3.968011
+Ealing                                    4.289186
+Enfield                                   4.536798
+Greenwich                                 2.990410
+Hackney                                   2.958358
+Hammersmith and Fulham                    2.879382
+Haringey                                  4.105173
+Harrow                                    2.104491
+Havering                                  2.574739
+Hillingdon                                3.546059
+Hounslow                                  3.307687
+Islington                                 2.601810
+Kensington and Chelsea                    2.609534
+Kingston upon Thames                      1.028206
+Lambeth                                   3.283214
+Lewisham                                  3.156953
+London Heathrow and London City Airports  0.130231
+Merton                                    1.785266
+Newham                                    4.521927
+Redbridge                                 3.931194
+Richmond upon Thames                      1.851103
+Southwark                                 3.158180
+Sutton                                    1.728524
+Tower Hamlets                             3.205032
+Waltham Forest                            3.565045
+Wandsworth                                3.706177
+Westminster                               3.757793
+                                                 0
+Barking and Dagenham                      2.817872
+Barnet                                    3.150400
+Bexley                                    2.131767
+Brent                                     4.040814
+Bromley                                   2.856090
+Camden                                    3.086600
+Croydon                                   4.575751
+Ealing                                    4.134188
+Enfield                                   3.431688
+Greenwich                                 3.700881
+Hackney                                   3.630375
+Hammersmith and Fulham                    2.433985
+Haringey                                  3.451107
+Harrow                                    2.060020
+Havering                                  2.418984
+Hillingdon                                3.331491
+Hounslow                                  3.416726
+Islington                                 3.036560
+Kensington and Chelsea                    1.845712
+Kingston upon Thames                      1.468763
+Lambeth                                   4.291751
+Lewisham                                  3.795729
+London Heathrow and London City Airports  0.107522
+Merton                                    1.759585
+Newham                                    4.298650
+Redbridge                                 2.917642
+Richmond upon Thames                      1.287711
+Southwark                                 3.968447
+Sutton                                    1.754159
+Tower Hamlets                             4.054302
+Waltham Forest                            3.059816
+Wandsworth                                3.007838
+Westminster                               4.677072
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "lisds/project-daylight-robbery",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pages"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="multi_index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">MultiIndex - a short guide</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-in-tact">Change in tact</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pal Patel, Vishal Mistry, Tom Fox
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

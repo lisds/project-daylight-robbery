@@ -1,0 +1,108 @@
+# Sankey Diagrams
+I initially wanted to make a collection of sankey diagrams to show offences broken down by the boroughs in which they were recorded.
+
+This would provide a visual and easy way of seeing if there are any interesting trends in the way the crimes are created across London.
+
+```{python}
+# %matplotlib inline
+import matplotlib.pyplot as plt
+#import plotly.express as px
+import matplotlib.sankey as Sankey
+import numpy as np
+import pandas as pd
+from projtools.data import Data
+
+data = Data()
+
+#sankey diagrams of an offence broken down by borough
+```
+
+```{python}
+sankey_v = data.borough.T.groupby(level='year').sum().sum()
+sankey_df = pd.DataFrame(sankey_v, columns=['count'])
+sankey_df = sankey_df.groupby(['category','borough']).sum()
+```
+
+```{python}
+sankey_df
+```
+
+```{python}
+
+```
+
+The dataframe above groups all offences by the borough in which they were committed and the category they belong to.
+
+This makes it easy to split the data by category and plot all the boroughs within it.
+
+
+__Arson and Criminal Damage Example__
+
+```{python}
+pos_values = list(sankey_df.loc['Arson and Criminal Damage', :]['count'].values)
+keys = list(sankey_df.loc['Arson and Criminal Damage', :]['count'].keys())
+neg_values = [-x for x in pos_values]
+```
+
+__This iteration did not go so well__
+
+```{python}
+fig = plt.figure(figsize=(10, 15))
+ax = fig.add_subplot()
+
+sankey = Sankey.Sankey(ax=ax, scale=0.0015, offset=0.3)
+sankey.add(flows=[(10928170)],
+           labels=['Total ACD Offences'],
+          pathlengths=10).add(flows=neg_values,
+           labels=keys,
+           orientations=-1,
+           pathlengths=100).finish()
+
+
+plt.title('Sankey Diagram')
+plt.show()
+```
+
+__This iteration was slightly better, but still not completely legible__
+
+```{python}
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot()
+
+sankey1 = Sankey.Sankey(ax=ax)
+sankey1.add(flows=[(100)],
+           labels=['Total ACD Offences']).add(flows=neg_values, orientations=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+           labels=keys).finish()
+# plt.xticks(keys, rotation='vertical')
+# for d in diagrams:
+#     for t in d.texts:
+#         t.set_verticalalignment('center')
+# ax.text(0, 0, keys, rotation=90)
+sankey1
+```
+
+## Change in tact
+Calculating the percentage of a category or offence that a borough makes up would achieve the same results as a Sankey diagram, albeit less graphically.
+
+```{python}
+def percentages(category):
+    values = list(sankey_df.loc[category, :]['count'])
+    keys = list(sankey_df.loc[category, :]['count'].keys())
+    percents = np.zeros(len(values))
+    for index, value in enumerate(values):
+        percents[index] = np.array((value / sum(values)) * 100)
+    return pd.DataFrame(percents, keys)
+```
+
+```{python}
+percentages('Arson and Criminal Damage')
+```
+
+```{python}
+cat_list = list(data.borough.index.get_level_values(0).unique())
+bor_list = list(data.borough.index.get_level_values(2).unique())
+
+for i in cat_list:
+    percents = (percentages(i))
+    print(percents)
+```
