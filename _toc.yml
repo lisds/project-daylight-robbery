@@ -19,3 +19,4 @@ parts:
   - caption: Incomplete analysis
     chapters:
     - file: pages/sankey_trial
+    - file: pages/MultiRegress
