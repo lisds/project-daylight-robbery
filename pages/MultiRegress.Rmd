@@ -209,7 +209,7 @@ both_sun_temp = plot_model_3D(x1_slope = temperature_slope_sun_temp,
               c = intercept_sun_temp)
 ```
 
-#### $\vec{\hat{y}} = b_1 * $ `rainfall` + $b_2 * $ `sunshine` +   $\text{c} $
+__$\vec{\hat{y}} = b_1 * $ `rainfall` + $b_2 * $ `sunshine` +   $\text{c} $__
 
 Rainfall was the least accurate and weakest predictor in the linear regression. In combining it with sunshine data, the slope value has increased for both variables. However, so has the sum of squared error value, suggesting that these perdictions have very low accuracy.
 
