@@ -166,29 +166,6 @@ better_permutation_test(summer_crime, winter_crime, alternative="less")
 ```
 
 ```{python}
-group1 = summer_crime
-group2 = winter_crime
-n_subjects = len(group1)
-
-n_iters=10_000
-total = int(np.sum(group1) + np.sum(group2))
-fake_diffs = np.zeros(n_iters)
-
-shuffled_observations = np.random.choice(months, total)
-shuffled_obs_dict = {"01": [],"02": [],"03": [],"04": [],"05": [],"06": [],"07": [],"08": [],"09": [],"10": [],"11": [],"12": []}
-for index, key in enumerate(shuffled_obs_dict):
-    shuffled_obs_dict[key] = np.count_nonzero(shuffled_observations == key)
-
-shuffled_obs_group1_mean = np.mean(pd.Series(shuffled_obs_dict).iloc[:n_subjects])
-shuffled_obs_group2_mean = np.mean(pd.Series(shuffled_obs_dict).iloc[n_subjects:])
-
-fake_diffs[0] = shuffled_obs_group1_mean - shuffled_obs_group2_mean
-
-
-fake_diffs[0]
-```
-
-```{python}
 fake_observations = np.random.choice(months, int(crime))
 fake_obs_dict = {"01": [],"02": [],"03": [],"04": [],"05": [],"06": [],"07": [],"08": [],"09": [],"10": [],"11": [],"12": []}
 for index, key in enumerate(fake_obs_dict):
