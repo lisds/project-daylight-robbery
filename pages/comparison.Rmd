@@ -1,4 +1,4 @@
-# Categories and Offences
+# Consistency across Borough, Ward and LSOA
 So that we can be confident in our analysis and interpretation of the data, it is important to check for consistency across the datasets. In theory, as all wards sit within a borough and all LSOAs sit within a ward and borough, the total number of recorded crimes should be the same across all three datasets. We will go on to discover that there are in fact systematic discrepancies.
 ```{python}
 import matplotlib.pyplot as plt
@@ -8,6 +8,9 @@ from projtools.data import Data
 
 data = Data()
 ```
+
+## Categories and Offences
+First, we need to check if the categories and offences are consistent across the different data sets, so that we know the data is recorded consistently and we can analyse it as such.
 
 ```{python}
 trial = list(data.lsoa
