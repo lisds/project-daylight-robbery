@@ -231,7 +231,7 @@ both_rain_sun = plot_model_3D(x1_slope = rainfall_slope_rain_sun,
               c = intercept_rain_sun)
 ```
 
-### Conclusion
+## Conclusion
 Overall, it seems that temperature is the most accurate predictor of bike thefts when taken alone. Taking into account sunshine hours does not help increase the accuracy, while it does increase the strength of the relationship.
 
 Temperature is not causally affected by GMT and BST, but is a change that aligns with the seasons that the different time zones cover. So, perhaps the fluctuation in crimes is not a result of how many daylight hours there are, but what the weather is like!
