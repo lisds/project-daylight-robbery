@@ -1,0 +1,237 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.15.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+# Weather - Multiple Regression
+It could be that a combined factor of all the weather variables leads to the difference in bike thefts in the GMT and BST months. Here, we will investigate the combined impact of sunshine, rainfall and temperature on bike thefts.
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.set_printoptions(precision=6)
+import scipy.stats as sps
+from scipy.optimize import minimize
+
+from projtools.data import Data
+
+data = Data()
+```
+
+```{python}
+rain_dict = {'Months':['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 'Avg Rainfall (mm)':[58.83, 44.96, 38.78, 42.31, 45.91, 47.25, 45.80, 52.78, 49.61, 65.07, 66.63, 57.05]}
+rain_df = pd.DataFrame(data=rain_dict)
+rainfall = np.array(rain_df['Avg Rainfall (mm)'])
+```
+
+```{python}
+theft = data.borough.loc[:, 'Bicycle Theft', :].T.groupby(level='month').sum().T.sum()
+theft_df = theft.to_frame('Bicycle Theft')
+bike_thefts = np.array(theft_df['Bicycle Theft'])
+```
+
+```{python}
+sun_dict = {'Months':['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 'Sunshine (hours)':[61.09, 78.81, 124.45, 176.67, 207.49, 208.39, 217.81, 202.12, 157.11, 115.17, 70.74, 54.96]}
+sun_df = pd.DataFrame(data=sun_dict)
+sunshine = np.array(sun_df['Sunshine (hours)'])
+```
+
+```{python}
+max_temps = np.array([8.42, 8.98, 11.73, 15, 18.37, 21.57, 23.89, 23.40, 20.22, 15.81, 11.47, 8.79])
+min_temps = np.array([2.68, 2.65, 4.14, 6.03, 9.08, 12.03, 14.18, 14.06, 11.62, 8.78, 5.26, 3.08])
+avg_temps = (max_temps + min_temps) / 2
+temp_dict = {'Months':['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 'Avg Temperature (°C)': avg_temps}
+temp_df = pd.DataFrame(data=temp_dict)
+temperature = np.array(temp_df['Avg Temperature (°C)'])
+```
+
+```{python}
+res = sps.linregress(rainfall, bike_thefts)
+b = res.slope
+c = res.intercept
+```
+
+```{python}
+res_sun = sps.linregress(sunshine, bike_thefts)
+b_sun = res_sun.slope
+c_sun = res_sun.intercept
+```
+
+```{python}
+res_temp = sps.linregress(temperature, bike_thefts)
+b_temp = res_temp.slope
+c_temp = res_temp.intercept
+```
+
+The above code produces all the values necessary for the multiple regression.
+
+```{python}
+# code from notebook
+def ss_two_predictors(bs_and_c, x1_vector, x2_vector, y_vector):
+    """ Sum of squares error for intercept and a pair of slopes.
+    """
+    # unpack the list containing the slope and the intercept (this now has an extra slope!)
+    b_1, b_2, c = bs_and_c 
+    
+    # calculate the fitted values, for this slope/intercept pairing (this now has an extra slope and extra vector!)
+    fitted_vector = b_1*x1_vector + b_2*x2_vector + c 
+    
+    # calculate the error vector (this is the same process as for a single predictor)
+    error = y_vector - fitted_vector
+    
+    # return the value of the cost function (this is the same process as for a single predictor)
+    return np.sum(error ** 2)
+```
+
+[Source for the function above](https://nbviewer.org/github/matthew-brett/dsip-ipynb/blob/main/lin_regression_multiple_predictors.ipynb)
+
+```{python}
+# code from notebook
+def make_3d_scatter(x1, x2, y,
+                    x1_slope,
+                    x2_slope,
+                    c, 
+                   x1_label = 'x1',
+                   x2_label = 'x2',
+                   y_label = 'Bicycle Thefts',
+                   return_errors = True,
+                   show = True,
+                   plane_alpha = 0.5):
+    sum_sq = ss_two_predictors([x1_slope, x2_slope, c], x1, x2, y)
+    ax = plt.figure(figsize=(8,8)).add_subplot(111, projection='3d')
+    ax.scatter(x1,x2,y, label = 'Actual values ($y$)')
+    ax.set_xlabel(x1_label)
+    ax.set_ylabel(x2_label)
+    ax.set_zlabel(y_label)
+    mx_x1 = x1.max()
+    mx_x2 = x2.max()
+    mx_y = y.max()
+    # Plot the fitting plane.
+    plane_x = np.linspace(0, mx_x1, 50)
+    plane_y = np.linspace(0, mx_x2, 50)
+    X, Y = np.meshgrid(plane_x, plane_y)
+    Z = c + x1_slope * X + x2_slope * Y
+    ax.plot_wireframe(X,Y,Z, color = 'red', label = 'Linear regression plane', alpha = plane_alpha)
+    ax.plot([], [], [],
+        linestyle=':',
+        linewidth=0.5,
+        color='black',
+        label = 'Errors ($ \\varepsilon $)')
+    # Set the axis limits (and reverse y axis)
+    ax.set_xlim(0, mx_x1)
+    ax.set_ylim(0, mx_x2)
+    ax.set_zlim(0, mx_y)
+    ax.zaxis.labelpad=-3
+    # show the legend
+    plt.legend()
+    plt.title(f"\n$b_1$ = {round(x1_slope,2)} \n$b_2$ = {round(x2_slope,2)} \n$c$ = {round(c,2)} \n Sum of Squared Error = {round(sum_sq, 2)}")
+    if show == True:
+        plt.show()
+    if return_errors == True:
+        fitted = c + x1_slope * x1 + x2_slope*x2
+        errors = y - fitted
+        return errors 
+
+def plot_model_3D(x1_slope, x2_slope, c, return_errors = True):
+    errors = make_3d_scatter(temperature, sunshine, bike_thefts,
+               x1_slope = x1_slope, 
+               x2_slope = x2_slope,
+               c = c,
+               return_errors = return_errors)
+    return errors
+```
+
+[Source for the functions above](https://nbviewer.org/github/matthew-brett/dsip-ipynb/blob/main/lin_regression_multiple_predictors.ipynb)
+
+```{python}
+min_ss_rain_sun = minimize(ss_two_predictors,
+                               [b, b_sun, c_sun], # a list of initial guesses for the parameters
+                               args=(rainfall, sunshine, bike_thefts))
+min_ss_rain_sun.x
+```
+
+```{python}
+min_ss_sun_temp = minimize(ss_two_predictors,
+                           [b_sun, b_temp, c_temp], # a list of initial guesses for the parameters
+                           args=(sunshine, temperature, bike_thefts)) # other arguments to give to the `minimize` function
+
+min_ss_sun_temp.x
+```
+
+```{python}
+rainfall_slope_rain_sun = min_ss_rain_sun.x[0]
+
+sunshine_slope_rain_sun = min_ss_rain_sun.x[1]
+
+intercept_rain_sun = min_ss_rain_sun.x[2]
+```
+
+```{python}
+sunshine_slope_sun_temp = min_ss_sun_temp.x[0]
+
+temperature_slope_sun_temp = min_ss_sun_temp.x[1]
+
+intercept_sun_temp = min_ss_sun_temp.x[2]
+```
+
+__$\vec{\hat{y}} = b_1 * $ `sunshine` + $b_2 * $ `temperature` +   $\text{c} $__
+
+It does not seem like taking into account both sunshine and temperature make the predictions more accurate. The sum of square error is considerably higher.
+
+Interestingly, sunshine now has a negative slope, while the gradient of the slope for temperature has increased, suggesting that temperature has a stronger correlation with bike thefts than sunshine.
+
+```{python}
+sun_only_sun_temp = plot_model_3D(x1_slope = 0, 
+              x2_slope = sunshine_slope_sun_temp, # ignore the second predictor
+              c = intercept_sun_temp)
+```
+
+```{python}
+temp_only_sum_temp = plot_model_3D(x1_slope = temperature_slope_sun_temp, 
+              x2_slope = 0, # ignore the second predictor
+              c = intercept_sun_temp)
+```
+
+```{python}
+both_sun_temp = plot_model_3D(x1_slope = temperature_slope_sun_temp, 
+              x2_slope = sunshine_slope_sun_temp, # ignore the second predictor
+              c = intercept_sun_temp)
+```
+
+__$\vec{\hat{y}} = b_1 * $ `rainfall` + $b_2 * $ `sunshine` +   $\text{c} $__
+
+Rainfall was the least accurate and weakest predictor in the linear regression. In combining it with sunshine data, the slope value has increased for both variables. However, so has the sum of squared error value, suggesting that these perdictions have very low accuracy.
+
+```{python}
+rain_only_rain_sun = plot_model_3D(x1_slope = rainfall_slope_rain_sun, 
+              x2_slope = 0, # ignore the second predictor
+              c = intercept_rain_sun)
+```
+
+```{python}
+sun_only_rain_sun = plot_model_3D(x1_slope = 0, 
+              x2_slope = sunshine_slope_rain_sun, # ignore the second predictor
+              c = intercept_rain_sun)
+```
+
+```{python}
+both_rain_sun = plot_model_3D(x1_slope = rainfall_slope_rain_sun, 
+              x2_slope = sunshine_slope_rain_sun, # ignore the second predictor
+              c = intercept_rain_sun)
+```
+
+## Conclusion
+Overall, it seems that temperature is the most accurate predictor of bike thefts when taken alone. Taking into account sunshine hours does not help increase the accuracy, while it does increase the strength of the relationship.
+
+Temperature is not causally affected by GMT and BST, but is a change that aligns with the seasons that the different time zones cover. So, perhaps the fluctuation in crimes is not a result of how many daylight hours there are, but what the weather is like!
