@@ -36,7 +36,7 @@ The dataframe above groups all offences by the borough in which they were commit
 This makes it easy to split the data by category and plot all the boroughs within it.
 
 
-#### Arson and Criminal Damage Example
+__Arson and Criminal Damage Example__
 
 ```{python}
 pos_values = list(sankey_df.loc['Arson and Criminal Damage', :]['count'].values)
@@ -44,7 +44,7 @@ keys = list(sankey_df.loc['Arson and Criminal Damage', :]['count'].keys())
 neg_values = [-x for x in pos_values]
 ```
 
-##### This iteration did not go so well
+__This iteration did not go so well__
 
 ```{python}
 fig = plt.figure(figsize=(10, 15))
@@ -63,7 +63,7 @@ plt.title('Sankey Diagram')
 plt.show()
 ```
 
-##### This iteration was slightly better, but still not completely legible
+__This iteration was slightly better, but still not completely legible__
 
 ```{python}
 fig = plt.figure(figsize=(10, 10))
