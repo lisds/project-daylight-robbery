@@ -3,7 +3,7 @@
 import hashlib
 from pathlib import Path
 
-def get_data_hash(filename):
+def get_data_hash(filename) -> str:
     """ Get the hash of the data file
     
     Parameters
