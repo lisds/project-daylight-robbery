@@ -32,7 +32,7 @@ As can be seen in the previous page, there are some statistically unlikey change
 
 
 ## Weather - Linear Regression
-One of the things that changes alongside the time zone, is the weather. It could be that the switch from GMT to BST and vice versa leads to changes in the crimes committed due to correlation with the changes in weather. One of the offences most affected by the change in time zone was bike thefts, with many more recorded offenc. So, we will use that as a case study.
+One of the things that changes alongside the time zone, is the weather. It could be that the switch from GMT to BST and vice versa leads to changes in the crimes committed due to correlation with the changes in weather. One of the offences most affected by the change in time zone was __Bicycle Theft__, with many more recorded offences. So, we will use that as a case study.
 
 
 ### Rainfall
@@ -70,7 +70,7 @@ bike_thefts = np.array(theft_df['Bicycle Theft'])
 bike_thefts
 ```
 
-In this analysis, bike theft will be the outcome variable, while rainfall will be the predictor variable.
+In this analysis, __Bicycle Theft__ will be the outcome variable, while rainfall will be the predictor variable.
 
 `bike_thefts` $ = b $ `rainfall` $+$ $  \text{c} + \vec{\varepsilon} $
 
@@ -86,7 +86,7 @@ print('slope:', b)
 print('intercept:', c)
 ```
 
-The slope has a relatively low value, suggesting that if there is any relationship, it is not particularly strong. It suggests that for every mm of rainfall, the bike thefts decrease by 33.
+The slope has a relatively low value, suggesting that if there is any relationship, it is not particularly strong. It suggests that for every mm of rainfall, the bike thefts decrease by 12.
 
 ```{python}
 fitted = b * rainfall + c
@@ -101,13 +101,15 @@ print(errors)
 np.sum(errors ** 2)
 ```
 
-The error values show the difference between the actual values and the fitted values. These error values and sum of squared errors are very high, which suggests that relationship between the two values is not clear/strong.
+__The error values show the difference between the actual values and the fitted values.__
+
+These error values and sum of squared errors are very high, which suggests that the predictive relationship between the two variables is not accurate.
 
 ```{python}
 assert np.allclose(bike_thefts, b * rainfall + c + errors)
 ```
 
-The above code checks that the values for the actual y values are similar to the fitted y values, plus the error values. They should be identical if the calculations have been done properly.
+__The above code checks that the values for the actual y values are similar to the fitted y values, plus the error values. They should be identical if the calculations have been done properly.__
 
 ```{python}
 def scatter_error(x, y, fitted):
@@ -147,7 +149,7 @@ def scatter_error(x, y, fitted):
 scatter_error(rainfall, bike_thefts, fitted)
 ```
 
-As can be seen by the plot above, there is not a strong predictive relationship between the rainfall in a month and the bike thefts committed. This may be because London gets a lot of rain, so the rainfall per month is relatively consistent.
+As can be seen by the plot above, there is not a strong predictive relationship between the rainfall in a month and the bike thefts committed. This may be because London gets a lot of rain, so the rainfall per month is relatively consistent and acts as neither a deterrent or a motive to cycle.
 
 
 ### Sunshine
@@ -172,7 +174,7 @@ theft_df.plot()
 plt.ylabel('Bike Thefts')
 ```
 
-The two graphs above show the changes in sunshine hours and bike thefts across the year, respectively.
+The two graphs above show the changes in sunshine hours and __Bicycle Thefts__ across the year, respectively.
 
 It seems that the shapes are very similar, which might mean there is a strong predictive relationship between the two.
 
@@ -180,7 +182,7 @@ It seems that the shapes are very similar, which might mean there is a strong pr
 sunshine = np.array(sun_df['Sunshine (hours)'])
 ```
 
-In this analysis, bike theft will be the outcome variable, while sunshine will be the predictor variable.
+In this analysis, __Bicycle Theft__ will be the outcome variable, while sunshine will be the predictor variable.
 
 `bike_thefts` $ = b $ `sunshine` $+$ $  \text{c} + \vec{\varepsilon} $
 
@@ -194,7 +196,7 @@ print('slope:', b_sun)
 print('intercept:', c_sun)
 ```
 
-The slope value is higher than before, which means, assuming the error values are lower, that there will be a stronger predictive relationship with sunshine and bike thefts, than rainfall and bike thefts. For every hour more of sunshine, there are 84 more bike thefts.
+The slope value is higher than before, which means, assuming the error values are lower, that there will be a stronger predictive relationship with sunshine and bike thefts, than rainfall and bike thefts. For every hour more of sunshine, there are 82 more bike thefts.
 
 ```{python}
 fitted_sun = b_sun * sunshine + c_sun
@@ -203,7 +205,7 @@ print(errors_sun)
 np.sum(errors_sun ** 2)
 ```
 
-The errors and sum of square errors seem a lot lower than with rainfall, but they are still quite high. This means the relationship could be slightly clearer/stronger.
+The errors and sum of square errors seem a lot lower than with rainfall, but they are still quite high. This means the predictive relationship is slightly more accurate than between rainfall and bike thefts.
 
 ```{python}
 assert np.allclose(bike_thefts, b_sun * sunshine + c_sun + errors_sun)
@@ -255,7 +257,7 @@ Like with the sunshine hours, there seems to be a high degree of similarity betw
 temperature = np.array(temp_df['Avg Temperature (°C)'])
 ```
 
-In this analysis, bike theft will be the outcome variable, while temperature will be the predictor variable.
+In this analysis, __Bicycle Theft__ will be the outcome variable, while temperature will be the predictor variable.
 
 `bike_thefts` $ = b $ `temperature` $+$ $  \text{c} + \vec{\varepsilon} $
 
@@ -269,7 +271,7 @@ print('slope:', b_temp)
 print('intercept:', c_temp)
 ```
 
-The value for the slope is ridiculously high. It suggests that for every 1 degree increase in temperature, there are 1207 more bike thefts.
+The value for the slope is ridiculously high. It suggests that for every 1 degree increase in temperature, there are 1194 more bike thefts.
 
 ```{python}
 fitted_temp = b_temp * temperature + c_temp
@@ -279,11 +281,13 @@ print(errors_temp)
 np.sum(errors_temp ** 2)
 ```
 
-The error values and sum of squared errors are considerably lower than with rainfall and sunshine, suggesting that the relationship is more accurate predictively.
+The error values and sum of squared errors are considerably lower than with rainfall and sunshine, suggesting that the relationship is more accurate in its predictions.
 
 ```{python}
-assert np.allclose(bike_thefts, b_temp * temperature + c_temp + errors_temp) #calculations have been done correctly
+assert np.allclose(bike_thefts, b_temp * temperature + c_temp + errors_temp)
 ```
+
+The values have been calculated correctly.
 
 ```{python}
 scatter_error(temperature, bike_thefts, fitted_temp)
