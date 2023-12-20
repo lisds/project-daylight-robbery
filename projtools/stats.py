@@ -9,10 +9,10 @@ def permutation_test(group1,
 
     Parameters
     ----------
-        group1: np.array
-            Array of values for group 1
-        group2: np.array
-            Array of values for group 2
+        group1: pd.Series
+            A series of values for group 1
+        group2: pd.Series
+            A series of values for group 2
         alternative: str
             One of 'greater' or 'less' (default: 'greater')
         n_iters: int
