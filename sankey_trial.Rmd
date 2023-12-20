@@ -85,11 +85,11 @@ sankey1
 
 ```{python}
 def percentages(category):
-    values = list(sankey_df.loc[category, :]['count'].values)
+    values = list(sankey_df.loc[category, :]['count'])
     keys = list(sankey_df.loc[category, :]['count'].keys())
     for i in values:
         percents = np.array((i / sum(values)) * 100)
-    return pd.DataFrame(percents, keys)
+    return values#pd.DataFrame(percents, keys)
 ```
 
 ```{python}
