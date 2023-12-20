@@ -208,7 +208,7 @@ Having sorted the p-values in ascending order, we can see some of the offences w
 
 However, we can also see some offences with seemingly small differences that also have very small p-values. Having noticed this, we compared the number of crimes (observations) in "Threat or Possession With Intent to Commit Crinina" (small diff, small p-value) and Rape (small diff, larger p-value). It turns out that there are much more recorded Rape offences.
 
-Based on that obervation, I have added a column displaying the number of crimes:
+Based on that observation, I have added a column displaying the number of crimes:
 
 ```{python}
 results_df = pd.DataFrame(results).sort_values(by="p_value")
