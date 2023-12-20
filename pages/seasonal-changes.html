@@ -379,6 +379,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rape">Rape</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bicycle-theft">Bicycle Theft</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-offences">All Offences</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attempting-a-better-permutation-test">Attempting a ‘better’ permutation test</a></li>
 </ul>
             </nav>
         </div>
@@ -882,9 +884,9 @@ Winter month average: 6257.8
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(264.3428571428567,
- array([-403.2       ,    5.48571429,  133.71428571, ..., -257.48571429,
-         123.77142857,  -94.97142857]),
- 0.1203)
+ array([-258.17142857, -129.94285714,  155.31428571, ..., -174.85714286,
+        -277.71428571,  -31.88571429]),
+ 0.1254)
 </pre></div>
 </div>
 </div>
@@ -967,14 +969,560 @@ Winter month average: 15028.2
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(8519.085714285713,
- array([  -14.97142857,  -416.45714286, -2611.08571429, ...,
-         3196.91428571,  1324.91428571, -2791.42857143]),
- 0.002)
+ array([1792.91428571, 1471.31428571, 3764.        , ..., 3383.42857143,
+        1174.05714286, -430.51428571]),
+ 0.0017)
 </pre></div>
 </div>
 </div>
 </div>
 <p>The permutation test shows that the observed difference would be an extremely surprising result (~1 in 400) in the null world. So we can be very confident that there is a meaningful difference between the summer and the winter months. However, as explained before, this does not tell us whether the time zone change is a reason for this.</p>
+</section>
+<section id="all-offences">
+<h2>All Offences<a class="headerlink" href="#all-offences" title="Permalink to this heading">#</a></h2>
+<p>Based on the principles set out above, we have now worked out the difference in average winter and summer months for all offences. This helps us pick out offences that are worth further investigation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">offences</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">borough</span>
+                <span class="o">.</span><span class="n">index</span>
+                <span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s2">&quot;offence&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">offence</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">offences</span><span class="p">):</span>
+    <span class="n">summer_month_offences</span> <span class="o">=</span> <span class="p">(</span><span class="n">summer</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="n">offence</span><span class="p">],</span> <span class="p">:]</span>
+                                   <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                                   <span class="o">.</span><span class="n">T</span>
+                                   <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+                                   <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                                   <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    
+    <span class="n">winter_month_offences</span> <span class="o">=</span> <span class="p">(</span><span class="n">winter</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="n">offence</span><span class="p">],</span> <span class="p">:]</span>
+                                   <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                                   <span class="o">.</span><span class="n">T</span>
+                                   <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+                                   <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                                   <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    
+    <span class="n">summer_mean</span> <span class="o">=</span> <span class="n">summer_month_offences</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">summer_months</span><span class="p">)</span>
+    <span class="n">winter_mean</span> <span class="o">=</span> <span class="n">winter_month_offences</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">winter_months</span><span class="p">)</span>
+    
+    <span class="n">diff_dict</span><span class="p">[</span><span class="n">offence</span><span class="p">]</span> <span class="o">=</span> <span class="n">summer_mean</span> <span class="o">-</span> <span class="n">winter_mean</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can get a sense of which offences have the biggest seasonal changes.</p>
+<ul class="simple">
+<li><p>Negative values = more recorded crimes in <strong>winter</strong> months</p></li>
+<li><p>Positive values = more recorded crimes in <strong>summer</strong> months</p></li>
+</ul>
+<p>We can see that there are a number of crimes with very strong biases in each group of months. Although there are more offences with a strong bias towards summer months. There are some offences which we might expect to have a bias towards either winter or summer but there are also some unexpected offences such as <strong>Theft from Person</strong> and <strong>Theft from a Motor Vehicle</strong> which have a stronger bias towards winter than one might expect.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_dict</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Domestic Burglary                                    -9034.857143
+Theft from Person                                    -3803.514286
+Theft from a Motor Vehicle                           -1237.514286
+Historical Fraud and Forgery                          -577.057143
+Interfering with a Motor Vehicle                      -271.828571
+Obscene Publications                                  -167.371429
+Robbery of Business Property                          -140.400000
+Robbery of Personal Property                           -86.514286
+Other Forgery                                          -73.457143
+Handling Stolen Goods                                  -34.857143
+Other Firearm Offences                                 -24.142857
+Possession of False Documents                          -22.742857
+Soliciting for Prostitution                            -21.514286
+Burglary Business and Community                        -16.285714
+Disclosure, Obstruction, False or Misleading State     -10.714286
+Making, Supplying or Possessing Articles for use i      -8.628571
+Profitting From or Concealing Proceeds of Crime         -7.285714
+Exploitation of Prostitution                            -5.028571
+Absconding from Lawful Custody                          -1.200000
+Aiding Suicide                                          -0.857143
+Other Knife Offences                                    -0.228571
+Concealing an Infant Death Close to Birth                0.085714
+Offender Management Act                                  0.400000
+Perjury                                                  0.885714
+Bigamy                                                   0.971429
+Wildlife Crime                                           1.428571
+Fraud or Forgery Associated with Driver Records          1.542857
+Forgery or Use of Drug Prescription                      4.428571
+Homicide                                                10.485714
+Bail Offences                                           12.085714
+Going Equipped for Stealing                             19.800000
+Possession of Firearm with Intent                       26.942857
+Possession of Firearms Offences                         27.171429
+Violent Disorder                                        30.000000
+Dangerous Driving                                       42.000000
+Perverting Course of Justice                            44.400000
+Aggravated Vehicle Taking                               54.314286
+Drug Trafficking                                        90.657143
+Possession of Article with Blade or Point              145.314286
+Possession of Other Weapon                             214.285714
+Other Notifiable Offences                              231.542857
+Rape                                                   264.342857
+Threat or Possession With Intent to Commit Crimina     309.771429
+Arson                                                  332.171429
+Shoplifting                                            394.428571
+Possession of Drugs                                    579.114286
+Other Offences Against the State, or Public Order      706.485714
+Other Sexual Offences                                  876.000000
+Theft or Taking of a Motor Vehicle                    1105.771429
+Racially or Religiously Aggravated Public Fear, Al    1548.742857
+Other Theft                                           2290.771429
+Criminal Damage                                       2882.171429
+Public Fear Alarm or Distress                         4410.657143
+Violence with Injury                                  6318.114286
+Violence without Injury                               6580.714286
+Bicycle Theft                                         8519.085714
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we’ve done with Rape and Bicycle Theft above, we can run permutation tests on the offences which are showing significant differences to see how surprising these would be in the null world.</p>
+<p>We’ve chosen to only select offences which have an absolute difference greater than 200.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decent_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span>
+<span class="n">defcent_diffs</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">decent_diff</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;offence&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;actual_diff&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;p_value&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;crimes&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">defcent_diffs</span><span class="p">):</span>
+    
+    <span class="n">offence</span> <span class="o">=</span> <span class="n">defcent_diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="n">index</span><span class="p">]</span>
+    
+    <span class="n">summer_crime</span> <span class="o">=</span> <span class="p">(</span><span class="n">summer</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="n">offence</span><span class="p">],</span> <span class="p">:]</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">T</span>
+                          <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    
+    <span class="n">winter_crime</span> <span class="o">=</span> <span class="p">(</span><span class="n">winter</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="n">offence</span><span class="p">],</span> <span class="p">:]</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">T</span>
+                          <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;offence&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">offence</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summer_crime</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">winter_crime</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">actual_diff</span><span class="p">,</span> <span class="n">fake_diffs</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">permutation_test</span><span class="p">(</span><span class="n">summer_crime</span><span class="p">,</span> <span class="n">winter_crime</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">&quot;less&quot;</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;actual_diff&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">actual_diff</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_value</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">actual_diff</span><span class="p">,</span> <span class="n">fake_diffs</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">permutation_test</span><span class="p">(</span><span class="n">summer_crime</span><span class="p">,</span> <span class="n">winter_crime</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">&quot;greater&quot;</span><span class="p">)</span>
+    
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;actual_diff&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">actual_diff</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Having sorted the p-values in ascending order, we can see some of the offences with the largest differences towards the top as we would expect. Offences such as Bicycle Theft, Public Fear Alarm or Distress, Domestic Burglary and Violence with Injury all have large actual differences and have very small p-values which suggests that these differences are surprising.</p>
+<p>However, we can also see some offences with seemingly small differences that also have very small p-values. Having noticed this, we compared the number of crimes (observations) in “Threat or Possession With Intent to Commit Crinina” (small diff, small p-value) and Rape (small diff, larger p-value). It turns out that there are much more recorded Rape offences.</p>
+<p>Based on that observation, I have added a column displaying the number of crimes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;p_value&quot;</span><span class="p">)</span>
+<span class="n">results_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>offence</th>
+      <th>actual_diff</th>
+      <th>p_value</th>
+      <th>crimes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>Threat or Possession With Intent to Commit Cri...</td>
+      <td>309.771429</td>
+      <td>0.0025</td>
+      <td>21606.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Domestic Burglary</td>
+      <td>-9034.857143</td>
+      <td>0.0033</td>
+      <td>617744.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Bicycle Theft</td>
+      <td>8519.085714</td>
+      <td>0.0034</td>
+      <td>239972.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Public Fear Alarm or Distress</td>
+      <td>4410.657143</td>
+      <td>0.0036</td>
+      <td>327805.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Racially or Religiously Aggravated Public Fear...</td>
+      <td>1548.742857</td>
+      <td>0.0064</td>
+      <td>96094.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Violence with Injury</td>
+      <td>6318.114286</td>
+      <td>0.0100</td>
+      <td>845522.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Other Offences Against the State, or Public Order</td>
+      <td>706.485714</td>
+      <td>0.0109</td>
+      <td>75095.0</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Arson</td>
+      <td>332.171429</td>
+      <td>0.0124</td>
+      <td>24602.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Criminal Damage</td>
+      <td>2882.171429</td>
+      <td>0.0164</td>
+      <td>680612.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Possession of Other Weapon</td>
+      <td>214.285714</td>
+      <td>0.0176</td>
+      <td>28476.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Other Notifiable Offences</td>
+      <td>231.542857</td>
+      <td>0.0214</td>
+      <td>16532.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Violence without Injury</td>
+      <td>6580.714286</td>
+      <td>0.0426</td>
+      <td>1394397.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Theft from Person</td>
+      <td>-3803.514286</td>
+      <td>0.0493</td>
+      <td>508153.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Other Sexual Offences</td>
+      <td>876.000000</td>
+      <td>0.0713</td>
+      <td>129240.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Historical Fraud and Forgery</td>
+      <td>-577.057143</td>
+      <td>0.0748</td>
+      <td>56251.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Theft or Taking of a Motor Vehicle</td>
+      <td>1105.771429</td>
+      <td>0.0924</td>
+      <td>312598.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Rape</td>
+      <td>264.342857</td>
+      <td>0.1204</td>
+      <td>76944.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Interfering with a Motor Vehicle</td>
+      <td>-271.828571</td>
+      <td>0.1883</td>
+      <td>127690.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Other Theft</td>
+      <td>2290.771429</td>
+      <td>0.2367</td>
+      <td>1369597.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Shoplifting</td>
+      <td>394.428571</td>
+      <td>0.2766</td>
+      <td>487549.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Theft from a Motor Vehicle</td>
+      <td>-1237.514286</td>
+      <td>0.2809</td>
+      <td>758327.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Possession of Drugs</td>
+      <td>579.114286</td>
+      <td>0.3709</td>
+      <td>513893.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If we remove offences with less than 80,000 observations we can see that we lose all of the offences with small differences and very small p-values. Even then we can still see the effect. “Racially or Religiously Aggravated Public Fear” has half the <code class="docutils literal notranslate"><span class="pre">actual_diff</span></code> of “Public Fear Alarm or Distress” and yet their p-values are very close. The reason being that “Racially or Religiously Aggravated Public Fear” has 1/3 the observations of “Public Fear Alarm or Distress”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">80000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>offence</th>
+      <th>actual_diff</th>
+      <th>p_value</th>
+      <th>crimes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>Domestic Burglary</td>
+      <td>-9034.857143</td>
+      <td>0.0033</td>
+      <td>617744.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Bicycle Theft</td>
+      <td>8519.085714</td>
+      <td>0.0034</td>
+      <td>239972.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Public Fear Alarm or Distress</td>
+      <td>4410.657143</td>
+      <td>0.0036</td>
+      <td>327805.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Racially or Religiously Aggravated Public Fear...</td>
+      <td>1548.742857</td>
+      <td>0.0064</td>
+      <td>96094.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Violence with Injury</td>
+      <td>6318.114286</td>
+      <td>0.0100</td>
+      <td>845522.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Criminal Damage</td>
+      <td>2882.171429</td>
+      <td>0.0164</td>
+      <td>680612.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Violence without Injury</td>
+      <td>6580.714286</td>
+      <td>0.0426</td>
+      <td>1394397.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Theft from Person</td>
+      <td>-3803.514286</td>
+      <td>0.0493</td>
+      <td>508153.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Other Sexual Offences</td>
+      <td>876.000000</td>
+      <td>0.0713</td>
+      <td>129240.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Theft or Taking of a Motor Vehicle</td>
+      <td>1105.771429</td>
+      <td>0.0924</td>
+      <td>312598.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Interfering with a Motor Vehicle</td>
+      <td>-271.828571</td>
+      <td>0.1883</td>
+      <td>127690.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Other Theft</td>
+      <td>2290.771429</td>
+      <td>0.2367</td>
+      <td>1369597.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Shoplifting</td>
+      <td>394.428571</td>
+      <td>0.2766</td>
+      <td>487549.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Theft from a Motor Vehicle</td>
+      <td>-1237.514286</td>
+      <td>0.2809</td>
+      <td>758327.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Possession of Drugs</td>
+      <td>579.114286</td>
+      <td>0.3709</td>
+      <td>513893.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="attempting-a-better-permutation-test">
+<h2>Attempting a ‘better’ permutation test<a class="headerlink" href="#attempting-a-better-permutation-test" title="Permalink to this heading">#</a></h2>
+<p>The permutation test used above only shuffled the months themselves meaning the totals were all the same. To get closer to a true null world, here we use a new permutation test which randomly assigns each observation (instance of a recorded offence) to a month.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">summer_wildlife_crime</span> <span class="o">=</span> <span class="p">(</span><span class="n">summer</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="s2">&quot;Wildlife Crime&quot;</span><span class="p">],</span> <span class="p">:]</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">T</span>
+                          <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">winter_wildlife_crime</span> <span class="o">=</span> <span class="p">(</span><span class="n">winter</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="s2">&quot;Wildlife Crime&quot;</span><span class="p">],</span> <span class="p">:]</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">T</span>
+                          <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+                          <span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The problem with this test is that as it produces such a random fake distribution that most of the offences have a huge number of observations which means that a small bias towards winter or summer is still significant compared to a truly random distribution. Unless we pick an offence with very few observations and a small difference the p-value will be far too small to ascertain any useful information.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats</span><span class="o">.</span><span class="n">better_permutation_test</span><span class="p">(</span><span class="n">summer_rape</span><span class="p">,</span> <span class="n">winter_rape</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">&quot;less&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(264.3428571428567,
+ array([ 27.08571429, -26.05714286,  12.34285714, ..., -16.8       ,
+        -25.71428571,  50.4       ]),
+ 0.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats</span><span class="o">.</span><span class="n">better_permutation_test</span><span class="p">(</span><span class="n">summer_wildlife_crime</span><span class="p">,</span> <span class="n">winter_wildlife_crime</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">&quot;less&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.4285714285714288,
+ array([ 1.08571429, -2.68571429,  1.42857143, ..., -0.62857143,
+         1.42857143,  0.05714286]),
+ 0.2477)
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -1043,6 +1591,8 @@ Winter month average: 15028.2
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rape">Rape</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bicycle-theft">Bicycle Theft</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-offences">All Offences</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attempting-a-better-permutation-test">Attempting a ‘better’ permutation test</a></li>
 </ul>
   </nav></div>
 
