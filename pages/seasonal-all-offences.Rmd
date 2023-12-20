@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from projtools.data import Data
+from projtools import stats
 
 data = Data()
 idx = pd.IndexSlice
@@ -65,37 +66,38 @@ diff_dict.sort_values()
 ```
 
 ```{python}
-# def trend_by_summer(category, borough):
-#     borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().iloc[3:10].plot()
-#     return borough_trends
- 
-# def trend_by_winter(category, borough):
-#     borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().loc[idx[winter_months]].plot()
-#     return borough_trends
- 
-# cat_list = list(data.borough.index.get_level_values(0).unique())
-# bor_list = list(data.borough.index.get_level_values(2).unique())
-# for i in cat_list:
-#     for x in bor_list:
-#         trend = trend_by_winter(i, x).plot()
+decent_diff = abs(diff_dict).sort_values(ascending=False) > 200
+defcent_diffs = diff_dict.loc[decent_diff]
 ```
 
 ```{python}
-def trend_by_summer(category, borough):
-    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().iloc[3:10].plot()
-    return borough_trends
- 
-def trend_by_winter(category, borough):
-    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().loc[idx[winter_months]].plot()
-    return borough_trends
- 
-cat_list = list(data.borough.index.get_level_values(0).unique())
-bor_list = list(data.borough.index.get_level_values(2).unique())
-for i in cat_list:
-    for x in bor_list:
-        trend = trend_by_winter(i, x).plot()
+diff_dict.keys()[1]
 ```
 
 ```{python}
-cat_list
+results = {"offence": [], "actual_diff": [], "p_value": []}
+
+for index, value in enumerate(defcent_diffs):
+    
+    offence = defcent_diffs.keys()[index]
+    
+    summer_crime = (summer.loc[idx[:,offence], :]
+                          .sum()
+                          .T
+                          .groupby(level="month")
+                          .sum())
+    
+    winter_crime = (winter.loc[idx[:,offence], :]
+                          .sum()
+                          .T
+                          .groupby(level="month")
+                          .sum())
+    
+    actual_diff, fake_diffs, p_value = stats.permutation_test(summer_crime, winter_crime, alternative="less")
+    
+    results["offence"].append(offence)
+    results["actual_diff"].append(actual_diff)
+    results["p_value"].append(p_value)
+    
+pd.DataFrame(results)
 ```
