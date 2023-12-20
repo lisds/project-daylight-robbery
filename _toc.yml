@@ -11,6 +11,7 @@ parts:
   - caption: Analysis
     chapters:
     - file: pages/seasonal-changes
+    - file: pages/seasonal-all-offences
   - caption: Usage
     chapters:
     - file: pages/multi_index.Rmd
