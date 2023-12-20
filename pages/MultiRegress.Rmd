@@ -185,7 +185,7 @@ temperature_slope_sun_temp = min_ss_sun_temp.x[1]
 intercept_sun_temp = min_ss_sun_temp.x[2]
 ```
 
-#### $\vec{\hat{y}} = b_1 * $ `sunshine` + $b_2 * $ `temperature` +   $\text{c} $
+__$\vec{\hat{y}} = b_1 * $ `sunshine` + $b_2 * $ `temperature` +   $\text{c} $__
 
 It does not seem like taking into account both sunshine and temperature make the predictions more accurate. The sum of square error is considerably higher.
 
