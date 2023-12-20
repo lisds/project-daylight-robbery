@@ -294,5 +294,4 @@ There is a very strong predictive relationship between bike thefts and temperatu
 It seems that there are some months for which the error bars are particularly high (Dec, Nov, Oct, Aug). Again, this could be due a confounding variable, such as rainfall or sunshine hours.
 
 
-## Weather - Multiple Regression
-It could be that a combined factor of all the weather variables leads to the difference in bike thefts in the GMT and BST months. Here, we will investigate the combined impact of sunshine, rainfall and temperature on bike thefts.
+
