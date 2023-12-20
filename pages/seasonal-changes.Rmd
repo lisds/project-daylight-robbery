@@ -116,7 +116,7 @@ The permutation test shows that the observed difference would be an extremely su
 
 
 ## All Offences
-Based on the principles set out above, we have now worked ou the difference in average winter and summer months for all offences. This helps us pick out offences that are worth further investigation.
+Based on the principles set out above, we have now worked out the difference in average winter and summer months for all offences. This helps us pick out offences that are worth further investigation.
 
 ```{python}
 offences = (data.borough
