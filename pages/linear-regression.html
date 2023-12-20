@@ -1,0 +1,1365 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Seasonal Changes Regression Analysis &#8212; Project Daylight Robbery</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/linear-regression';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MultiIndex - a short guide" href="multi_index.html" />
+    <link rel="prev" title="Seasonal Changes" href="seasonal-changes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Project Daylight Robbery - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Project Daylight Robbery - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exploration</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="basic-exploration.html">Exploring the Recorded Crime Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison.html">Consistency across Borough, Ward and LSOA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aviation-security.html">Aviation Security (SO18) Borough</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="seasonal-changes.html">Seasonal Changes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Seasonal Changes Regression Analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Usage</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="multi_index.html">MultiIndex - a short guide</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/lisds/project-daylight-robbery/main?urlpath=lab/tree/pages/linear-regression.Rmd" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://ds.lis.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/lisds/project-daylight-robbery&urlpath=lab/tree/project-daylight-robbery/pages/linear-regression.Rmd&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lisds/project-daylight-robbery" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lisds/project-daylight-robbery/issues/new?title=Issue%20on%20page%20%2Fpages/linear-regression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/pages/linear-regression.Rmd" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.Rmd</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Seasonal Changes Regression Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weather-linear-regression">Weather - Linear Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rainfall">Rainfall</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sunshine">Sunshine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature">Temperature</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="seasonal-changes-regression-analysis">
+<h1>Seasonal Changes Regression Analysis<a class="headerlink" href="#seasonal-changes-regression-analysis" title="Permalink to this heading">#</a></h1>
+<p>As can be seen in the previous page, there are some statistically unlikely changes in some crimes based on the time of year. In this section of the notebook we will look into the factors that change with the transition from Greenwich Mean Time (GMT) to British Summer Time (BST).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">sps</span>
+
+<span class="kn">from</span> <span class="nn">projtools.data</span> <span class="kn">import</span> <span class="n">Data</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="weather-linear-regression">
+<h2>Weather - Linear Regression<a class="headerlink" href="#weather-linear-regression" title="Permalink to this heading">#</a></h2>
+<p>One of the things that changes alongside the time zone, is the weather. It could be that the switch from GMT to BST and vice versa leads to changes in the crimes committed due to correlation with the changes in weather. One of the offences most affected by the change in time zone was <strong>Bicycle Theft</strong>, with many more recorded offences. So, we will use that as a case study.</p>
+<section id="rainfall">
+<h3>Rainfall<a class="headerlink" href="#rainfall" title="Permalink to this heading">#</a></h3>
+<p>It is not unreasonable to assume that the weather influences the prevalence of some crimes, such as theft. It stands to reason that if it is wetter, people will not want to cycle as much. This means there they may be less bikes around for people to steal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rain_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Months&#39;</span><span class="p">:[</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span> <span class="s1">&#39;Feb&#39;</span><span class="p">,</span> <span class="s1">&#39;Mar&#39;</span><span class="p">,</span> <span class="s1">&#39;Apr&#39;</span><span class="p">,</span> <span class="s1">&#39;May&#39;</span><span class="p">,</span> <span class="s1">&#39;Jun&#39;</span><span class="p">,</span> <span class="s1">&#39;Jul&#39;</span><span class="p">,</span> <span class="s1">&#39;Aug&#39;</span><span class="p">,</span> <span class="s1">&#39;Sep&#39;</span><span class="p">,</span> <span class="s1">&#39;Oct&#39;</span><span class="p">,</span> <span class="s1">&#39;Nov&#39;</span><span class="p">,</span> <span class="s1">&#39;Dec&#39;</span><span class="p">],</span> <span class="s1">&#39;Avg Rainfall (mm)&#39;</span><span class="p">:[</span><span class="mf">58.83</span><span class="p">,</span> <span class="mf">44.96</span><span class="p">,</span> <span class="mf">38.78</span><span class="p">,</span> <span class="mf">42.31</span><span class="p">,</span> <span class="mf">45.91</span><span class="p">,</span> <span class="mf">47.25</span><span class="p">,</span> <span class="mf">45.80</span><span class="p">,</span> <span class="mf">52.78</span><span class="p">,</span> <span class="mf">49.61</span><span class="p">,</span> <span class="mf">65.07</span><span class="p">,</span> <span class="mf">66.63</span><span class="p">,</span> <span class="mf">57.05</span><span class="p">]}</span>
+<span class="n">rain_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rain_dict</span><span class="p">)</span>             
+<span class="n">rain_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Months</th>
+      <th>Avg Rainfall (mm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Jan</td>
+      <td>58.83</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Feb</td>
+      <td>44.96</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mar</td>
+      <td>38.78</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Apr</td>
+      <td>42.31</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>May</td>
+      <td>45.91</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Jun</td>
+      <td>47.25</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Jul</td>
+      <td>45.80</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Aug</td>
+      <td>52.78</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Sep</td>
+      <td>49.61</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Oct</td>
+      <td>65.07</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Nov</td>
+      <td>66.63</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Dec</td>
+      <td>57.05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The dataframe above shows the average rainfall in London per month using data collected from 1991-2020 by the <a class="reference external" href="https://metoffice.gov.uk/research/climate/maps-and-data/uk-climate-averages/gcpsvg3nc">Met Office</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rain_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;mm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Month&#39;)
+</pre></div>
+</div>
+<img alt="../_images/c976a2d57c72e22c106b9985249e83e498532321ef35263fbbb0e2302b40243f.png" src="../_images/c976a2d57c72e22c106b9985249e83e498532321ef35263fbbb0e2302b40243f.png" />
+</div>
+</div>
+<p>This data is more easily visualised with the graph above. It seems that rainfall peaks around September and October, with the lowest value in February. According to our hypothesis, this means that some crimes will follow an inverse of this trend.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theft</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">borough</span>
+             <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;Bicycle Theft&#39;</span><span class="p">,</span> <span class="p">:]</span>
+             <span class="o">.</span><span class="n">T</span>
+             <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+             <span class="o">.</span><span class="n">T</span>
+             <span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">theft_df</span> <span class="o">=</span> <span class="n">theft</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s1">&#39;Bicycle Theft&#39;</span><span class="p">)</span>
+<span class="n">theft_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Recorded Bicycle Thefts&#39;</span><span class="p">)</span>
+<span class="n">theft_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Bicycle Theft</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>01</th>
+      <td>14707.0</td>
+    </tr>
+    <tr>
+      <th>02</th>
+      <td>14022.0</td>
+    </tr>
+    <tr>
+      <th>03</th>
+      <td>17645.0</td>
+    </tr>
+    <tr>
+      <th>04</th>
+      <td>21617.0</td>
+    </tr>
+    <tr>
+      <th>05</th>
+      <td>26000.0</td>
+    </tr>
+    <tr>
+      <th>06</th>
+      <td>28075.0</td>
+    </tr>
+    <tr>
+      <th>07</th>
+      <td>30794.0</td>
+    </tr>
+    <tr>
+      <th>08</th>
+      <td>28557.0</td>
+    </tr>
+    <tr>
+      <th>09</th>
+      <td>28698.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>27937.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>21863.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13586.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="../_images/ea3035637973fe32c93c3333801dc5ed98025d158263ea9cebd4cd68e19f146b.png" src="../_images/ea3035637973fe32c93c3333801dc5ed98025d158263ea9cebd4cd68e19f146b.png" />
+</div>
+</div>
+<p>As you can see from the graph above, bicycle thefts peak in July and remain high until October. This does not fit with the hypothesis so far. Now we will do a linear regression to see if there is a correlation between the rainfall and bike thefts or not.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rainfall</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rain_df</span><span class="p">[</span><span class="s1">&#39;Avg Rainfall (mm)&#39;</span><span class="p">])</span>
+<span class="n">bike_thefts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">theft_df</span><span class="p">[</span><span class="s1">&#39;Bicycle Theft&#39;</span><span class="p">])</span>
+<span class="n">bike_thefts</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([14707., 14022., 17645., 21617., 26000., 28075., 30794., 28557.,
+       28698., 27937., 21863., 13586.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this analysis, <strong>Bicycle Theft</strong> will be the outcome variable, while rainfall will be the predictor variable.</p>
+<p><code class="docutils literal notranslate"><span class="pre">bike_thefts</span></code> <span class="math notranslate nohighlight">\( = b \)</span> <code class="docutils literal notranslate"><span class="pre">rainfall</span></code> <span class="math notranslate nohighlight">\(+\)</span> <span class="math notranslate nohighlight">\(  \text{c} + \vec{\varepsilon} \)</span></p>
+<p>To show an strong predictive relationship, we would like the slope (b) to be relatively high and the error (e) vector to be low.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">rainfall</span><span class="p">,</span> <span class="n">bike_thefts</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">intercept</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;slope:&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;intercept:&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>slope: -12.317229923908943
+intercept: 23422.987504883793
+</pre></div>
+</div>
+</div>
+</div>
+<p>The slope has a relatively low value, suggesting that if there is any relationship, it is not particularly strong. It suggests that for every mm of rainfall, the bike thefts decrease by 12.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fitted</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">rainfall</span> <span class="o">+</span> <span class="n">c</span>
+<span class="n">fitted</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([22698.364868, 22869.204848, 22945.325328, 22901.845507,
+       22857.503479, 22840.998391, 22858.858374, 22772.884109,
+       22811.929728, 22621.505354, 22602.290475, 22720.289538])
+</pre></div>
+</div>
+</div>
+</div>
+<p>These are the fitted values, which show the values if there was a relationship with the slope and intercept value that was calculated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <span class="n">bike_thefts</span> <span class="o">-</span> <span class="n">fitted</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">errors</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-7991.364868 -8847.204848 -5300.325328 -1284.845507  3142.496521
+  5234.001609  7935.141626  5784.115891  5886.070272  5315.494646
+  -739.290475 -9134.289538]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>452453851.4616437
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>The error values show the difference between the actual values and the fitted values.</strong></p>
+<p>These error values and sum of squared errors are very high, which suggests that the predictive relationship between the two variables is not accurate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">bike_thefts</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">rainfall</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>The above code checks that the values for the actual y values are similar to the fitted y values, plus the error values. They should be identical if the calculations have been done properly.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scatter_error</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fitted</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function that takes x, y and fitted values and returns a scatter plot with errors.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------------</span>
+<span class="sd">    x: array of predictor values</span>
+<span class="sd">    y: array of outcome values</span>
+<span class="sd">    fitted: array of fitted values</span>
+<span class="sd">    with errors: shows the error values</span>
+<span class="sd">    -----------------------------------</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    Scatter graph with error values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual values ($y$)&#39;</span><span class="p">)</span>
+   
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fitted</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fitted values ($\hat</span><span class="si">{y}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+    
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="n">fitted</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+        
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">&#39;k:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Errors ($ </span><span class="se">\\</span><span class="s1">varepsilon $)&#39;</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Bike Thefts&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predictor Variable&#39;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rain_df</span><span class="o">.</span><span class="n">Months</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fitted</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_error</span><span class="p">(</span><span class="n">rainfall</span><span class="p">,</span> <span class="n">bike_thefts</span><span class="p">,</span> <span class="n">fitted</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c2ca2a14df37b6ea4355df33c07e7fd19e74193cc0a3972b5e5fd72a3fc07506.png" src="../_images/c2ca2a14df37b6ea4355df33c07e7fd19e74193cc0a3972b5e5fd72a3fc07506.png" />
+</div>
+</div>
+<p>As can be seen by the plot above, there is not a strong predictive relationship between the rainfall in a month and the bike thefts committed. This may be because London gets a lot of rain, so the rainfall per month is relatively consistent and acts as neither a deterrent or a motive to cycle.</p>
+</section>
+<section id="sunshine">
+<h3>Sunshine<a class="headerlink" href="#sunshine" title="Permalink to this heading">#</a></h3>
+<p>Another factor that changes with the season and may influence people’s behaviour is sunshine hours.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sun_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Months&#39;</span><span class="p">:[</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span> <span class="s1">&#39;Feb&#39;</span><span class="p">,</span> <span class="s1">&#39;Mar&#39;</span><span class="p">,</span> <span class="s1">&#39;Apr&#39;</span><span class="p">,</span> <span class="s1">&#39;May&#39;</span><span class="p">,</span> <span class="s1">&#39;Jun&#39;</span><span class="p">,</span> <span class="s1">&#39;Jul&#39;</span><span class="p">,</span> <span class="s1">&#39;Aug&#39;</span><span class="p">,</span> <span class="s1">&#39;Sep&#39;</span><span class="p">,</span> <span class="s1">&#39;Oct&#39;</span><span class="p">,</span> <span class="s1">&#39;Nov&#39;</span><span class="p">,</span> <span class="s1">&#39;Dec&#39;</span><span class="p">],</span> <span class="s1">&#39;Sunshine (hours)&#39;</span><span class="p">:[</span><span class="mf">61.09</span><span class="p">,</span> <span class="mf">78.81</span><span class="p">,</span> <span class="mf">124.45</span><span class="p">,</span> <span class="mf">176.67</span><span class="p">,</span> <span class="mf">207.49</span><span class="p">,</span> <span class="mf">208.39</span><span class="p">,</span> <span class="mf">217.81</span><span class="p">,</span> <span class="mf">202.12</span><span class="p">,</span> <span class="mf">157.11</span><span class="p">,</span> <span class="mf">115.17</span><span class="p">,</span> <span class="mf">70.74</span><span class="p">,</span> <span class="mf">54.96</span><span class="p">]}</span>
+<span class="n">sun_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">sun_dict</span><span class="p">)</span>             
+<span class="n">sun_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Months</th>
+      <th>Sunshine (hours)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Jan</td>
+      <td>61.09</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Feb</td>
+      <td>78.81</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mar</td>
+      <td>124.45</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Apr</td>
+      <td>176.67</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>May</td>
+      <td>207.49</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Jun</td>
+      <td>208.39</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Jul</td>
+      <td>217.81</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Aug</td>
+      <td>202.12</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Sep</td>
+      <td>157.11</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Oct</td>
+      <td>115.17</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Nov</td>
+      <td>70.74</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Dec</td>
+      <td>54.96</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The dataframe above shows the average sunshine hours in London per month using data collected from 1991-2020 by the <a class="reference external" href="https://metoffice.gov.uk/research/climate/maps-and-data/uk-climate-averages/gcpsvg3nc">Met Office</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sun_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Hours&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Month&#39;)
+</pre></div>
+</div>
+<img alt="../_images/e61f92648549eb2a086c928ad24727f129d2ca8571911716f310884c4e485dad.png" src="../_images/e61f92648549eb2a086c928ad24727f129d2ca8571911716f310884c4e485dad.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theft_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Bike Thefts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Bike Thefts&#39;)
+</pre></div>
+</div>
+<img alt="../_images/62cf5237f6fcb53b1efff08ecf1e3bad433db70386586b74373090fda14bb426.png" src="../_images/62cf5237f6fcb53b1efff08ecf1e3bad433db70386586b74373090fda14bb426.png" />
+</div>
+</div>
+<p>The two graphs above show the changes in sunshine hours and <strong>Bicycle Thefts</strong> across the year, respectively.</p>
+<p>It seems that the shapes are very similar, which might mean there is a strong predictive relationship between the two.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sunshine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sun_df</span><span class="p">[</span><span class="s1">&#39;Sunshine (hours)&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this analysis, <strong>Bicycle Theft</strong> will be the outcome variable, while sunshine will be the predictor variable.</p>
+<p><code class="docutils literal notranslate"><span class="pre">bike_thefts</span></code> <span class="math notranslate nohighlight">\( = b \)</span> <code class="docutils literal notranslate"><span class="pre">sunshine</span></code> <span class="math notranslate nohighlight">\(+\)</span> <span class="math notranslate nohighlight">\(  \text{c} + \vec{\varepsilon} \)</span></p>
+<p>As before, to show a strong predictive relationship, we would like the slope (b) to be relatively high and the error (e) vector to be low.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_sun</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">sunshine</span><span class="p">,</span> <span class="n">bike_thefts</span><span class="p">)</span>
+<span class="n">b_sun</span> <span class="o">=</span> <span class="n">res_sun</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">c_sun</span> <span class="o">=</span> <span class="n">res_sun</span><span class="o">.</span><span class="n">intercept</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;slope:&#39;</span><span class="p">,</span> <span class="n">b_sun</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;intercept:&#39;</span><span class="p">,</span> <span class="n">c_sun</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>slope: 82.28168412532736
+intercept: 11307.901050838373
+</pre></div>
+</div>
+</div>
+</div>
+<p>The slope value is higher than before, which means, assuming the error values are lower, that there will be a stronger predictive relationship with sunshine and bike thefts, than rainfall and bike thefts. For every hour more of sunshine, there are 82 more bike thefts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fitted_sun</span> <span class="o">=</span> <span class="n">b_sun</span> <span class="o">*</span> <span class="n">sunshine</span> <span class="o">+</span> <span class="n">c_sun</span>
+<span class="n">errors_sun</span> <span class="o">=</span> <span class="n">bike_thefts</span> <span class="o">-</span> <span class="n">fitted_sun</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">errors_sun</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">errors_sun</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1627.489134 -3770.520577 -3902.85664  -4227.606185 -2380.52769
+  -379.581206  1564.32533    618.324954  4462.823556  7152.717388
+  4734.492614 -2244.10241 ]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>157140499.8482164
+</pre></div>
+</div>
+</div>
+</div>
+<p>The errors and sum of square errors seem a lot lower than with rainfall, but they are still quite high. This means the predictive relationship is slightly more accurate than between rainfall and bike thefts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">bike_thefts</span><span class="p">,</span> <span class="n">b_sun</span> <span class="o">*</span> <span class="n">sunshine</span> <span class="o">+</span> <span class="n">c_sun</span> <span class="o">+</span> <span class="n">errors_sun</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This test has passed, suggesting that the values have been calculated properly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_error</span><span class="p">(</span><span class="n">sunshine</span><span class="p">,</span> <span class="n">bike_thefts</span><span class="p">,</span> <span class="n">fitted_sun</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/62dab328e08c241348578cc5a1d8e9c6947802139ca01f15fc4c0639f1f6857f.png" src="../_images/62dab328e08c241348578cc5a1d8e9c6947802139ca01f15fc4c0639f1f6857f.png" />
+</div>
+</div>
+<p>It seems that there is a stronger predictive relationship present between sunshine hours and bike thefts, than rainfall and bike thefts. Based on the error intervals, it seems that this predictive relationship holds strongest at the extremes; when it is sunniest and darkest.</p>
+<p>The relationship is a bit weaker towards the middle values, suggesting that there may be a confounding variable that is responsible for these results.</p>
+<p>The clustering follows the BST and GMT groupings, as expected with sunshine hours, with the months in which the change occurs (Oct and Mar) being close together. What is interesting as that despite the fact that Mar and Oct have a very similar number of daylight hours, there is a very big difference in the actual values. This could be the effect of the time zone change.</p>
+<p>The end of BST is at the end of Oct, which means for the most of month society has an extra hour of daylight, even though there are less sunshine hours than Mar. The end of GMT is at the end of Mar, which means that there is one less hour of daylight, even though there are more sunshine hours than Oct. It could be that the stark difference between the actual values for the two months are a result of the change in time zones.</p>
+</section>
+<section id="temperature">
+<h3>Temperature<a class="headerlink" href="#temperature" title="Permalink to this heading">#</a></h3>
+<p>Temperature is also a factor that changes as the time zones do, while being a major influence on people’s behaviour. People might be more inclined to cycle in BST, as it is warmer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.42</span><span class="p">,</span> <span class="mf">8.98</span><span class="p">,</span> <span class="mf">11.73</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">18.37</span><span class="p">,</span> <span class="mf">21.57</span><span class="p">,</span> <span class="mf">23.89</span><span class="p">,</span> <span class="mf">23.40</span><span class="p">,</span> <span class="mf">20.22</span><span class="p">,</span> <span class="mf">15.81</span><span class="p">,</span> <span class="mf">11.47</span><span class="p">,</span> <span class="mf">8.79</span><span class="p">])</span>
+<span class="n">min_temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.68</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">4.14</span><span class="p">,</span> <span class="mf">6.03</span><span class="p">,</span> <span class="mf">9.08</span><span class="p">,</span> <span class="mf">12.03</span><span class="p">,</span> <span class="mf">14.18</span><span class="p">,</span> <span class="mf">14.06</span><span class="p">,</span> <span class="mf">11.62</span><span class="p">,</span> <span class="mf">8.78</span><span class="p">,</span> <span class="mf">5.26</span><span class="p">,</span> <span class="mf">3.08</span><span class="p">])</span>
+<span class="n">avg_temps</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_temps</span> <span class="o">+</span> <span class="n">min_temps</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">temp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Months&#39;</span><span class="p">:[</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span> <span class="s1">&#39;Feb&#39;</span><span class="p">,</span> <span class="s1">&#39;Mar&#39;</span><span class="p">,</span> <span class="s1">&#39;Apr&#39;</span><span class="p">,</span> <span class="s1">&#39;May&#39;</span><span class="p">,</span> <span class="s1">&#39;Jun&#39;</span><span class="p">,</span> <span class="s1">&#39;Jul&#39;</span><span class="p">,</span> <span class="s1">&#39;Aug&#39;</span><span class="p">,</span> <span class="s1">&#39;Sep&#39;</span><span class="p">,</span> <span class="s1">&#39;Oct&#39;</span><span class="p">,</span> <span class="s1">&#39;Nov&#39;</span><span class="p">,</span> <span class="s1">&#39;Dec&#39;</span><span class="p">],</span> <span class="s1">&#39;Avg Temperature (°C)&#39;</span><span class="p">:</span> <span class="n">avg_temps</span><span class="p">}</span>
+<span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">temp_dict</span><span class="p">)</span>             
+<span class="n">temp_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Months</th>
+      <th>Avg Temperature (°C)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Jan</td>
+      <td>5.550</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Feb</td>
+      <td>5.815</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mar</td>
+      <td>7.935</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Apr</td>
+      <td>10.515</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>May</td>
+      <td>13.725</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Jun</td>
+      <td>16.800</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Jul</td>
+      <td>19.035</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Aug</td>
+      <td>18.730</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Sep</td>
+      <td>15.920</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Oct</td>
+      <td>12.295</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Nov</td>
+      <td>8.365</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Dec</td>
+      <td>5.935</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The dataframe above shows the average temperature in London per month using data collected from 1991-2020 by the <a class="reference external" href="https://metoffice.gov.uk/research/climate/maps-and-data/uk-climate-averages/gcpsvg3nc">Met Office</a>. The data provided by the Met Office was the minimum and maximum temperatures per month. For the purposes of this analysis, I calculated the mean temperature per month using the two values provided.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Temperature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Month&#39;)
+</pre></div>
+</div>
+<img alt="../_images/a50985172dc8f1e01c18ac342f81dc1cf2d92c8a27ad7186b71450491399febf.png" src="../_images/a50985172dc8f1e01c18ac342f81dc1cf2d92c8a27ad7186b71450491399febf.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theft_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Bike Thefts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Bike Thefts&#39;)
+</pre></div>
+</div>
+<img alt="../_images/62cf5237f6fcb53b1efff08ecf1e3bad433db70386586b74373090fda14bb426.png" src="../_images/62cf5237f6fcb53b1efff08ecf1e3bad433db70386586b74373090fda14bb426.png" />
+</div>
+</div>
+<p>Like with the sunshine hours, there seems to be a high degree of similarity between the two plots of bike thefts per month and average temperature per month. This could be suggestive of a strong predictive relationship between the two variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">temp_df</span><span class="p">[</span><span class="s1">&#39;Avg Temperature (°C)&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this analysis, <strong>Bicycle Theft</strong> will be the outcome variable, while temperature will be the predictor variable.</p>
+<p><code class="docutils literal notranslate"><span class="pre">bike_thefts</span></code> <span class="math notranslate nohighlight">\( = b \)</span> <code class="docutils literal notranslate"><span class="pre">temperature</span></code> <span class="math notranslate nohighlight">\(+\)</span> <span class="math notranslate nohighlight">\(  \text{c} + \vec{\varepsilon} \)</span></p>
+<p>To show an strong predictive relationship, we would like the slope (b) to be relatively high and the error (e) vector to be low.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_temp</span> <span class="o">=</span> <span class="n">sps</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">bike_thefts</span><span class="p">)</span>
+<span class="n">b_temp</span> <span class="o">=</span> <span class="n">res_temp</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">c_temp</span> <span class="o">=</span> <span class="n">res_temp</span><span class="o">.</span><span class="n">intercept</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;slope:&#39;</span><span class="p">,</span> <span class="n">b_temp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;intercept:&#39;</span><span class="p">,</span> <span class="n">c_temp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>slope: 1193.8738699493445
+intercept: 8801.538033976929
+</pre></div>
+</div>
+</div>
+</div>
+<p>The value for the slope is ridiculously high. It suggests that for every 1 degree increase in temperature, there are 1194 more bike thefts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fitted_temp</span> <span class="o">=</span> <span class="n">b_temp</span> <span class="o">*</span> <span class="n">temperature</span> <span class="o">+</span> <span class="n">c_temp</span>
+
+<span class="n">errors_temp</span> <span class="o">=</span> <span class="n">bike_thefts</span> <span class="o">-</span> <span class="n">fitted_temp</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">errors_temp</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">errors_temp</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ -720.538012 -1721.914588  -629.927192   261.878224   812.543101
+  -783.619049  -732.927148 -2605.795618   889.989956  4456.782735
+  3074.707044 -2301.179452]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>47955436.20533697
+</pre></div>
+</div>
+</div>
+</div>
+<p>The error values and sum of squared errors are considerably lower than with rainfall and sunshine, suggesting that the relationship is more accurate in its predictions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">bike_thefts</span><span class="p">,</span> <span class="n">b_temp</span> <span class="o">*</span> <span class="n">temperature</span> <span class="o">+</span> <span class="n">c_temp</span> <span class="o">+</span> <span class="n">errors_temp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The values have been calculated correctly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_error</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">bike_thefts</span><span class="p">,</span> <span class="n">fitted_temp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a0dddfb2388ed5a74690f74a6b3f7ff242ae38a35d9fdb2834cc96ecf9e9505a.png" src="../_images/a0dddfb2388ed5a74690f74a6b3f7ff242ae38a35d9fdb2834cc96ecf9e9505a.png" />
+</div>
+</div>
+<p>There is a very strong predictive relationship between bike thefts and temperature. Similar to the sunshine regression, the GMT and BST months are clustered close together, especially Jan, Feb &amp; Dec and Jul &amp; Aug.</p>
+<p>It seems that there are some months for which the error bars are particularly high (Dec, Nov, Oct, Aug). Again, this could be due a confounding variable, such as rainfall or sunshine hours.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "lisds/project-daylight-robbery",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pages"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="seasonal-changes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Seasonal Changes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="multi_index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">MultiIndex - a short guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weather-linear-regression">Weather - Linear Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rainfall">Rainfall</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sunshine">Sunshine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature">Temperature</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pal Patel, Vishal Mistry, Tom Fox
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
