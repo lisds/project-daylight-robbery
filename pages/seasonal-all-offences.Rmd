@@ -63,3 +63,39 @@ for index, offence in enumerate(offences):
 ```{python}
 diff_dict.sort_values()
 ```
+
+```{python}
+# def trend_by_summer(category, borough):
+#     borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().iloc[3:10].plot()
+#     return borough_trends
+ 
+# def trend_by_winter(category, borough):
+#     borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().loc[idx[winter_months]].plot()
+#     return borough_trends
+ 
+# cat_list = list(data.borough.index.get_level_values(0).unique())
+# bor_list = list(data.borough.index.get_level_values(2).unique())
+# for i in cat_list:
+#     for x in bor_list:
+#         trend = trend_by_winter(i, x).plot()
+```
+
+```{python}
+def trend_by_summer(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().iloc[3:10].plot()
+    return borough_trends
+ 
+def trend_by_winter(category, borough):
+    borough_trends = data.borough.loc[category, :, borough].T.groupby(level="month").sum().T.sum().loc[idx[winter_months]].plot()
+    return borough_trends
+ 
+cat_list = list(data.borough.index.get_level_values(0).unique())
+bor_list = list(data.borough.index.get_level_values(2).unique())
+for i in cat_list:
+    for x in bor_list:
+        trend = trend_by_winter(i, x).plot()
+```
+
+```{python}
+cat_list
+```
